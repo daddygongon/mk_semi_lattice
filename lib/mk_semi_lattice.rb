@@ -31,8 +31,28 @@ if path == '.'
 end
 
 require 'ruby2d'
+require 'yaml'
+
 file = ARGV[0] || File.join($semi_dir, "dir_node_edge.yaml")
-app = MkSemiLatticeData.new(file)
+
+if file =~ /semi_lattice\.ya?ml\z/
+  # semi_lattice.yamlが指定された場合はノード座標・fixed状態を反映
+  data = YAML.load_file(file)
+  app = MkSemiLatticeData.new(file, with_semi_lattice_yaml: true)
+  if data && data['nodes']
+    node_table = app.node_table
+    data['nodes'].each do |n|
+      node = node_table[n['id']]
+      if node
+        node.x = n['x'] if n['x']
+        node.y = n['y'] if n['y']
+        node.fixed = n['fixed'] if n.key?('fixed')
+      end
+    end
+  end
+else
+  app = MkSemiLatticeData.new(file)
+end
 
 # top nodeのname（label）をタイトルに使う
 top_node_label = app.nodes.first&.label || "KnowledgeFixer Graph"

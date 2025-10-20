@@ -133,13 +133,13 @@ class MkSemiLatticeData
   attr_reader :nodes, :edges, :node_table
   attr_accessor :selected, :shift_pressed
 
-  def initialize(file = "dir_node_edge.yaml")
+  def initialize(file = "dir_node_edge.yaml", with_semi_lattice_yaml: false)
     @nodes = []
     @edges = []
     @node_table = {}
     @selected = nil
     @shift_pressed = false
-    load_yaml_data_with_state(file)
+    load_yaml_data_with_state(file, with_semi_lattice_yaml: with_semi_lattice_yaml)
   end
 
   def add_node(id, x, y, label = nil, type = nil, file_path = nil, fixed = false)
@@ -157,9 +157,9 @@ class MkSemiLatticeData
     @edges << Edge.new(from, to) if from && to
   end
 
-  def load_yaml_data_with_state(path)
-    state_file = File.join(File.dirname(__FILE__), '.semi_lattice', "semi_lattice.yaml")
-    if File.exist?(state_file)
+  def load_yaml_data_with_state(path, with_semi_lattice_yaml: false)
+    state_file = path #File.join(File.dirname(__FILE__), '.semi_lattice', "semi_lattice.yaml")
+    if with_semi_lattice_yaml && File.exist?(state_file)
       data = YAML.load_file(state_file)
       nodes_data = data[:nodes] || data['nodes']
       edges_data = data[:edges] || data['edges']
