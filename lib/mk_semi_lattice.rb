@@ -10,15 +10,18 @@ require_relative "mk_semi_lattice/mk_semi_lattice_graph"
 
 $semi_dir = ''
 class Error < StandardError; end
-# Your code goes here...
-puts "Hello world."
+
+puts "mk_semi_lattice is running..."
 
 require 'optparse'
 options = { layer: 2, output: 'dir.yaml' }
 OptionParser.new do |opts|
-  opts.banner = "Usage: ruby mk_semi_lattice.rb PATH [-L layer] [-o output_file]"
-  opts.on("-L N", Integer, "Layer depth (default: 2)") { |v| options[:layer] = v }
-  opts.on("-o", "--output FILE", "Output file (default: dir.yaml)") { |v| options[:output] = v }
+  opts.banner = "Usage: mk_semi_lattice PATH [-L layer]
+default PATH = '.'"
+
+  opts.on("-L N", Integer, "Layer depth (default: 2)") do |v|
+    options[:layer] = v
+  end
 end.parse!
 
 path = ARGV[0] || '.'
@@ -26,12 +29,13 @@ $semi_dir = File.join(path, '.semi_lattice')
 if path == '.'
   Dir.mkdir($semi_dir) unless Dir.exist?($semi_dir)
   dir_yaml_path = File.join($semi_dir, 'dir.yaml')
-  MkSemiLattice::MkDirYaml.new(path: path, layer: options[:layer], output_file: dir_yaml_path)
-  MkSemiLattice::MkNodeEdge.new(input_path: dir_yaml_path, output_path: File.join($semi_dir, 'dir_node_edge.yaml'))
+  MkSemiLattice::MkDirYaml.new(path: path, layer: options[:layer],
+                               output_file: dir_yaml_path)
+  MkSemiLattice::MkNodeEdge.new(input_path: dir_yaml_path,
+                                output_path: File.join($semi_dir, 'dir_node_edge.yaml'))
 end
 
 require 'ruby2d'
-require 'yaml'
 
 file = ARGV[0] || File.join($semi_dir, "dir_node_edge.yaml")
 
@@ -39,17 +43,6 @@ if file =~ /semi_lattice\.ya?ml\z/
   # semi_lattice.yamlが指定された場合はノード座標・fixed状態を反映
   data = YAML.load_file(file)
   app = MkSemiLatticeData.new(file, with_semi_lattice_yaml: true)
-  if data && data['nodes']
-    node_table = app.node_table
-    data['nodes'].each do |n|
-      node = node_table[n['id']]
-      if node
-        node.x = n['x'] if n['x']
-        node.y = n['y'] if n['y']
-        node.fixed = n['fixed'] if n.key?('fixed')
-      end
-    end
-  end
 else
   app = MkSemiLatticeData.new(file)
 end
