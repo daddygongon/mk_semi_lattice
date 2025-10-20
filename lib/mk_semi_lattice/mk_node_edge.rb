@@ -49,7 +49,13 @@ module MkSemiLattice
           node_id = id_counter[:val]
           id_counter[:val] += 1
 
-          type = value.is_a?(Hash) || value.is_a?(Array) ? 'dir' : 'file'
+          # type判定を修正: nameが'/'で終わる場合は'dir'
+          type = if name.to_s.end_with?('/')
+            'dir'
+          else
+            value.is_a?(Hash) || value.is_a?(Array) ? 'dir' : 'file'
+          end
+
           p [current_path, name]
           node_path = File.join(current_path, name.to_s)
           rel_path = if node_path == top_path

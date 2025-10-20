@@ -38,10 +38,11 @@ end
 require 'ruby2d'
 
 file = ARGV[0] || File.join($semi_dir, "dir_node_edge.yaml")
+semi_lattice_yaml_path = File.join($semi_dir, "semi_lattice.yaml")
 
-if file =~ /semi_lattice\.ya?ml\z/
-  # semi_lattice.yamlが指定された場合はノード座標・fixed状態を反映
-  data = YAML.load_file(file)
+if (ARGV[0] && ARGV[0] =~ /semi_lattice\.ya?ml\z/) || File.exist?(semi_lattice_yaml_path)
+  # ARGV[0]でsemi_lattice.yamlが指定された場合、または存在する場合はノード座標・fixed状態を反映
+  file = (ARGV[0] =~ /semi_lattice\.ya?ml\z/) ? ARGV[0] : semi_lattice_yaml_path
   app = MkSemiLatticeData.new(file, with_semi_lattice_yaml: true)
 else
   app = MkSemiLatticeData.new(file)
@@ -87,7 +88,13 @@ on :mouse_down do |event|
   now = Time.now
   if clicked_node
     if last_click_node == clicked_node && last_click_time && (now - last_click_time < 0.4)
-      system("open #{clicked_node.file_path}") if clicked_node.file_path
+      if clicked_node.file_path
+        if clicked_node.type == 'dir'
+          system("open -a Terminal '#{clicked_node.file_path}'")
+        else
+          system("open #{clicked_node.file_path}")
+        end
+      end
     end
     last_click_time = now
     last_click_node = clicked_node
