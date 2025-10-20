@@ -9,34 +9,28 @@ require_relative "mk_semi_lattice/mk_node_edge"
 require_relative "mk_semi_lattice/mk_semi_lattice_graph"
 
 $semi_dir = ''
-module MkSemiLattice
-  class Error < StandardError; end
-  # Your code goes here...
-  puts "Hello world."
+class Error < StandardError; end
+# Your code goes here...
+puts "Hello world."
 
-  require 'optparse'
-  options = { layer: 2, output: 'dir.yaml' }
-  OptionParser.new do |opts|
-    opts.banner = "Usage: ruby mk_semi_lattice.rb PATH [-L layer] [-o output_file]"
-    opts.on("-L N", Integer, "Layer depth (default: 2)") { |v| options[:layer] = v }
-    opts.on("-o", "--output FILE", "Output file (default: dir.yaml)") { |v| options[:output] = v }
-  end.parse!
+require 'optparse'
+options = { layer: 2, output: 'dir.yaml' }
+OptionParser.new do |opts|
+  opts.banner = "Usage: ruby mk_semi_lattice.rb PATH [-L layer] [-o output_file]"
+  opts.on("-L N", Integer, "Layer depth (default: 2)") { |v| options[:layer] = v }
+  opts.on("-o", "--output FILE", "Output file (default: dir.yaml)") { |v| options[:output] = v }
+end.parse!
 
-  path = ARGV[0] || '.'
-  $semi_dir = File.join(path, '.semi_lattice')
-  if path =~ /\.ya?ml\z/
-    puts File.read(path)
-  else
-    Dir.mkdir($semi_dir) unless Dir.exist?($semi_dir)
-    dir_yaml_path = File.join($semi_dir, 'dir.yaml')
-    MkDirYaml.new(path: path, layer: options[:layer], output_file: dir_yaml_path)
-  end
-
-  MkNodeEdge.new(input_path: dir_yaml_path, output_path: File.join($semi_dir, 'dir_node_edge.yaml'))
-
+path = ARGV[0] || '.'
+$semi_dir = File.join(path, '.semi_lattice')
+if path == '.'
+  Dir.mkdir($semi_dir) unless Dir.exist?($semi_dir)
+  dir_yaml_path = File.join($semi_dir, 'dir.yaml')
+  MkSemiLattice::MkDirYaml.new(path: path, layer: options[:layer], output_file: dir_yaml_path)
+  MkSemiLattice::MkNodeEdge.new(input_path: dir_yaml_path, output_path: File.join($semi_dir, 'dir_node_edge.yaml'))
 end
 
-
+require 'ruby2d'
 file = ARGV[0] || File.join($semi_dir, "dir_node_edge.yaml")
 app = MkSemiLatticeData.new(file)
 
@@ -109,7 +103,7 @@ end
 
 # Ruby2Dには:closeイベントはありません。at_exitで保存処理を行います。
 at_exit do
-  Dir.mkdir($semi_dir) unless Dir.exist?($semi_dir)
+  Dir.mkdir($semi_dir) unless 
   nodes_data = app.nodes.map do |n|
     {
       id: app.node_table.key(n),
@@ -128,7 +122,11 @@ at_exit do
     }
   end
   yaml_data = { nodes: nodes_data, edges: edges_data }
-  File.write(File.join($semi_dir, "semi_lattice.yaml"), YAML.dump(yaml_data))
+  if Dir.exist?($semi_dir)
+    File.write(File.join($semi_dir, "semi_lattice.yaml"), YAML.dump(yaml_data))
+  else
+    File.write(File.join('.', "semi_lattice.yaml"), YAML.dump(yaml_data))
+  end
 end
 
 show

@@ -1,6 +1,3 @@
-require 'ruby2d'
-require 'yaml'
-
 NODE_COLOR = 'orange'
 SELECT_COLOR = 'red'
 FIXED_COLOR = 'green'
