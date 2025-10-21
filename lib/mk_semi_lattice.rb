@@ -50,6 +50,7 @@ else
   # use options[:file] in case below
 end
 
+p [init_file, init_step]
 input_path, with_semi_lattice_yaml = case init_step
 when :from_dir
   Dir.mkdir(semi_dir) unless Dir.exist?(semi_dir)
@@ -76,7 +77,7 @@ when :from_semi_lattice
   [init_file, true]
 end
 
-# p [input_path, with_semi_lattice_yaml]
+p [input_path, with_semi_lattice_yaml]
 
 app = MkSemiLatticeData.new(input_path, 
   with_semi_lattice_yaml: with_semi_lattice_yaml)
@@ -182,8 +183,8 @@ end
 
 # Ruby2Dには:closeイベントはありません。at_exitで保存処理を行います。
 at_exit do
-  Dir.mkdir(semi_dir) unless 
   nodes_data = app.nodes.map do |n|
+    p [n.label, n.fixed]
     {
       id: app.node_table.key(n),
       name: n.label,
@@ -201,10 +202,12 @@ at_exit do
     }
   end
   yaml_data = { nodes: nodes_data, edges: edges_data }
+  # コメント付きテキストに変換
+  yaml_text = MkSemiLattice::MkNodeEdge.add_edge_comments(yaml_data)
   if Dir.exist?(semi_dir)
-    File.write(File.join(semi_dir, "semi_lattice.yaml"), YAML.dump(yaml_data))
+    File.write(File.join(semi_dir, "semi_lattice.yaml"), yaml_text)
   else
-    File.write(File.join('.', "semi_lattice.yaml"), YAML.dump(yaml_data))
+    File.write(File.join('.', "semi_lattice.yaml"), yaml_text)
   end
 end
 

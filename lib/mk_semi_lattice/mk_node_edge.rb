@@ -7,17 +7,28 @@ module MkSemiLattice
       nodes = []
       edges = []
       id_counter = { val: 1 }
-      id_name_map = {}
 
       root_name = dir_tree.keys.first
       top_path = root_name
-      traverse(dir_tree, nil, nodes, edges, id_counter, id_name_map, '.', top_path)
+      traverse(dir_tree, nil, nodes, edges, id_counter, '.', top_path)
 
-      output = { 'nodes' => nodes, 'edges' => edges }
-      yaml_str = output.to_yaml
+      output = { nodes: nodes, edges: edges }
 
-      # コメント追加
-      yaml_lines = yaml_str.lines
+      # クラスメソッドとして呼び出す
+      yaml_str_with_comments = self.class.add_edge_comments(output)
+
+      File.write(output_path, yaml_str_with_comments)
+    end
+
+    # クラスメソッド化
+    def self.add_edge_comments(output)
+      nodes = output[:nodes]
+      edges = output[:edges]
+      id_name_map = nodes.each_with_object({}) do |node, map|
+        map[node[:id]] = node[:name]
+      end
+
+      yaml_lines = output.to_yaml.lines
       new_yaml_lines = []
       edges_section = false
       edges_idx = 0
@@ -25,31 +36,29 @@ module MkSemiLattice
 
       yaml_lines.each do |line|
         new_yaml_lines << line
-        if line.strip == 'edges:'
+        if line.strip == ':edges:'
           edges_section = true
           next
         end
-        if edges_section && line.strip.start_with?('- from:')
+        if edges_section && line.strip.start_with?('- :from:')
           edge = edges[edges_idx]
-          from_name = id_name_map[edge['from']]
-          to_name = id_name_map[edge['to']]
+          from_name = id_name_map[edge[:from]]
+          to_name = id_name_map[edge[:to]]
           comment = "# from: #{from_name}, to: #{to_name}"
           new_yaml_lines << "  #{comment}\n"
           edges_idx += 1
           edges_section = false if edges_idx >= edges_count
         end
       end
-
-      File.write(output_path, new_yaml_lines.join)
+      new_yaml_lines.join
     end
 
-    def traverse(node, parent_id, nodes, edges, id_counter, id_name_map, current_path, top_path)
+    def traverse(node, parent_id, nodes, edges, id_counter, current_path, top_path)
       if node.is_a?(Hash)
         node.each do |name, value|
           node_id = id_counter[:val]
           id_counter[:val] += 1
 
-          # type判定を修正: nameが'/'で終わる場合は'dir'
           type = if name.to_s.end_with?('/')
             'dir'
           else
@@ -66,26 +75,25 @@ module MkSemiLattice
           end
 
           nodes << {
-            'id' => node_id,
-            'name' => name,
-            'type' => type,
-            'file_path' => rel_path
+            :id => node_id,
+            :name => name,
+            :type => type,
+            :file_path => rel_path
           }
-          id_name_map[node_id] = name
           if parent_id
             edges << {
-              'from' => parent_id,
-              'to' => node_id
+              :from => parent_id,
+              :to => node_id
             }
           end
 
           if value.is_a?(Hash) || value.is_a?(Array)
-            traverse(value, node_id, nodes, edges, id_counter, id_name_map, node_path, top_path)
+            traverse(value, node_id, nodes, edges, id_counter, node_path, top_path)
           end
         end
       elsif node.is_a?(Array)
         node.each do |item|
-          traverse(item, parent_id, nodes, edges, id_counter, id_name_map, current_path, top_path)
+          traverse(item, parent_id, nodes, edges, id_counter, current_path, top_path)
         end
       end
     end
