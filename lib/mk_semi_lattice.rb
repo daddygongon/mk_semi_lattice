@@ -24,12 +24,12 @@ default PATH = '.'"
     options[:layer] = v
   end
 
-  opts.on("-n", "--node=FILE", "Input YAML file of node-edge") do |file|
+  opts.on("-n", "--node=FILE", "using File from node-edge") do |file|
     options[:file] = file
     options[:init_step] = :from_node_edge
   end
 
-  opts.on("-t", "--tree=FILE", "Input YAML file of tree") do |file|
+  opts.on("-t", "--tree=FILE", "using File from tree") do |file|
     options[:file] = file
     options[:init_step] = :from_tree
   end
@@ -46,7 +46,8 @@ init_file, init_step = if (ARGV[0]=='.' || ARGV[0].nil?) && !options[:file]
     ['.', :from_dir]
   end
 else
-  [ARGV[0], options[:init_step]]
+  [ARGV[0], options[:init_step]] # only for ARGV[0]!='.' and not nil
+  # use options[:file] in case below
 end
 
 input_path, with_semi_lattice_yaml = case init_step
