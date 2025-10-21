@@ -66,6 +66,10 @@ when :from_tree
   MkSemiLattice::MkNodeEdge.new(input_path: in_path, output_path: out_path)
   [out_path, false]
 when :from_node_edge
+  if File.exist?(File.join(parent_dir, 'semi_lattice.yaml'))
+    puts "Warning: semi_lattice.yaml already exists in current directory.".yellow
+    exit 1
+  end
   [options[:file], false]
 when :from_semi_lattice
   [init_file, true]
