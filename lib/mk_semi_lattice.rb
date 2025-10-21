@@ -50,9 +50,10 @@ end
 
 # top nodeのname（label）をタイトルに使う
 top_node_label = app.nodes.first&.label || "KnowledgeFixer Graph"
-set width: 600, height: 600
+set width: 800, height: 600
 set title: top_node_label
 set background: 'white'
+set fps: 15
 
 last_click_time = nil
 last_click_node = nil
@@ -88,12 +89,17 @@ on :mouse_down do |event|
   now = Time.now
   if clicked_node
     if last_click_node == clicked_node && last_click_time && (now - last_click_time < 0.4)
+      comm = nil
       if clicked_node.file_path
-        if clicked_node.type == 'dir'
-          system("open -a Terminal '#{clicked_node.file_path}'")
+        if File.directory?(clicked_node.file_path)
+          comm = "open -a Terminal '#{clicked_node.file_path}'"
         else
-          system("open #{clicked_node.file_path}")
+          comm = "open #{clicked_node.file_path}"
         end
+        puts comm
+        system comm
+      else
+        puts "no link error"
       end
     end
     last_click_time = now

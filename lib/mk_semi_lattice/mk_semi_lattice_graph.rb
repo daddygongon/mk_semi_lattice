@@ -46,8 +46,8 @@ class Node
       @x = [[@x, 0].max, 600].min
       @y = [[@y, 0].max, 600].min
     end
-    @dx /= 2.0
-    @dy /= 2.0
+    @dx /= 3.0
+    @dy /= 3.0
   end
 
   def relax(nodes)
