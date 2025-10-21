@@ -1,0 +1,28 @@
+---
+mk_semi_lattice/:
+  Rakefile:
+  bin/:
+    console:
+    setup:
+  CODE_OF_CONDUCT.md:
+  LICENSE.txt:
+  mk_semi_lattice.gemspec:
+  archives/:
+    minor_rev_20251020_1828_formatted.md:
+    readme_20251020_1517_formatted.md:
+  Gemfile.lock:
+  pkg/:
+    mk_semi_lattice-0.1.0.gem:
+  sig/:
+    mk_semi_lattice.rbs:
+  test/:
+    test_helper.rb:
+    test_mk_semi_lattice.rb:
+  lib/:
+    mk_semi_lattice/:
+    mk_semi_lattice.rb:
+  README.md:
+  exe/:
+    mk_semi_lattice:
+  CHANGELOG.md:
+  Gemfile:

@@ -92,9 +92,9 @@ on :mouse_down do |event|
       comm = nil
       if clicked_node.file_path
         if File.directory?(clicked_node.file_path)
-          comm = "open -a Terminal '#{clicked_node.file_path}'"
+          comm = "wt.exe -p Ubuntu-24.04 --colorScheme 'Tango Light' -d '#{clicked_node.file_path}'"
         else
-          comm = "open #{clicked_node.file_path}"
+          comm = "explorer.exe '#{clicked_node.file_path}'"
         end
         puts comm
         system comm

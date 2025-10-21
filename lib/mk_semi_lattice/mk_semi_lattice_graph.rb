@@ -4,6 +4,22 @@ FIXED_COLOR = 'green'
 LINKED_COLOR = 'blue'
 EDGE_COLOR = 'black'
 
+# 日本語対応フォントの優先順位で選択
+def japanese_font
+  fonts = [
+    '/usr/share/fonts/truetype/takao-gothic/TakaoGothic.ttf',
+    '/usr/share/fonts/truetype/vlgothic/VL-Gothic-Regular.ttf',
+    '/usr/share/fonts/truetype/fonts-japanese-gothic.ttf',
+    '/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc',
+    '/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc',
+    '/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf',
+    '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
+  ]
+  selected_font = fonts.find { |font| File.exist?(font) }
+  puts "Selected font: #{selected_font}" if selected_font
+  selected_font || fonts.last
+end
+
 class Folder
   # フォルダアイコンをRuby2Dの図形で描画するクラス
   def initialize(x, y, color: 'orange', z: 10)
@@ -87,12 +103,23 @@ class Node
     else
       NODE_COLOR
     end
+    font_path = japanese_font
     if @type == 'dir'
       Folder.new(x, y, color: c, z: 10).draw
-      Text.new(label, x: x-20, y: y-10, size: 18, color: 'black', z: 11)
+      # フォントが見つからない場合はfontパラメータを省略
+      if font_path && File.exist?(font_path)
+        Text.new(label, x: x-20, y: y-10, size: 18, color: 'black', font: font_path, z: 11)
+      else
+        Text.new(label, x: x-20, y: y-10, size: 18, color: 'black', z: 11)
+      end
     else
       Circle.new(x: x, y: y, radius: 30, color: c, z: 10)
-      Text.new(label, x: x-20, y: y-10, size: 18, color: 'black', z: 11)
+      # フォントが見つからない場合はfontパラメータを省略
+      if font_path && File.exist?(font_path)
+        Text.new(label, x: x-20, y: y-10, size: 18, color: 'black', font: font_path, z: 11)
+      else
+        Text.new(label, x: x-20, y: y-10, size: 18, color: 'black', z: 11)
+      end
     end
   end
 end
