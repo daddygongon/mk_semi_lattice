@@ -170,6 +170,7 @@ class MkSemiLatticeData
   end
 
   def add_node(id, x, y, label = nil, type = nil, file_path = nil, fixed = false)
+    return if id.nil? || label.nil? || label.to_s.strip.empty?
     display_label = label
     n = Node.new(display_label, x, y, type, file_path)
     n.fixed = fixed

@@ -2,6 +2,7 @@
 require 'optparse'
 require 'command_line/global'
 require 'yaml'
+require 'colorize'
 
 require_relative "mk_semi_lattice/version"
 require_relative "mk_semi_lattice/mk_dir_yaml"
@@ -14,39 +15,68 @@ class Error < StandardError; end
 puts "mk_semi_lattice is running..."
 
 require 'optparse'
-options = { layer: 2, output: 'dir.yaml' }
+options = { layer: 2, init_step: :from_semi_lattice}
 OptionParser.new do |opts|
-  opts.banner = "Usage: mk_semi_lattice PATH [-L layer]
+  opts.banner = "Usage: mk_semi_lattice PATH [-L layer] [-t FILE] [-n FILE]
 default PATH = '.'"
 
   opts.on("-L N", Integer, "Layer depth (default: 2)") do |v|
     options[:layer] = v
   end
+
+  opts.on("-n", "--node=FILE", "Input YAML file of node-edge") do |file|
+    options[:file] = file
+    options[:init_step] = :from_node_edge
+  end
+
+  opts.on("-t", "--tree=FILE", "Input YAML file of tree") do |file|
+    options[:file] = file
+    options[:init_step] = :from_tree
+  end
 end.parse!
 
-path = ARGV[0] || '.'
-$semi_dir = File.join(path, '.semi_lattice')
-if path == '.'
-  Dir.mkdir($semi_dir) unless Dir.exist?($semi_dir)
-  dir_yaml_path = File.join($semi_dir, 'dir.yaml')
-  MkSemiLattice::MkDirYaml.new(path: path, layer: options[:layer],
-                               output_file: dir_yaml_path)
-  MkSemiLattice::MkNodeEdge.new(input_path: dir_yaml_path,
-                                output_path: File.join($semi_dir, 'dir_node_edge.yaml'))
+parent_dir = Dir.pwd
+semi_dir = File.join(parent_dir, '.semi_lattice')
+semi_lattice_yaml_path = File.join(semi_dir, "semi_lattice.yaml")
+
+init_file, init_step = if (ARGV[0]=='.' || ARGV[0].nil?) && !options[:file]
+  if Dir.exist?(semi_lattice_yaml_path)
+    [semi_lattice_yaml_path, :from_semi_lattice]
+  else
+    ['.', :from_dir]
+  end
+else
+  [ARGV[0], options[:init_step]]
 end
+
+input_path, with_semi_lattice_yaml = case init_step
+when :from_dir
+  Dir.mkdir(semi_dir) unless Dir.exist?(semi_dir)
+  in_path, out_path = init_file, File.join(semi_dir, 'dir_tree.yaml')
+  MkSemiLattice::MkDirYaml.new(path: in_path, layer: options[:layer],
+                               output_file: out_path)
+  in_path, out_path = out_path, File.join(semi_dir, 'dir_node_edge.yaml')                         
+  MkSemiLattice::MkNodeEdge.new(input_path: in_path,
+                                output_path: out_path )
+  [out_path, false]
+when :from_tree
+  init_file = options[:file]
+  base = File.basename(init_file, File.extname(init_file))
+  in_path, out_path= init_file, File.join(parent_dir, "#{base}_node_edge.yaml")
+  MkSemiLattice::MkNodeEdge.new(input_path: in_path, output_path: out_path)
+  [out_path, false]
+when :from_node_edge
+  [options[:file], false]
+when :from_semi_lattice
+  [init_file, true]
+end
+
+# p [input_path, with_semi_lattice_yaml]
+
+app = MkSemiLatticeData.new(input_path, 
+  with_semi_lattice_yaml: with_semi_lattice_yaml)
 
 require 'ruby2d'
-
-file = ARGV[0] || File.join($semi_dir, "dir_node_edge.yaml")
-semi_lattice_yaml_path = File.join($semi_dir, "semi_lattice.yaml")
-
-if (ARGV[0] && ARGV[0] =~ /semi_lattice\.ya?ml\z/) || File.exist?(semi_lattice_yaml_path)
-  # ARGV[0]でsemi_lattice.yamlが指定された場合、または存在する場合はノード座標・fixed状態を反映
-  file = (ARGV[0] =~ /semi_lattice\.ya?ml\z/) ? ARGV[0] : semi_lattice_yaml_path
-  app = MkSemiLatticeData.new(file, with_semi_lattice_yaml: true)
-else
-  app = MkSemiLatticeData.new(file)
-end
 
 # top nodeのname（label）をタイトルに使う
 top_node_label = app.nodes.first&.label || "KnowledgeFixer Graph"
@@ -147,7 +177,7 @@ end
 
 # Ruby2Dには:closeイベントはありません。at_exitで保存処理を行います。
 at_exit do
-  Dir.mkdir($semi_dir) unless 
+  Dir.mkdir(semi_dir) unless 
   nodes_data = app.nodes.map do |n|
     {
       id: app.node_table.key(n),
@@ -166,8 +196,8 @@ at_exit do
     }
   end
   yaml_data = { nodes: nodes_data, edges: edges_data }
-  if Dir.exist?($semi_dir)
-    File.write(File.join($semi_dir, "semi_lattice.yaml"), YAML.dump(yaml_data))
+  if Dir.exist?(semi_dir)
+    File.write(File.join(semi_dir, "semi_lattice.yaml"), YAML.dump(yaml_data))
   else
     File.write(File.join('.', "semi_lattice.yaml"), YAML.dump(yaml_data))
   end
