@@ -66,6 +66,37 @@ on :key_up do |event|
   app.shift_pressed = false if event.key.include?('shift')
 end
 
+def double_click?(clicked_node, last_click_node, last_click_time)
+  now = Time.now
+  if last_click_node == clicked_node && last_click_time && (now - last_click_time < 0.4)
+    return true, now
+  end
+  return false, now
+end
+
+def double_click_action(clicked_node)
+  comm = nil
+  if clicked_node.file_path
+    if File.directory?(clicked_node.file_path)
+      if RbConfig::CONFIG['host_os'] =~ /darwin/
+        comm = "open -a Terminal '#{clicked_node.file_path}'"
+      else
+        comm = "wt.exe -p Ubuntu-24.04 --colorScheme 'Tango Light' -d '#{clicked_node.file_path}'"
+      end
+    else
+      if RbConfig::CONFIG['host_os'] =~ /darwin/
+        comm = "open '#{clicked_node.file_path}'"
+      else
+        comm = "explorer.exe '#{clicked_node.file_path}'"
+      end
+    end
+    puts comm
+    system comm
+  else
+    puts "no link error"
+  end
+end
+
 on :mouse_down do |event|
   mx, my = event.x, event.y
   shift_down = !!app.shift_pressed
@@ -86,22 +117,9 @@ on :mouse_down do |event|
   end
 
   # ダブルクリック判定とファイルオープン
-  now = Time.now
   if clicked_node
-    if last_click_node == clicked_node && last_click_time && (now - last_click_time < 0.4)
-      comm = nil
-      if clicked_node.file_path
-        if File.directory?(clicked_node.file_path)
-          comm = "wt.exe -p Ubuntu-24.04 --colorScheme 'Tango Light' -d '#{clicked_node.file_path}'"
-        else
-          comm = "explorer.exe '#{clicked_node.file_path}'"
-        end
-        puts comm
-        system comm
-      else
-        puts "no link error"
-      end
-    end
+    is_double, now = double_click?(clicked_node, last_click_node, last_click_time)
+    double_click_action(clicked_node) if is_double
     last_click_time = now
     last_click_node = clicked_node
   end

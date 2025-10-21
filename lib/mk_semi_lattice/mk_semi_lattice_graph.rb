@@ -16,7 +16,7 @@ def japanese_font
     '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
   ]
   selected_font = fonts.find { |font| File.exist?(font) }
-  puts "Selected font: #{selected_font}" if selected_font
+  # puts "Selected font: #{selected_font}" if selected_font
   selected_font || fonts.last
 end
 
