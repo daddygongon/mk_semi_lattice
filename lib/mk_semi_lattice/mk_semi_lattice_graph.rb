@@ -4,7 +4,7 @@ FIXED_COLOR = 'green'
 LINKED_COLOR = 'blue'
 EDGE_COLOR = 'black'
 
-# 日本語対応フォントの優先順位で選択
+# 日本語対応フォントの優先順位で選択 for win11, なければ省略
 def japanese_font
   fonts = [
     '/usr/share/fonts/truetype/takao-gothic/TakaoGothic.ttf',
@@ -41,17 +41,17 @@ end
 class Node
   attr_accessor :x, :y, :label, :fixed, :linked, :color, :dx, :dy, :type, :file_path
 
-  def initialize(label, x, y, type = nil, file_path = nil)
+  def initialize(label, x, y, type = nil, color = nil, file_path = nil)
     @label = label
     @x = x
     @y = y
     @fixed = false
     @linked = false
-    @color = NODE_COLOR
+    @color = color || NODE_COLOR
     @dx = 0.0
     @dy = 0.0
     @type = type
-    @file_path = file_path
+    @file_path = file_path # for icon png
   end
 
   def update
@@ -94,7 +94,9 @@ class Node
   end
 
   def draw(selected)
-    c = if selected
+    c = if @color
+      @color
+    elsif selected
       SELECT_COLOR
     elsif fixed
       FIXED_COLOR
@@ -158,21 +160,22 @@ end
 
 class MkSemiLatticeData
   attr_reader :nodes, :edges, :node_table
-  attr_accessor :selected, :shift_pressed
+  attr_accessor :selected, :shift_pressed, :show_index
 
-  def initialize(file = "dir_node_edge.yaml", with_semi_lattice_yaml: false)
+  def initialize(file = "dir_node_edge.yaml", with_semi_lattice_yaml: false, show_index: false)
     @nodes = []
     @edges = []
     @node_table = {}
     @selected = nil
     @shift_pressed = false
+    p @show_index = show_index
     load_yaml_data_with_state(file, with_semi_lattice_yaml: with_semi_lattice_yaml)
   end
 
-  def add_node(id, x, y, label = nil, type = nil, file_path = nil, fixed = false)
+  def add_node(id, x, y, label = nil, type = nil, color = nil,file_path = nil, fixed = false)
     return if id.nil? || label.nil? || label.to_s.strip.empty?
     display_label = label
-    n = Node.new(display_label, x, y, type, file_path)
+    n = Node.new(display_label, x, y, type, color, file_path)
     n.fixed = fixed
     @nodes << n
     @node_table[id] = n
@@ -186,44 +189,36 @@ class MkSemiLatticeData
   end
 
   def load_yaml_data_with_state(path, with_semi_lattice_yaml: false)
-    state_file = path #File.join(File.dirname(__FILE__), '.semi_lattice', "semi_lattice.yaml")
-    if with_semi_lattice_yaml && File.exist?(state_file)
-      data = YAML.load_file(state_file)
-      nodes_data = data[:nodes] || data['nodes']
-      edges_data = data[:edges] || data['edges']
-      nodes_data.each do |node_data|
-        id = node_data[:id] || node_data['id']
-        name = node_data[:name] || node_data['name']
-        type = node_data[:type] || node_data['type']
-        file_path = node_data[:file_path] || node_data['file_path']
-        x = node_data[:x] || node_data['x'] || rand(80..520)
-        y = node_data[:y] || node_data['y'] || rand(80..520)
-        fixed = node_data[:fixed] || node_data['fixed'] || false
-        label = name
-        add_node(id, x, y, label, type, file_path, fixed)
-      end
-      edges_data.each do |edge_data|
-        from_id = edge_data[:from] || edge_data['from']
-        to_id = edge_data[:to] || edge_data['to']
-        add_edge(from_id, to_id)
-      end
+    state_file = path
+    data = if with_semi_lattice_yaml && File.exist?(state_file)
+      YAML.load_file(state_file)
     else
-      data = YAML.load_file(path, symbolize_names: true)
-      data[:nodes].each do |node_data|
-        id = node_data[:id]
-        name = node_data[:name]
-        type = node_data[:type]
-        file_path = node_data[:file_path]
-        x = rand(80..520)
-        y = rand(80..520)
-        label = name
-        add_node(id, x, y, label, type, file_path, false)
-      end
-      data[:edges].each do |edge_data|
-        from_id = edge_data[:from]
-        to_id = edge_data[:to]
-        add_edge(from_id, to_id)
-      end
+      YAML.load_file(path, symbolize_names: true)
+    end
+    load_nodes_and_edges(data)
+  end
+
+  private
+
+  def load_nodes_and_edges(data)
+    nodes_data = data[:nodes]
+    edges_data = data[:edges]
+    nodes_data.each do |node_data|
+      id = node_data[:id]
+      name = node_data[:name]
+      type = node_data[:type]
+      color = node_data[:color]
+      file_path = node_data[:file_path]
+      x = node_data[:x] || rand(80..520)
+      y = node_data[:y] || rand(80..520)
+      fixed = node_data[:fixed] || false
+      label = @show_index ? "#{id}:#{name}" : name
+      add_node(id, x, y, label, type, color, file_path, fixed)
+    end
+    edges_data.each do |edge_data|
+      from_id = edge_data[:from]
+      to_id = edge_data[:to]
+      add_edge(from_id, to_id)
     end
   end
 end

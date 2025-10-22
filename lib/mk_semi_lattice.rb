@@ -15,7 +15,7 @@ class Error < StandardError; end
 puts "mk_semi_lattice is running..."
 
 require 'optparse'
-options = { layer: 2, init_step: :from_semi_lattice}
+options = { layer: 2, init_step: :from_semi_lattice, show_index: false }
 OptionParser.new do |opts|
   opts.banner = "Usage: mk_semi_lattice PATH [-L layer] [-t FILE] [-n FILE]
 default PATH = '.'"
@@ -32,6 +32,10 @@ default PATH = '.'"
   opts.on("-t", "--tree=FILE", "using File from tree") do |file|
     options[:file] = file
     options[:init_step] = :from_tree
+  end
+
+  opts.on("-i", "--index", "Display node ids") do
+    options[:show_index] = true
   end
 end.parse!
 
@@ -80,7 +84,9 @@ end
 p [input_path, with_semi_lattice_yaml]
 
 app = MkSemiLatticeData.new(input_path, 
-  with_semi_lattice_yaml: with_semi_lattice_yaml)
+  with_semi_lattice_yaml: with_semi_lattice_yaml,
+  show_index: options[:show_index]
+)
 
 require 'ruby2d'
 
@@ -185,6 +191,7 @@ end
 at_exit do
   nodes_data = app.nodes.map do |n|
     p [n.label, n.fixed]
+    #color = n.color? ? nil : n.color
     {
       id: app.node_table.key(n),
       name: n.label,
@@ -192,6 +199,7 @@ at_exit do
       file_path: n.file_path,
       x: n.x,
       y: n.y,
+      color: n.color,
       fixed: n.fixed
     }
   end
