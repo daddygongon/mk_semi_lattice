@@ -122,6 +122,8 @@ def double_click_action(clicked_node)
     if File.directory?(clicked_node.file_path)
       if RbConfig::CONFIG['host_os'] =~ /darwin/
         comm = "open -a Terminal '#{clicked_node.file_path}'"
+      elsif RbConfig::CONFIG['host_os'] =~ /debian/
+        comm = "gnome-terminal --working-directory='#{clicked_node.file_path}'"
       else
         comm = "wt.exe -p Ubuntu-24.04 --colorScheme 'Tango Light' -d '#{clicked_node.file_path}'"
       end
