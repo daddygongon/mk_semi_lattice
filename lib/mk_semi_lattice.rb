@@ -129,7 +129,8 @@ def double_click_action(clicked_node)
       if RbConfig::CONFIG['host_os'] =~ /darwin/
         comm = "open '#{clicked_node.file_path}'"
       else
-        comm = "explorer.exe '#{clicked_node.file_path}'"
+        #        comm = "explorer.exe '#{clicked_node.file_path}'"
+        comm = "open '#{clicked_node.file_path}'"
       end
     end
     puts comm
