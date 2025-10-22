@@ -3,6 +3,7 @@ require 'optparse'
 require 'command_line/global'
 require 'yaml'
 require 'colorize'
+require 'rbconfig'
 
 require_relative "mk_semi_lattice/version"
 require_relative "mk_semi_lattice/mk_dir_yaml"

@@ -1,0 +1,34 @@
+---
+mk_semi_lattice/:
+  CODE_OF_CONDUCT.md:
+  mk_semi_lattice.gemspec:
+  test/:
+    test_mk_semi_lattice.rb:
+    test_helper.rb:
+  bin/:
+    setup:
+    console:
+  CHANGELOG.md:
+  sig/:
+    mk_semi_lattice.rbs:
+  archives/:
+    20251021_1151_select_semi_data_action.md:
+    20251022_0725_add_color_index.md:
+    20251020_1828_minor_rev_formatted.md:
+    20251021_2322_add_comment_edges.md:
+    20251020_1517_readme_formatted.md:
+    20251021_1110_wsl_ubuntu_japanese.md:
+    20251021_1142_double_click_action.md:
+    knowledge_fixer.pdf:
+  README.md:
+  Rakefile:
+  lib/:
+    mk_semi_lattice.rb:
+    mk_semi_lattice/:
+  Gemfile:
+  Gemfile.lock:
+  exe/:
+    mk_semi_lattice:
+  LICENSE.txt:
+  pkg/:
+    mk_semi_lattice-0.1.0.gem:

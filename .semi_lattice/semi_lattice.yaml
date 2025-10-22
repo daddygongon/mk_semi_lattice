@@ -4,223 +4,360 @@
   :name: mk_semi_lattice/
   :type: dir
   :file_path: "."
-  :x: 385
-  :y: 343
-  :fixed: true
+  :x: 213.7239777525742
+  :y: 210.95489359838166
+  :color: orange
+  :fixed: false
 - :id: 2
-  :name: Rakefile
-  :type: file
-  :file_path: "./Rakefile"
-  :x: 303.20986359677994
-  :y: 319.8618586065634
-  :fixed: false
-- :id: 3
-  :name: bin/
-  :type: dir
-  :file_path: "./bin"
-  :x: 158
-  :y: 196
-  :fixed: true
-- :id: 4
-  :name: console
-  :type: file
-  :file_path: "./bin/console"
-  :x: 229.977438714499
-  :y: 150.78663564718343
-  :fixed: false
-- :id: 5
-  :name: setup
-  :type: file
-  :file_path: "./bin/setup"
-  :x: 151.10046138137366
-  :y: 280.71951585585276
-  :fixed: false
-- :id: 6
   :name: CODE_OF_CONDUCT.md
   :type: file
   :file_path: "./CODE_OF_CONDUCT.md"
-  :x: 459.1954967682417
-  :y: 301.52677659846256
+  :x: 211.90427462075303
+  :y: 125.58693018114315
+  :color: orange
   :fixed: false
-- :id: 7
-  :name: LICENSE.txt
-  :type: file
-  :file_path: "./LICENSE.txt"
-  :x: 408.13814139343555
-  :y: 261.20986359677966
-  :fixed: false
-- :id: 8
+- :id: 3
   :name: mk_semi_lattice.gemspec
   :type: file
   :file_path: "./mk_semi_lattice.gemspec"
-  :x: 426.4732234015346
-  :y: 417.19549676824334
+  :x: 247.91578641166885
+  :y: 132.67951591834446
+  :color: orange
   :fixed: false
-- :id: 9
-  :name: archives/
-  :type: dir
-  :file_path: "./archives"
-  :x: 496
-  :y: 144
-  :fixed: true
-- :id: 10
-  :name: minor_rev_20251020_1828_formatted.md
-  :type: file
-  :file_path: "./archives/minor_rev_20251020_1828_formatted.md"
-  :x: 415.7474131632516
-  :y: 115.99067465985385
-  :fixed: false
-- :id: 11
-  :name: readme_20251020_1517_formatted.md
-  :type: file
-  :file_path: "./archives/readme_20251020_1517_formatted.md"
-  :x: 555.9783695057412
-  :y: 83.77047907020366
-  :fixed: false
-- :id: 12
-  :name: Gemfile.lock
-  :type: file
-  :file_path: "./Gemfile.lock"
-  :x: 466.79013640321944
-  :y: 366.13814139343856
-  :fixed: false
-- :id: 13
-  :name: sig/
-  :type: dir
-  :file_path: "./sig"
-  :x: 109
-  :y: 376
-  :fixed: true
-- :id: 14
-  :name: mk_semi_lattice.rbs
-  :type: file
-  :file_path: "./sig/mk_semi_lattice.rbs"
-  :x: 193.38094125025813
-  :y: 386.2399586776747
-  :fixed: false
-- :id: 15
+- :id: 4
   :name: test/
   :type: dir
   :file_path: "./test"
-  :x: 228
-  :y: 496
-  :fixed: true
-- :id: 16
-  :name: test_helper.rb
-  :type: file
-  :file_path: "./test/test_helper.rb"
-  :x: 303.50022950209467
-  :y: 535.0476035773137
+  :x: 277.5798321204911
+  :y: 132.33461182876678
+  :color: orange
   :fixed: false
-- :id: 17
+- :id: 5
   :name: test_mk_semi_lattice.rb
   :type: file
   :file_path: "./test/test_mk_semi_lattice.rb"
-  :x: 143.9690077201635
-  :y: 483.20186199222474
+  :x: 355.6699197820935
+  :y: 98.97391223498686
+  :color: orange
   :fixed: false
-- :id: 18
-  :name: lib/
-  :type: dir
-  :file_path: "./lib"
-  :x: 656
-  :y: 357
-  :fixed: true
-- :id: 19
-  :name: mk_semi_lattice/
-  :type: dir
-  :file_path: "./lib/mk_semi_lattice"
-  :x: 577.9231686353634
-  :y: 390.6007202907632
-  :fixed: false
-- :id: 20
-  :name: mk_semi_lattice.rb
+- :id: 6
+  :name: test_helper.rb
   :type: file
-  :file_path: "./lib/mk_semi_lattice.rb"
-  :x: 600.0
-  :y: 293.05471088500724
+  :file_path: "./test/test_helper.rb"
+  :x: 274.34765550603504
+  :y: 47.584363009658695
+  :color: orange
   :fixed: false
-- :id: 21
-  :name: README.md
-  :type: file
-  :file_path: "./README.md"
-  :x: 343.52677659846165
-  :y: 268.8045032317588
-  :fixed: false
-- :id: 22
-  :name: exe/
+- :id: 7
+  :name: bin/
   :type: dir
-  :file_path: "./exe"
-  :x: 536
-  :y: 482
-  :fixed: true
-- :id: 23
-  :name: mk_semi_lattice
-  :type: file
-  :file_path: "./exe/mk_semi_lattice"
-  :x: 463.85512610582555
-  :y: 526.9457135975574
+  :file_path: "./bin"
+  :x: 126.75214095076521
+  :y: 258.945418425326
+  :color: orange
   :fixed: false
-- :id: 24
+- :id: 8
+  :name: setup
+  :type: file
+  :file_path: "./bin/setup"
+  :x: 45.95185066555201
+  :y: 233.3699997872523
+  :color: orange
+  :fixed: false
+- :id: 9
+  :name: console
+  :type: file
+  :file_path: "./bin/console"
+  :x: 87.49739309089054
+  :y: 334.17272072840734
+  :color: orange
+  :fixed: false
+- :id: 10
   :name: CHANGELOG.md
   :type: file
   :file_path: "./CHANGELOG.md"
-  :x: 361.8618586065603
-  :y: 424.7901364032191
+  :x: 266.7068994083496
+  :y: 276.9499701778627
+  :color: orange
   :fixed: false
+- :id: 11
+  :name: sig/
+  :type: dir
+  :file_path: "./sig"
+  :x: 181.3807076957005
+  :y: 298.68905317424435
+  :color: orange
+  :fixed: false
+- :id: 12
+  :name: mk_semi_lattice.rbs
+  :type: file
+  :file_path: "./sig/mk_semi_lattice.rbs"
+  :x: 174.41743044484537
+  :y: 383.0487134156205
+  :color: orange
+  :fixed: false
+- :id: 13
+  :name: archives/
+  :type: dir
+  :file_path: "./archives"
+  :x: 309.9802656079648
+  :y: 270.8465216997647
+  :color: orange
+  :fixed: false
+- :id: 14
+  :name: 20251021_1151_select_semi_data_action.md
+  :type: file
+  :file_path: "./archives/20251021_1151_select_semi_data_action.md"
+  :x: 382.26920428886837
+  :y: 226.123993593333
+  :color: orange
+  :fixed: false
+- :id: 15
+  :name: 20251022_0725_add_color_index.md
+  :type: file
+  :file_path: "./archives/20251022_0725_add_color_index.md"
+  :x: 265.84144274325956
+  :y: 343.56122542496416
+  :color: orange
+  :fixed: false
+- :id: 16
+  :name: 20251020_1828_minor_rev_formatted.md
+  :type: file
+  :file_path: "./archives/20251020_1828_minor_rev_formatted.md"
+  :x: 303.5042885355198
+  :y: 355.77292457447464
+  :color: orange
+  :fixed: false
+- :id: 17
+  :name: 20251021_2322_add_comment_edges.md
+  :type: file
+  :file_path: "./archives/20251021_2322_add_comment_edges.md"
+  :x: 353.149689764111
+  :y: 197.89727982165573
+  :color: orange
+  :fixed: false
+- :id: 18
+  :name: 20251020_1517_readme_formatted.md
+  :type: file
+  :file_path: "./archives/20251020_1517_readme_formatted.md"
+  :x: 395.0972167440496
+  :y: 271.6133951900823
+  :color: orange
+  :fixed: false
+- :id: 19
+  :name: 20251021_1110_wsl_ubuntu_japanese.md
+  :type: file
+  :file_path: "./archives/20251021_1110_wsl_ubuntu_japanese.md"
+  :x: 382.482029269602
+  :y: 315.5907259139624
+  :color: orange
+  :fixed: false
+- :id: 20
+  :name: 20251021_1142_double_click_action.md
+  :type: file
+  :file_path: "./archives/20251021_1142_double_click_action.md"
+  :x: 349.15432145346983
+  :y: 346.52555627180055
+  :color: orange
+  :fixed: false
+- :id: 21
+  :name: knowledge_fixer.pdf
+  :type: file
+  :file_path: "./archives/knowledge_fixer.pdf"
+  :x: 244.4611581348286
+  :y: 220.0369930638148
+  :color: orange
+  :fixed: false
+- :id: 22
+  :name: README.md
+  :type: file
+  :file_path: "./README.md"
+  :x: 220.53889572863503
+  :y: 294.79419069640477
+  :color: orange
+  :fixed: false
+- :id: 23
+  :name: Rakefile
+  :type: file
+  :file_path: "./Rakefile"
+  :x: 292.346531939911
+  :y: 178.2149363390303
+  :color: orange
+  :fixed: false
+- :id: 24
+  :name: lib/
+  :type: dir
+  :file_path: "./lib"
+  :x: 125
+  :y: 172
+  :color: orange
+  :fixed: true
 - :id: 25
+  :name: mk_semi_lattice.rb
+  :type: file
+  :file_path: "./lib/mk_semi_lattice.rb"
+  :x: 41.32187805592303
+  :y: 157.0683152759579
+  :color: orange
+  :fixed: false
+- :id: 26
+  :name: mk_semi_lattice/
+  :type: dir
+  :file_path: "./lib/mk_semi_lattice"
+  :x: 82.28115900652169
+  :y: 98.71305235540812
+  :color: orange
+  :fixed: false
+- :id: 27
   :name: Gemfile
   :type: file
   :file_path: "./Gemfile"
-  :x: 310.80450323175717
-  :y: 384.4732234015355
+  :x: 160.2203554412402
+  :y: 265.0512675413885
+  :color: orange
+  :fixed: false
+- :id: 28
+  :name: Gemfile.lock
+  :type: file
+  :file_path: "./Gemfile.lock"
+  :x: 157.23960425430772
+  :y: 164.17504460587847
+  :color: orange
+  :fixed: false
+- :id: 29
+  :name: exe/
+  :type: dir
+  :file_path: "./exe"
+  :x: 178.11309723665977
+  :y: 123.08330980193915
+  :color: orange
+  :fixed: false
+- :id: 30
+  :name: mk_semi_lattice
+  :type: file
+  :file_path: "./exe/mk_semi_lattice"
+  :x: 162.6390060719972
+  :y: 39.848606914782984
+  :color: orange
+  :fixed: false
+- :id: 31
+  :name: LICENSE.txt
+  :type: file
+  :file_path: "./LICENSE.txt"
+  :x: 296.05296081421676
+  :y: 230.0667661736979
+  :color: orange
+  :fixed: false
+- :id: 32
+  :name: pkg/
+  :type: dir
+  :file_path: "./pkg"
+  :x: 123.24950932824723
+  :y: 214.53518451370962
+  :color: orange
+  :fixed: false
+- :id: 33
+  :name: mk_semi_lattice-0.1.0.gem
+  :type: file
+  :file_path: "./pkg/mk_semi_lattice-0.1.0.gem"
+  :x: 60.06965288904259
+  :y: 271.11374361795225
+  :color: orange
   :fixed: false
 :edges:
 - :from: 1
+  # from: mk_semi_lattice/, to: CODE_OF_CONDUCT.md
   :to: 2
 - :from: 1
+  # from: mk_semi_lattice/, to: mk_semi_lattice.gemspec
   :to: 3
-- :from: 3
-  :to: 4
-- :from: 3
-  :to: 5
 - :from: 1
+  # from: mk_semi_lattice/, to: test/
+  :to: 4
+- :from: 4
+  # from: test/, to: test_mk_semi_lattice.rb
+  :to: 5
+- :from: 4
+  # from: test/, to: test_helper.rb
   :to: 6
 - :from: 1
+  # from: mk_semi_lattice/, to: bin/
   :to: 7
-- :from: 1
+- :from: 7
+  # from: bin/, to: setup
   :to: 8
-- :from: 1
+- :from: 7
+  # from: bin/, to: console
   :to: 9
-- :from: 9
-  :to: 10
-- :from: 9
-  :to: 11
 - :from: 1
+  # from: mk_semi_lattice/, to: CHANGELOG.md
+  :to: 10
+- :from: 1
+  # from: mk_semi_lattice/, to: sig/
+  :to: 11
+- :from: 11
+  # from: sig/, to: mk_semi_lattice.rbs
   :to: 12
 - :from: 1
+  # from: mk_semi_lattice/, to: archives/
   :to: 13
 - :from: 13
+  # from: archives/, to: 20251021_1151_select_semi_data_action.md
   :to: 14
-- :from: 1
+- :from: 13
+  # from: archives/, to: 20251022_0725_add_color_index.md
   :to: 15
-- :from: 15
+- :from: 13
+  # from: archives/, to: 20251020_1828_minor_rev_formatted.md
   :to: 16
-- :from: 15
+- :from: 13
+  # from: archives/, to: 20251021_2322_add_comment_edges.md
   :to: 17
-- :from: 1
+- :from: 13
+  # from: archives/, to: 20251020_1517_readme_formatted.md
   :to: 18
-- :from: 18
+- :from: 13
+  # from: archives/, to: 20251021_1110_wsl_ubuntu_japanese.md
   :to: 19
-- :from: 18
+- :from: 13
+  # from: archives/, to: 20251021_1142_double_click_action.md
   :to: 20
-- :from: 1
+- :from: 13
+  # from: archives/, to: knowledge_fixer.pdf
   :to: 21
 - :from: 1
+  # from: mk_semi_lattice/, to: README.md
   :to: 22
-- :from: 22
+- :from: 1
+  # from: mk_semi_lattice/, to: Rakefile
   :to: 23
 - :from: 1
+  # from: mk_semi_lattice/, to: lib/
   :to: 24
-- :from: 1
+- :from: 24
+  # from: lib/, to: mk_semi_lattice.rb
   :to: 25
+- :from: 24
+  # from: lib/, to: mk_semi_lattice/
+  :to: 26
+- :from: 1
+  # from: mk_semi_lattice/, to: Gemfile
+  :to: 27
+- :from: 1
+  # from: mk_semi_lattice/, to: Gemfile.lock
+  :to: 28
+- :from: 1
+  # from: mk_semi_lattice/, to: exe/
+  :to: 29
+- :from: 29
+  # from: exe/, to: mk_semi_lattice
+  :to: 30
+- :from: 1
+  # from: mk_semi_lattice/, to: LICENSE.txt
+  :to: 31
+- :from: 1
+  # from: mk_semi_lattice/, to: pkg/
+  :to: 32
+- :from: 32
+  # from: pkg/, to: mk_semi_lattice-0.1.0.gem
+  :to: 33
