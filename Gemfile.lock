@@ -1,0 +1,26 @@
+PATH
+  remote: .
+  specs:
+    mk_semi_lattice (0.1.0)
+      command_line
+      ruby2d
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    command_line (2.0.1)
+    minitest (5.20.0)
+    rake (13.1.0)
+    ruby2d (0.12.1)
+
+PLATFORMS
+  arm64-darwin-20
+  ruby
+
+DEPENDENCIES
+  minitest (~> 5.16)
+  mk_semi_lattice!
+  rake (~> 13.0)
+
+BUNDLED WITH
+   2.5.21
