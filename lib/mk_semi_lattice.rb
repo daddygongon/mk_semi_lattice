@@ -17,7 +17,9 @@ class Error < StandardError; end
 puts "mk_semi_lattice is running..."
 
 # 設定ファイルのパス
-CONF_PATH = File.expand_path("~/.semi_lattice.conf")
+CONFIG_DIR = File.expand_path("~/.config/semi_lattice")
+FileUtils.mkdir_p(CONFIG_DIR)
+CONF_PATH = File.join(CONFIG_DIR, "semi_lattice.conf")
 
 # 設定のデフォルト
 $conf = { "log" => false }
@@ -27,10 +29,10 @@ if File.file?(CONF_PATH)
     if loaded.is_a?(Hash)
       $conf.merge!(loaded)
     else
-      puts "Warning: ~/.semi_lattice.conf is not a hash. Using default config.".yellow
+      puts "Warning: #{CONF_PATH} is not a hash. Using default config.".yellow
     end
   rescue
-    puts "Warning: ~/.semi_lattice.conf is invalid. Using default config.".yellow
+    puts "Warning: #{CONF_PATH} is invalid. Using default config.".yellow
   end
 end
 
@@ -57,7 +59,7 @@ default PATH = '.'"
     options[:show_index] = true
   end
 
-  opts.on("-l", "--log [BOOL]", "Enable/disable logging (true/false), and save to ~/.semi_lattice.conf") do |v|
+  opts.on("-l", "--log [BOOL]", "Enable/disable logging (true/false), and save to config") do |v|
     bool =
       if v.nil?
         true
@@ -76,7 +78,7 @@ default PATH = '.'"
       end
     $conf["log"] = bool
     File.write(CONF_PATH, $conf.to_yaml)
-    puts "Logging is now #{bool ? 'enabled' : 'disabled'} (saved to ~/.semi_lattice.conf)"
+    puts "Logging is now #{bool ? 'enabled' : 'disabled'} (saved to #{CONF_PATH})"
     exit
   end
 end.parse!
@@ -85,15 +87,28 @@ PARENT_DIR = Dir.pwd
 semi_dir = File.join(PARENT_DIR, '.semi_lattice')
 semi_lattice_yaml_path = File.join(semi_dir, "semi_lattice.yaml")
 
-LOG_DIR = File.expand_path("~/.semi_lattice_log")
-LOG_PATH = File.join(LOG_DIR, "semi_lattice.log")
-FileUtils.mkdir_p(LOG_DIR)
+LOG_DIR = CONFIG_DIR
+Dir.mkdir_p(LOG_DIR) unless Dir.exist?(LOG_DIR)
+LOG_PATH = File.join(LOG_DIR, "semi_lattice_history") # 拡張子なし
 
-def log_event(msg)
+def log_event(action, target_dir: nil)
   return unless $conf["log"]
-  File.open(LOG_PATH, "a") do |f|
-    f.puts("[#{Time.now.strftime('%Y-%m-%d %H:%M:%S')}] #{msg} dir=#{PARENT_DIR} ")
+  log_entry = {
+    timestamp: Time.now.strftime('%Y-%m-%d %H:%M:%S'),
+    action: action
+  }
+  log_entry[:target_dir] = target_dir if target_dir
+  log_entry[:where] = PARENT_DIR
+  logs = []
+  if File.exist?(LOG_PATH)
+    begin
+      logs = YAML.load_file(LOG_PATH) || []
+    rescue
+      logs = []
+    end
   end
+  logs << log_entry
+  File.write(LOG_PATH, logs.to_yaml)
 end
 
 log_event("started")
@@ -186,12 +201,11 @@ def double_click_action(clicked_node)
       if RbConfig::CONFIG['host_os'] =~ /darwin/
         comm = "open '#{clicked_node.file_path}'"
       else
-        #        comm = "explorer.exe '#{clicked_node.file_path}'"
         comm = "open '#{clicked_node.file_path}'"
       end
     end
     puts comm
-    log_event("open=#{File.join(PARENT_DIR, clicked_node.file_path)}")
+    log_event("open", target_dir: File.expand_path(clicked_node.file_path, PARENT_DIR))
     system comm
   else
     puts "no link error"
