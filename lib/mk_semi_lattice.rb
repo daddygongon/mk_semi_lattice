@@ -39,7 +39,7 @@ end
 options = { layer: 2, init_step: :from_semi_lattice, show_index: false, merge: false }
 OptionParser.new do |opts|
   opts.banner = "Usage: mk_semi_lattice PATH [-L layer] [-t FILE] [-n FILE]
-default PATH = '.'"
+ default PATH = '.'"
 
   opts.on("-L N", Integer, "Layer depth (default: 2)") do |v|
     options[:layer] = v
