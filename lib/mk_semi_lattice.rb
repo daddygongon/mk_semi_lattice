@@ -11,6 +11,7 @@ require_relative "mk_semi_lattice/mk_dir_yaml"
 require_relative "mk_semi_lattice/mk_node_edge"
 require_relative "mk_semi_lattice/mk_semi_lattice_graph"
 require_relative "mk_semi_lattice/config"  # ← 追加
+require_relative "mk_semi_lattice/log"
 
 $semi_dir = ''
 class Error < StandardError; end
@@ -69,10 +70,6 @@ $parent_dir = Dir.pwd
 semi_dir = File.join($parent_dir, '.semi_lattice')
 semi_lattice_yaml_path = File.join(semi_dir, "semi_lattice.yaml")
 
-LOG_DIR = CONFIG_DIR
-Dir.mkdir_p(LOG_DIR) unless Dir.exist?(LOG_DIR)
-LOG_PATH = File.join(LOG_DIR, "semi_lattice_history") # 拡張子なし
-
 def log_event(action, target_dir: nil)
   return unless Config.log_enabled?
   log_entry = {
@@ -95,8 +92,6 @@ end
 
 # 例: 起動時
 Log.event("started", parent_dir: $parent_dir)
-
-log_event("started")
 
 init_file, init_step = if (ARGV[0]=='.' || ARGV[0].nil?) && !options[:file]
   if File.exist?(semi_lattice_yaml_path)
@@ -192,7 +187,6 @@ def double_click_action(clicked_node)
     puts comm
     # 例: ダブルクリックアクション内
     Log.event("open", target_dir: File.expand_path(clicked_node.file_path, $parent_dir), parent_dir: $parent_dir)
-    log_event("open", target_dir: File.expand_path(clicked_node.file_path, $parent_dir))
     system comm
   else
     puts "no link error"
@@ -286,7 +280,6 @@ at_exit do
   end
   # 例: 終了時
   Log.event("exited", parent_dir: $parent_dir)
-  log_event("exited")
 end
 
 show
