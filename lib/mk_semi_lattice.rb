@@ -83,8 +83,8 @@ default PATH = '.'"
   end
 end.parse!
 
-PARENT_DIR = Dir.pwd
-semi_dir = File.join(PARENT_DIR, '.semi_lattice')
+$parent_dir = Dir.pwd
+semi_dir = File.join($parent_dir, '.semi_lattice')
 semi_lattice_yaml_path = File.join(semi_dir, "semi_lattice.yaml")
 
 LOG_DIR = CONFIG_DIR
@@ -98,7 +98,7 @@ def log_event(action, target_dir: nil)
     action: action
   }
   log_entry[:target_dir] = target_dir if target_dir
-  log_entry[:where] = PARENT_DIR
+  log_entry[:where] = $parent_dir
   logs = []
   if File.exist?(LOG_PATH)
     begin
@@ -138,11 +138,11 @@ when :from_dir
 when :from_tree
   init_file = options[:file]
   base = File.basename(init_file, File.extname(init_file))
-  in_path, out_path= init_file, File.join(parent_dir, "#{base}_node_edge.yaml")
+  in_path, out_path= init_file, File.join($parent_dir, "#{base}_node_edge.yaml")
   MkSemiLattice::MkNodeEdge.new(input_path: in_path, output_path: out_path)
   [out_path, false]
 when :from_node_edge
-  if File.exist?(File.join(parent_dir, 'semi_lattice.yaml'))
+  if File.exist?(File.join($parent_dir, 'semi_lattice.yaml'))
     puts "Warning: semi_lattice.yaml already exists in current directory.".yellow
     exit 1
   end
@@ -205,7 +205,7 @@ def double_click_action(clicked_node)
       end
     end
     puts comm
-    log_event("open", target_dir: File.expand_path(clicked_node.file_path, PARENT_DIR))
+    log_event("open", target_dir: File.expand_path(clicked_node.file_path, $parent_dir))
     system comm
   else
     puts "no link error"

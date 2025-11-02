@@ -18,6 +18,7 @@ module MkSemiLattice
         full = File.join(path, entry)
         # .yamlファイルは含めないが、semi_lattice.yamlは含める
         next if File.file?(full) && File.extname(entry) == '.yaml' && entry != 'semi_lattice.yaml'
+        next if entry.end_with?('~')
         if File.symlink?(full)
           target = File.readlink(full)
           tree[entry] = "-> #{target}"
