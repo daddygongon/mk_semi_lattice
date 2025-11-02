@@ -12,6 +12,7 @@ require_relative "mk_semi_lattice/mk_node_edge"
 require_relative "mk_semi_lattice/mk_semi_lattice_graph"
 require_relative "mk_semi_lattice/config"  # ← 追加
 require_relative "mk_semi_lattice/log"
+require_relative "mk_semi_lattice/option_manager"
 
 $semi_dir = ''
 class Error < StandardError; end
@@ -20,51 +21,10 @@ puts "mk_semi_lattice is running..."
 
 Config.setup
 
-options = { layer: 2, init_step: :from_semi_lattice, show_index: false, merge: false }
-OptionParser.new do |opts|
-  opts.banner = "Usage: mk_semi_lattice PATH [-L layer] [-t FILE] [-n FILE]
- default PATH = '.'"
+option_manager = OptionManager.new
+options = option_manager.parse!
 
-  opts.on("-L N", Integer, "Layer depth (default: 2)") do |v|
-    options[:layer] = v
-  end
-
-  opts.on("-n", "--node=FILE", "using File from node-edge") do |file|
-    options[:file] = file
-    options[:init_step] = :from_node_edge
-  end
-
-  opts.on("-t", "--tree=FILE", "using File from tree") do |file|
-    options[:file] = file
-    options[:init_step] = :from_tree
-  end
-
-  opts.on("-i", "--index", "Display node ids") do
-    options[:show_index] = true
-  end
-
-  opts.on("-l", "--log [BOOL]", "Enable/disable logging (true/false), and save to config") do |v|
-    bool =
-      if v.nil?
-        true
-      elsif v.is_a?(String)
-        case v.strip.downcase
-        when "true", "yes", "on", "1"
-          true
-        when "false", "no", "off", "0"
-          false
-        else
-          puts "Invalid value for log: #{v}. Using default: false".yellow
-          false
-        end
-      else
-        !!v
-      end
-    Config.set_log(bool)
-    puts "Logging is now #{bool ? 'enabled' : 'disabled'} (saved to #{Config::CONF_PATH})"
-    exit
-  end
-end.parse!
+# 以降は options をそのまま利用
 
 $parent_dir = Dir.pwd
 semi_dir = File.join($parent_dir, '.semi_lattice')
