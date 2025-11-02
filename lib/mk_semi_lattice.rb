@@ -10,31 +10,15 @@ require_relative "mk_semi_lattice/version"
 require_relative "mk_semi_lattice/mk_dir_yaml"
 require_relative "mk_semi_lattice/mk_node_edge"
 require_relative "mk_semi_lattice/mk_semi_lattice_graph"
+require_relative "mk_semi_lattice/config"  # ← 追加
+require_relative "mk_semi_lattice/log"
 
 $semi_dir = ''
 class Error < StandardError; end
 
 puts "mk_semi_lattice is running..."
 
-# 設定ファイルのパス
-CONFIG_DIR = File.expand_path("~/.config/semi_lattice")
-FileUtils.mkdir_p(CONFIG_DIR)
-CONF_PATH = File.join(CONFIG_DIR, "semi_lattice.conf")
-
-# 設定のデフォルト
-$conf = { "log" => false }
-if File.file?(CONF_PATH)
-  begin
-    loaded = YAML.load_file(CONF_PATH)
-    if loaded.is_a?(Hash)
-      $conf.merge!(loaded)
-    else
-      puts "Warning: #{CONF_PATH} is not a hash. Using default config.".yellow
-    end
-  rescue
-    puts "Warning: #{CONF_PATH} is invalid. Using default config.".yellow
-  end
-end
+Config.setup
 
 options = { layer: 2, init_step: :from_semi_lattice, show_index: false, merge: false }
 OptionParser.new do |opts|
@@ -76,9 +60,8 @@ OptionParser.new do |opts|
       else
         !!v
       end
-    $conf["log"] = bool
-    File.write(CONF_PATH, $conf.to_yaml)
-    puts "Logging is now #{bool ? 'enabled' : 'disabled'} (saved to #{CONF_PATH})"
+    Config.set_log(bool)
+    puts "Logging is now #{bool ? 'enabled' : 'disabled'} (saved to #{Config::CONF_PATH})"
     exit
   end
 end.parse!
@@ -87,31 +70,9 @@ $parent_dir = Dir.pwd
 semi_dir = File.join($parent_dir, '.semi_lattice')
 semi_lattice_yaml_path = File.join(semi_dir, "semi_lattice.yaml")
 
-LOG_DIR = CONFIG_DIR
-Dir.mkdir_p(LOG_DIR) unless Dir.exist?(LOG_DIR)
-LOG_PATH = File.join(LOG_DIR, "semi_lattice_history") # 拡張子なし
+# LOG_DIR, LOG_PATH, log_eventメソッドを削除
 
-def log_event(action, target_dir: nil)
-  return unless $conf["log"]
-  log_entry = {
-    timestamp: Time.now.strftime('%Y-%m-%d %H:%M:%S'),
-    action: action
-  }
-  log_entry[:target_dir] = target_dir if target_dir
-  log_entry[:where] = $parent_dir
-  logs = []
-  if File.exist?(LOG_PATH)
-    begin
-      logs = YAML.load_file(LOG_PATH) || []
-    rescue
-      logs = []
-    end
-  end
-  logs << log_entry
-  File.write(LOG_PATH, logs.to_yaml)
-end
-
-log_event("started")
+Log.event("started", parent_dir: $parent_dir)
 
 init_file, init_step = if (ARGV[0]=='.' || ARGV[0].nil?) && !options[:file]
   if File.exist?(semi_lattice_yaml_path)
