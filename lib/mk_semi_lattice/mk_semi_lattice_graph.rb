@@ -197,7 +197,7 @@ class Edge
   end
 end
 
-class MkSemiLatticeData
+class MkSemiLatticeGraphData
   attr_reader :nodes, :edges, :node_table
   attr_accessor :selected, :shift_pressed, :show_index
 

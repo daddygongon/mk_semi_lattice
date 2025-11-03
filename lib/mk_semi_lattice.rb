@@ -13,7 +13,7 @@ require_relative "mk_semi_lattice/mk_semi_lattice_graph"
 require_relative "mk_semi_lattice/config"  # ← 追加
 require_relative "mk_semi_lattice/log"
 require_relative "mk_semi_lattice/option_manager"
-require_relative "mk_semi_lattice/select_yaml"
+require_relative "mk_semi_lattice/manage_yaml" # ファイル名も変更した場合
 
 $semi_dir = ''
 class Error < StandardError; end
@@ -31,7 +31,7 @@ semi_lattice_yaml_path = File.join(semi_dir, "semi_lattice.yaml")
 
 Log.event("started", parent_dir: $parent_dir)
 
-selector = MkSemiLattice::SelectYaml.new(
+selector = MkSemiLattice::ManageYaml.new(
   parent_dir: $parent_dir,
   semi_dir: semi_dir,
   semi_lattice_yaml_path: semi_lattice_yaml_path,
@@ -42,7 +42,7 @@ p [init_file, init_step]
 input_path, with_semi_lattice_yaml = selector.select_input_path_and_flag(init_file, init_step)
 p [input_path, with_semi_lattice_yaml]
 
-app = MkSemiLatticeData.new(input_path, 
+app = MkSemiLatticeGraphData.new(input_path, 
   with_semi_lattice_yaml: with_semi_lattice_yaml,
   show_index: options[:show_index]
 )
