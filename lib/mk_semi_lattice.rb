@@ -25,13 +25,10 @@ Config.setup
 option_manager = OptionManager.new
 options = option_manager.parse!
 
-# 以降は options をそのまま利用
-
 $parent_dir = Dir.pwd
 semi_dir = File.join($parent_dir, '.semi_lattice')
 semi_lattice_yaml_path = File.join(semi_dir, "semi_lattice.yaml")
 
-# 例: 起動時
 Log.event("started", parent_dir: $parent_dir)
 
 selector = MkSemiLattice::SelectYaml.new(
@@ -161,9 +158,12 @@ end
 
 # Ruby2Dには:closeイベントはありません。at_exitで保存処理を行います。
 at_exit do
+  at_exit_action(app, semi_dir, $parent_dir)
+end
+
+def at_exit_action(app, semi_dir, parent_dir)
   nodes_data = app.nodes.map do |n|
     p [n.label, n.fixed, n.color]
-    #color = n.color? ? nil : n.color
     {
       id: app.node_table.key(n),
       name: n.name,
@@ -183,15 +183,13 @@ at_exit do
   end
 
   yaml_data = { nodes: nodes_data, edges: edges_data }
-  # コメント付きテキストに変換
   yaml_text = MkSemiLattice::MkNodeEdge.add_edge_comments(yaml_data)
   if Dir.exist?(semi_dir)
     File.write(File.join(semi_dir, "semi_lattice.yaml"), yaml_text)
   else
     File.write(File.join('.', "semi_lattice.yaml"), yaml_text)
   end
-  # 例: 終了時
-  Log.event("exited", parent_dir: $parent_dir)
+  Log.event("exited", parent_dir: parent_dir)
 end
 
 show
