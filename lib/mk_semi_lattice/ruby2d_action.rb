@@ -20,18 +20,19 @@ module Ruby2dAction
   def self.double_click_action(clicked_node, parent_dir)
     comm = nil
     if clicked_node.file_path
-      # parent_dirがfile_pathに既に含まれていれば重複しないようにする
       abs_path =
         if Pathname.new(clicked_node.file_path).absolute?
           clicked_node.file_path
+        elsif clicked_node.file_path.start_with?(parent_dir + File::SEPARATOR)
+          clicked_node.file_path
         else
-          # 既にparent_dirがfile_pathの先頭に含まれていればそのまま
-          if clicked_node.file_path.start_with?(parent_dir + File::SEPARATOR)
-            clicked_node.file_path
-          else
-            File.expand_path(clicked_node.file_path, parent_dir)
-          end
+          File.expand_path(clicked_node.file_path, parent_dir)
         end
+
+      # ここでパスの重複がないかデバッグ出力
+      puts "[DEBUG] parent_dir: #{parent_dir}"
+      puts "[DEBUG] file_path: #{clicked_node.file_path}"
+      puts "[DEBUG] abs_path: #{abs_path}"
 
       if File.directory?(abs_path)
         if RbConfig::CONFIG['host_os'] =~ /darwin/
@@ -42,11 +43,7 @@ module Ruby2dAction
           comm = "wt.exe -p Ubuntu-24.04 --colorScheme 'Tango Light' -d '#{abs_path}'"
         end
       else
-        if RbConfig::CONFIG['host_os'] =~ /darwin/
-          comm = "open '#{abs_path}'"
-        else
-          comm = "open '#{abs_path}'"
-        end
+        comm = "open '#{abs_path}'"
       end
       puts comm
       Log.event("open", target_dir: abs_path, parent_dir: parent_dir)
