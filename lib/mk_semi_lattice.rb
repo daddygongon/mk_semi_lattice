@@ -13,6 +13,7 @@ require_relative "mk_semi_lattice/mk_semi_lattice_graph"
 require_relative "mk_semi_lattice/config"  # ← 追加
 require_relative "mk_semi_lattice/log"
 require_relative "mk_semi_lattice/option_manager"
+require_relative "mk_semi_lattice/select_yaml"
 
 $semi_dir = ''
 class Error < StandardError; end
@@ -30,67 +31,18 @@ $parent_dir = Dir.pwd
 semi_dir = File.join($parent_dir, '.semi_lattice')
 semi_lattice_yaml_path = File.join(semi_dir, "semi_lattice.yaml")
 
-def log_event(action, target_dir: nil)
-  return unless Config.log_enabled?
-  log_entry = {
-    timestamp: Time.now.strftime('%Y-%m-%d %H:%M:%S'),
-    action: action
-  }
-  log_entry[:target_dir] = target_dir if target_dir
-  log_entry[:where] = $parent_dir
-  logs = []
-  if File.exist?(Config.log_path)
-    begin
-      logs = YAML.load_file(Config.log_path) || []
-    rescue
-      logs = []
-    end
-  end
-  logs << log_entry
-  File.write(Config.log_path, logs.to_yaml)
-end
-
 # 例: 起動時
 Log.event("started", parent_dir: $parent_dir)
 
-init_file, init_step = if (ARGV[0]=='.' || ARGV[0].nil?) && !options[:file]
-  if File.exist?(semi_lattice_yaml_path)
-    [semi_lattice_yaml_path, :from_semi_lattice]
-  else
-    ['.', :from_dir]
-  end
-else
-  [ARGV[0], options[:init_step]] # only for ARGV[0]!='.' and not nil
-  # use options[:file] in case below
-end
-
+selector = MkSemiLattice::SelectYaml.new(
+  parent_dir: $parent_dir,
+  semi_dir: semi_dir,
+  semi_lattice_yaml_path: semi_lattice_yaml_path,
+  options: options
+)
+init_file, init_step = selector.select_init_file_and_step
 p [init_file, init_step]
-input_path, with_semi_lattice_yaml = case init_step
-when :from_dir
-  Dir.mkdir(semi_dir) unless Dir.exist?(semi_dir)
-  in_path, out_path = init_file, File.join(semi_dir, 'dir_tree.yaml')
-  MkSemiLattice::MkDirYaml.new(path: in_path, layer: options[:layer],
-                               output_file: out_path)
-  in_path, out_path = out_path, File.join(semi_dir, 'dir_node_edge.yaml')                         
-  MkSemiLattice::MkNodeEdge.new(input_path: in_path,
-                                output_path: out_path )
-  [out_path, false]
-when :from_tree
-  init_file = options[:file]
-  base = File.basename(init_file, File.extname(init_file))
-  in_path, out_path= init_file, File.join($parent_dir, "#{base}_node_edge.yaml")
-  MkSemiLattice::MkNodeEdge.new(input_path: in_path, output_path: out_path)
-  [out_path, false]
-when :from_node_edge
-  if File.exist?(File.join($parent_dir, 'semi_lattice.yaml'))
-    puts "Warning: semi_lattice.yaml already exists in current directory.".yellow
-    exit 1
-  end
-  [options[:file], false]
-when :from_semi_lattice
-  [init_file, true]
-end
-
+input_path, with_semi_lattice_yaml = selector.select_input_path_and_flag(init_file, init_step)
 p [input_path, with_semi_lattice_yaml]
 
 app = MkSemiLatticeData.new(input_path, 
