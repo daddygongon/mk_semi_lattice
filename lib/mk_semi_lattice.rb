@@ -158,38 +158,8 @@ end
 
 # Ruby2Dには:closeイベントはありません。at_exitで保存処理を行います。
 at_exit do
-  at_exit_action(app, semi_dir, $parent_dir)
+  MkSemiLattice::ManageYaml.at_exit_action(app, semi_dir, $parent_dir)
 end
 
-def at_exit_action(app, semi_dir, parent_dir)
-  nodes_data = app.nodes.map do |n|
-    p [n.label, n.fixed, n.color]
-    {
-      id: app.node_table.key(n),
-      name: n.name,
-      type: n.type,
-      file_path: n.file_path,
-      x: n.x,
-      y: n.y,
-      color: n.color,
-      fixed: n.fixed
-    }
-  end
-  edges_data = app.edges.map do |e|
-    {
-      from: app.node_table.key(e.from),
-      to: app.node_table.key(e.to)
-    }
-  end
-
-  yaml_data = { nodes: nodes_data, edges: edges_data }
-  yaml_text = MkSemiLattice::MkNodeEdge.add_edge_comments(yaml_data)
-  if Dir.exist?(semi_dir)
-    File.write(File.join(semi_dir, "semi_lattice.yaml"), yaml_text)
-  else
-    File.write(File.join('.', "semi_lattice.yaml"), yaml_text)
-  end
-  Log.event("exited", parent_dir: parent_dir)
-end
 
 show
