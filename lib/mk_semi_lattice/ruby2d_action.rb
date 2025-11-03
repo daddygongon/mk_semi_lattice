@@ -20,8 +20,19 @@ module Ruby2dAction
   def self.double_click_action(clicked_node, parent_dir)
     comm = nil
     if clicked_node.file_path
-      # file_pathが絶対パスでなければparent_dirからの相対パスにする
-      abs_path = File.expand_path(clicked_node.file_path, parent_dir)
+      # parent_dirがfile_pathに既に含まれていれば重複しないようにする
+      abs_path =
+        if Pathname.new(clicked_node.file_path).absolute?
+          clicked_node.file_path
+        else
+          # 既にparent_dirがfile_pathの先頭に含まれていればそのまま
+          if clicked_node.file_path.start_with?(parent_dir + File::SEPARATOR)
+            clicked_node.file_path
+          else
+            File.expand_path(clicked_node.file_path, parent_dir)
+          end
+        end
+
       if File.directory?(abs_path)
         if RbConfig::CONFIG['host_os'] =~ /darwin/
           comm = "open -a Terminal '#{abs_path}'"
