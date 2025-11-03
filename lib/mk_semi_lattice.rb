@@ -26,14 +26,14 @@ Config.setup
 option_manager = OptionManager.new
 options = option_manager.parse!
 
-$parent_dir = Dir.pwd
-semi_dir = File.join($parent_dir, '.semi_lattice')
+parent_dir = Dir.pwd
+semi_dir = File.join(parent_dir, '.semi_lattice')
 semi_lattice_yaml_path = File.join(semi_dir, "semi_lattice.yaml")
 
-Log.event("started", parent_dir: $parent_dir)
+Log.event("started", parent_dir: parent_dir)
 
 selector = MkSemiLattice::ManageYaml.new(
-  parent_dir: $parent_dir,
+  parent_dir: parent_dir,
   semi_dir: semi_dir,
   semi_lattice_yaml_path: semi_lattice_yaml_path,
   options: options
@@ -68,7 +68,7 @@ on :key_up do |event|
 end
 
 on :mouse_down do |event|
-  clicked_node, last_time = Ruby2dAction.on_mouse_down(app, event, last_click_node, last_click_time, $parent_dir)
+  clicked_node, last_time = Ruby2dAction.on_mouse_down(app, event, last_click_node, last_click_time, parent_dir)
   last_click_node = clicked_node
   last_click_time = last_time
 end
@@ -86,7 +86,7 @@ update do
 end
 
 at_exit do
-  MkSemiLattice::ManageYaml.at_exit_action(app, semi_dir, $parent_dir)
+  MkSemiLattice::ManageYaml.at_exit_action(app, semi_dir, parent_dir)
 end
 
 show
