@@ -14,7 +14,7 @@ require_relative "mk_semi_lattice/config"  # ← 追加
 require_relative "mk_semi_lattice/log"
 require_relative "mk_semi_lattice/option_manager"
 require_relative "mk_semi_lattice/manage_yaml"
-require_relative "ruby2d_action"
+require_relative "mk_semi_lattice/ruby2d_action"
 
 $semi_dir = ''
 class Error < StandardError; end
@@ -50,7 +50,6 @@ app = MkSemiLatticeGraphData.new(input_path,
 
 require 'ruby2d'
 
-# top nodeのname（label）をタイトルに使う
 top_node_label = app.nodes.first&.label || "KnowledgeFixer Graph"
 set width: 800, height: 600
 set title: top_node_label
@@ -66,41 +65,6 @@ end
 
 on :key_up do |event|
   Ruby2dAction.on_key_up(app, event)
-end
-
-def double_click?(clicked_node, last_click_node, last_click_time)
-  now = Time.now
-  if last_click_node == clicked_node && last_click_time && (now - last_click_time < 0.4)
-    return true, now
-  end
-  return false, now
-end
-
-def double_click_action(clicked_node)
-  comm = nil
-  if clicked_node.file_path
-    if File.directory?(clicked_node.file_path)
-      if RbConfig::CONFIG['host_os'] =~ /darwin/
-        comm = "open -a Terminal '#{clicked_node.file_path}'"
-      elsif RbConfig::CONFIG['host_os'] =~ /debian/
-        comm = "gnome-terminal --working-directory='#{clicked_node.file_path}'"
-      else
-        comm = "wt.exe -p Ubuntu-24.04 --colorScheme 'Tango Light' -d '#{clicked_node.file_path}'"
-      end
-    else
-      if RbConfig::CONFIG['host_os'] =~ /darwin/
-        comm = "open '#{clicked_node.file_path}'"
-      else
-        comm = "open '#{clicked_node.file_path}'"
-      end
-    end
-    puts comm
-    # 例: ダブルクリックアクション内
-    Log.event("open", target_dir: File.expand_path(clicked_node.file_path, $parent_dir), parent_dir: $parent_dir)
-    system comm
-  else
-    puts "no link error"
-  end
 end
 
 on :mouse_down do |event|
@@ -121,10 +85,8 @@ update do
   Ruby2dAction.update_action(app)
 end
 
-# Ruby2Dには:closeイベントはありません。at_exitで保存処理を行います。
 at_exit do
   MkSemiLattice::ManageYaml.at_exit_action(app, semi_dir, $parent_dir)
 end
-
 
 show
