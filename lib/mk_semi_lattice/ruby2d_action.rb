@@ -17,19 +17,41 @@ module Ruby2dAction
     return false, now
   end
 
+  def self.auto_fp_modifier(parent_dir, file_path)
+    pd = File.expand_path(parent_dir)
+    fp = file_path.dup
+
+    # file_pathが"./"で始まる場合は除去
+    fp = fp.sub(%r{\A\./}, '')
+
+    # parent_dirのbasenameを取得
+    pd_base = File.basename(pd)
+
+    # parent_dirのパスの中にfile_pathの先頭要素が含まれている場合は、重複しないようにする
+    fp_first = fp.split(File::SEPARATOR).first
+    if fp == pd_base
+      # 完全一致ならparent_dir自身
+      pd
+    elsif pd.include?(fp_first) && fp.start_with?(fp_first + File::SEPARATOR)
+      # parent_dirのどこかにfile_pathの先頭要素が含まれている場合は、その要素以降をparent_dirに連結
+      idx = fp.index(File::SEPARATOR)
+      rest = idx ? fp[idx+1..-1] : ""
+      File.join(pd, rest)
+    else
+      File.expand_path(fp, pd)
+    end
+  end
+
   def self.double_click_action(clicked_node, parent_dir)
     comm = nil
     if clicked_node.file_path
       abs_path =
         if Pathname.new(clicked_node.file_path).absolute?
           clicked_node.file_path
-        elsif clicked_node.file_path.start_with?(parent_dir + File::SEPARATOR)
-          clicked_node.file_path
         else
-          File.expand_path(clicked_node.file_path, parent_dir)
+          auto_fp_modifier(parent_dir, clicked_node.file_path)
         end
 
-      # ここでパスの重複がないかデバッグ出力
       puts "[DEBUG] parent_dir: #{parent_dir}"
       puts "[DEBUG] file_path: #{clicked_node.file_path}"
       puts "[DEBUG] abs_path: #{abs_path}"
