@@ -20,23 +20,25 @@ module Ruby2dAction
   def self.double_click_action(clicked_node, parent_dir)
     comm = nil
     if clicked_node.file_path
-      if File.directory?(clicked_node.file_path)
+      # file_pathが絶対パスでなければparent_dirからの相対パスにする
+      abs_path = File.expand_path(clicked_node.file_path, parent_dir)
+      if File.directory?(abs_path)
         if RbConfig::CONFIG['host_os'] =~ /darwin/
-          comm = "open -a Terminal '#{clicked_node.file_path}'"
+          comm = "open -a Terminal '#{abs_path}'"
         elsif RbConfig::CONFIG['host_os'] =~ /debian/
-          comm = "gnome-terminal --working-directory='#{clicked_node.file_path}'"
+          comm = "gnome-terminal --working-directory='#{abs_path}'"
         else
-          comm = "wt.exe -p Ubuntu-24.04 --colorScheme 'Tango Light' -d '#{clicked_node.file_path}'"
+          comm = "wt.exe -p Ubuntu-24.04 --colorScheme 'Tango Light' -d '#{abs_path}'"
         end
       else
         if RbConfig::CONFIG['host_os'] =~ /darwin/
-          comm = "open '#{clicked_node.file_path}'"
+          comm = "open '#{abs_path}'"
         else
-          comm = "open '#{clicked_node.file_path}'"
+          comm = "open '#{abs_path}'"
         end
       end
       puts comm
-      Log.event("open", target_dir: File.expand_path(clicked_node.file_path, parent_dir), parent_dir: parent_dir)
+      Log.event("open", target_dir: abs_path, parent_dir: parent_dir)
       system comm
     else
       puts "no link error"
