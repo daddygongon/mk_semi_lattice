@@ -13,7 +13,8 @@ require_relative "mk_semi_lattice/mk_semi_lattice_graph"
 require_relative "mk_semi_lattice/config"  # ← 追加
 require_relative "mk_semi_lattice/log"
 require_relative "mk_semi_lattice/option_manager"
-require_relative "mk_semi_lattice/manage_yaml" # ファイル名も変更した場合
+require_relative "mk_semi_lattice/manage_yaml"
+require_relative "ruby2d_action"
 
 $semi_dir = ''
 class Error < StandardError; end
@@ -60,11 +61,11 @@ last_click_time = nil
 last_click_node = nil
 
 on :key_down do |event|
-  app.shift_pressed = true if event.key.include?('shift')
+  Ruby2dAction.on_key_down(app, event)
 end
 
 on :key_up do |event|
-  app.shift_pressed = false if event.key.include?('shift')
+  Ruby2dAction.on_key_up(app, event)
 end
 
 def double_click?(clicked_node, last_click_node, last_click_time)
@@ -103,57 +104,21 @@ def double_click_action(clicked_node)
 end
 
 on :mouse_down do |event|
-  mx, my = event.x, event.y
-  shift_down = !!app.shift_pressed
-  clicked_node = nil
-  app.nodes.each do |n|
-    if Math.hypot(n.x - mx, n.y - my) < 30
-      clicked_node = n
-      if shift_down
-        n.fixed = false
-        n.color = NODE_COLOR # optional: reset color when unfixed
-        app.selected = nil
-      else
-        app.selected = n
-        if event.button == :left
-          n.fixed = true
-          n.color = FIXED_COLOR # ← ここを変更
-        end
-        n.fixed = false if event.button == :middle
-        n.linked = true if event.button == :right
-      end
-    end
-  end
-
-  # ダブルクリック判定とファイルオープン
-  if clicked_node
-    is_double, now = double_click?(clicked_node, last_click_node, last_click_time)
-    double_click_action(clicked_node) if is_double
-    last_click_time = now
-    last_click_node = clicked_node
-  end
+  clicked_node, last_time = Ruby2dAction.on_mouse_down(app, event, last_click_node, last_click_time, $parent_dir)
+  last_click_node = clicked_node
+  last_click_time = last_time
 end
 
 on :mouse_up do
-  app.selected = nil
+  Ruby2dAction.on_mouse_up(app)
 end
 
 on :mouse_move do |event|
-  if app.selected
-    app.selected.x = event.x
-    app.selected.y = event.y
-  end
+  Ruby2dAction.on_mouse_move(app, event)
 end
 
 update do
-#  clear
-  app.edges.each(&:relax)
-  app.nodes.each { |n| n.relax(app.nodes) }
-  app.nodes.each(&:update)
-  app.edges.reverse.each(&:draw)
-  app.nodes.reverse.each do |n|
-    n.draw(app.selected == n)
-  end
+  Ruby2dAction.update_action(app)
 end
 
 # Ruby2Dには:closeイベントはありません。at_exitで保存処理を行います。
