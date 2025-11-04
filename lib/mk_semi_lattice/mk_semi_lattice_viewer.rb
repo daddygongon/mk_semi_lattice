@@ -1,5 +1,5 @@
 def mk_semi_lattice_viewer
-puts "mk_semi_lattice is running... with method main"
+puts "mk_semi_lattice is running... with method mk_semi_lattice_viewer"
 
 Config.setup
 
