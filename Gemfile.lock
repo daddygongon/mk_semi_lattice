@@ -1,13 +1,15 @@
 PATH
   remote: .
   specs:
-    mk_semi_lattice (0.1.0)
+    mk_semi_lattice (0.1.1)
+      colorize
       command_line
       ruby2d
 
 GEM
   remote: https://rubygems.org/
   specs:
+    colorize (1.1.0)
     command_line (2.0.1)
     minitest (5.20.0)
     rake (13.1.0)
