@@ -4,6 +4,7 @@ module MkSemiLattice
       abs_path = File.expand_path(path)
       root_key = File.basename(abs_path) + '/'
 
+      # layerの数だけ深さを調整
       result = { root_key => dir_tree(path, layer - 1) }
       p result
       File.write(output_file, result.to_yaml)

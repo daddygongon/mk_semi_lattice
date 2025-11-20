@@ -45,27 +45,33 @@ module Ruby2dAction
   def self.double_click_action(clicked_node, parent_dir)
     comm = nil
     if clicked_node.file_path
-      abs_path =
-        if Pathname.new(clicked_node.file_path).absolute?
-          clicked_node.file_path
-        else
-          auto_fp_modifier(parent_dir, clicked_node.file_path)
-        end
-
-      puts "[DEBUG] parent_dir: #{parent_dir}"
-      puts "[DEBUG] file_path: #{clicked_node.file_path}"
-      puts "[DEBUG] abs_path: #{abs_path}"
-
-      if File.directory?(abs_path)
-        if RbConfig::CONFIG['host_os'] =~ /darwin/
-          comm = "open -a Terminal '#{abs_path}'"
-        elsif RbConfig::CONFIG['host_os'] =~ /debian/
-          comm = "gnome-terminal --working-directory='#{abs_path}'"
-        else
-          comm = "wt.exe -p Ubuntu-24.04 --colorScheme 'Tango Light' -d '#{abs_path}'"
-        end
-      else
+      # URL判定
+      if clicked_node.file_path =~ /\Ahttps?:\/\//
+        abs_path = clicked_node.file_path
         comm = "open '#{abs_path}'"
+      else
+        abs_path =
+          if Pathname.new(clicked_node.file_path).absolute?
+            clicked_node.file_path
+          else
+            auto_fp_modifier(parent_dir, clicked_node.file_path)
+          end
+
+        puts "[DEBUG] parent_dir: #{parent_dir}"
+        puts "[DEBUG] file_path: #{clicked_node.file_path}"
+        puts "[DEBUG] abs_path: #{abs_path}"
+
+        if File.directory?(abs_path)
+          if RbConfig::CONFIG['host_os'] =~ /darwin/
+            comm = "open -a Terminal '#{abs_path}'"
+          elsif RbConfig::CONFIG['host_os'] =~ /debian/
+            comm = "gnome-terminal --working-directory='#{abs_path}'"
+          else
+            comm = "wt.exe -p Ubuntu-24.04 --colorScheme 'Tango Light' -d '#{abs_path}'"
+          end
+        else
+          comm = "open '#{abs_path}'"
+        end
       end
       puts comm
       Log.event("open", target_dir: abs_path, parent_dir: parent_dir)
