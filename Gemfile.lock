@@ -11,8 +11,8 @@ GEM
   specs:
     colorize (1.1.0)
     command_line (2.0.1)
-    minitest (5.20.0)
-    rake (13.1.0)
+    minitest (5.26.2)
+    rake (13.3.1)
     ruby2d (0.12.1)
 
 PLATFORMS
@@ -25,4 +25,4 @@ DEPENDENCIES
   rake (~> 13.0)
 
 BUNDLED WITH
-   2.5.21
+   2.7.2
