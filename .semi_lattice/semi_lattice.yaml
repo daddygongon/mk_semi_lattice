@@ -1,0 +1,297 @@
+---
+:nodes:
+- :id: 1
+  :name: mk_semi_lattice/
+  :type: dir
+  :file_path: "."
+  :x: 328.53892041994203
+  :y: 275.4300376899959
+  :color: orange
+  :fixed: false
+- :id: 2
+  :name: CODE_OF_CONDUCT.md
+  :type: file
+  :file_path: "./CODE_OF_CONDUCT.md"
+  :x: 243.7381179444128
+  :y: 290.59379546455233
+  :color: orange
+  :fixed: false
+- :id: 3
+  :name: mk_semi_lattice.gemspec
+  :type: file
+  :file_path: "./mk_semi_lattice.gemspec"
+  :x: 319.40005527282426
+  :y: 191.5086262683014
+  :color: orange
+  :fixed: false
+- :id: 4
+  :name: test/
+  :type: dir
+  :file_path: "./test"
+  :x: 368.97637688148245
+  :y: 180.8123970924396
+  :color: orange
+  :fixed: false
+- :id: 5
+  :name: semi_lattice_history
+  :type: file
+  :file_path: "./test/semi_lattice_history"
+  :x: 350.1297747697636
+  :y: 98.15182800975447
+  :color: orange
+  :fixed: false
+- :id: 6
+  :name: test_mk_semi_lattice.rb
+  :type: file
+  :file_path: "./test/test_mk_semi_lattice.rb"
+  :x: 419.7576748708911
+  :y: 113.83755037195358
+  :color: orange
+  :fixed: false
+- :id: 7
+  :name: test_helper.rb
+  :type: file
+  :file_path: "./test/test_helper.rb"
+  :x: 452.5071236291105
+  :y: 173.15420915342375
+  :color: orange
+  :fixed: false
+- :id: 8
+  :name: bin/
+  :type: dir
+  :file_path: "./bin"
+  :x: 270.32539448103773
+  :y: 193.66426779323433
+  :color: orange
+  :fixed: false
+- :id: 9
+  :name: setup
+  :type: file
+  :file_path: "./bin/setup"
+  :x: 251.02569304803842
+  :y: 111.17328804589805
+  :color: orange
+  :fixed: false
+- :id: 10
+  :name: console
+  :type: file
+  :file_path: "./bin/console"
+  :x: 185.83225195326344
+  :y: 177.49908130533808
+  :color: orange
+  :fixed: false
+- :id: 11
+  :name: CHANGELOG.md
+  :type: file
+  :file_path: "./CHANGELOG.md"
+  :x: 315.68021078151975
+  :y: 356.64578282631237
+  :color: orange
+  :fixed: false
+- :id: 12
+  :name: sig/
+  :type: dir
+  :file_path: "./sig"
+  :x: 420.6933321590893
+  :y: 266.3247536721854
+  :color: orange
+  :fixed: false
+- :id: 13
+  :name: mk_semi_lattice.rbs
+  :type: file
+  :file_path: "./sig/mk_semi_lattice.rbs"
+  :x: 504.681646749452
+  :y: 268.76611630700256
+  :color: orange
+  :fixed: false
+- :id: 14
+  :name: README.md
+  :type: file
+  :file_path: "./README.md"
+  :x: 404.7022493208568
+  :y: 311.3958492385683
+  :color: orange
+  :fixed: false
+- :id: 15
+  :name: Rakefile
+  :type: file
+  :file_path: "./Rakefile"
+  :x: 281.6093774375237
+  :y: 347.6388545135916
+  :color: orange
+  :fixed: false
+- :id: 16
+  :name: lib/
+  :type: dir
+  :file_path: "./lib"
+  :x: 336.5426172957068
+  :y: 375.71692946168156
+  :color: orange
+  :fixed: false
+- :id: 17
+  :name: mk_semi_lattice.rb
+  :type: file
+  :file_path: "./lib/mk_semi_lattice.rb"
+  :x: 279.4440623928841
+  :y: 439.6540187116701
+  :color: orange
+  :fixed: false
+- :id: 18
+  :name: mk_semi_lattice/
+  :type: dir
+  :file_path: "./lib/mk_semi_lattice"
+  :x: 373.1346674896562
+  :y: 452.04637977393327
+  :color: orange
+  :fixed: false
+- :id: 19
+  :name: Gemfile
+  :type: file
+  :file_path: "./Gemfile"
+  :x: 390.4872963349928
+  :y: 219.0565797861298
+  :color: orange
+  :fixed: false
+- :id: 20
+  :name: Gemfile.lock
+  :type: file
+  :file_path: "./Gemfile.lock"
+  :x: 261.03775704829644
+  :y: 223.21026477249038
+  :color: orange
+  :fixed: false
+- :id: 21
+  :name: exe/
+  :type: dir
+  :file_path: "./exe"
+  :x: 383.459106265985
+  :y: 350.49287041971996
+  :color: orange
+  :fixed: false
+- :id: 22
+  :name: mk_semi_lattice
+  :type: file
+  :file_path: "./exe/mk_semi_lattice"
+  :x: 455.6051127246224
+  :y: 394.95363893106435
+  :color: orange
+  :fixed: false
+- :id: 23
+  :name: mk_sl
+  :type: file
+  :file_path: "./exe/mk_sl"
+  :x: 372.8963681276452
+  :y: 278.2663236484658
+  :color: orange
+  :fixed: false
+- :id: 24
+  :name: LICENSE.txt
+  :type: file
+  :file_path: "./LICENSE.txt"
+  :x: 244.46700417966636
+  :y: 257.85854493097236
+  :color: orange
+  :fixed: false
+- :id: 25
+  :name: pkg/
+  :type: dir
+  :file_path: "./pkg"
+  :x: 252.557449235485
+  :y: 322.3457852019403
+  :color: orange
+  :fixed: false
+- :id: 26
+  :name: mk_semi_lattice-0.1.0.gem
+  :type: file
+  :file_path: "./pkg/mk_semi_lattice-0.1.0.gem"
+  :x: 305.3955635567724
+  :y: 257.8083408043648
+  :color: orange
+  :fixed: false
+- :id: 27
+  :name: mk_semi_lattice-0.1.1.gem
+  :type: file
+  :file_path: "./pkg/mk_semi_lattice-0.1.1.gem"
+  :x: 182.1250768826612
+  :y: 372.1017345375364
+  :color: orange
+  :fixed: false
+:edges:
+- :from: 1
+  # from: mk_semi_lattice/, to: CODE_OF_CONDUCT.md
+  :to: 2
+- :from: 1
+  # from: mk_semi_lattice/, to: mk_semi_lattice.gemspec
+  :to: 3
+- :from: 1
+  # from: mk_semi_lattice/, to: test/
+  :to: 4
+- :from: 4
+  # from: test/, to: semi_lattice_history
+  :to: 5
+- :from: 4
+  # from: test/, to: test_mk_semi_lattice.rb
+  :to: 6
+- :from: 4
+  # from: test/, to: test_helper.rb
+  :to: 7
+- :from: 1
+  # from: mk_semi_lattice/, to: bin/
+  :to: 8
+- :from: 8
+  # from: bin/, to: setup
+  :to: 9
+- :from: 8
+  # from: bin/, to: console
+  :to: 10
+- :from: 1
+  # from: mk_semi_lattice/, to: CHANGELOG.md
+  :to: 11
+- :from: 1
+  # from: mk_semi_lattice/, to: sig/
+  :to: 12
+- :from: 12
+  # from: sig/, to: mk_semi_lattice.rbs
+  :to: 13
+- :from: 1
+  # from: mk_semi_lattice/, to: README.md
+  :to: 14
+- :from: 1
+  # from: mk_semi_lattice/, to: Rakefile
+  :to: 15
+- :from: 1
+  # from: mk_semi_lattice/, to: lib/
+  :to: 16
+- :from: 16
+  # from: lib/, to: mk_semi_lattice.rb
+  :to: 17
+- :from: 16
+  # from: lib/, to: mk_semi_lattice/
+  :to: 18
+- :from: 1
+  # from: mk_semi_lattice/, to: Gemfile
+  :to: 19
+- :from: 1
+  # from: mk_semi_lattice/, to: Gemfile.lock
+  :to: 20
+- :from: 1
+  # from: mk_semi_lattice/, to: exe/
+  :to: 21
+- :from: 21
+  # from: exe/, to: mk_semi_lattice
+  :to: 22
+- :from: 21
+  # from: exe/, to: mk_sl
+  :to: 23
+- :from: 1
+  # from: mk_semi_lattice/, to: LICENSE.txt
+  :to: 24
+- :from: 1
+  # from: mk_semi_lattice/, to: pkg/
+  :to: 25
+- :from: 25
+  # from: pkg/, to: mk_semi_lattice-0.1.0.gem
+  :to: 26
+- :from: 25
+  # from: pkg/, to: mk_semi_lattice-0.1.1.gem
+  :to: 27
