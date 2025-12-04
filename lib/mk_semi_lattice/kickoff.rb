@@ -1,10 +1,8 @@
 require_relative "kickoff/config"
 require_relative "kickoff/log"
-require_relative "kickoff/mk_dir_yaml"
 require_relative "kickoff/mk_node_edge"
 require_relative "kickoff/mk_semi_lattice_graph"
 require_relative "kickoff/option_manager"
-require_relative "kickoff/manage_yaml"
 
 class Kickoff
   def setup
@@ -33,7 +31,7 @@ class Kickoff
     input_path,
     with_semi_lattice_yaml: with_semi_lattice_yaml,
     show_index: options[:show_index],
-#    layer: options[:layer] # 追加
+    layer: options[:layer] # 追加
   )
     return app, semi_dir, parent_dir
   end

@@ -13,41 +13,21 @@
   :type: dir
   :file_path: "./mk_semi_lattice"
 - :id: 4
-  :name: option_manager.rb
+  :name: kickoff.rb
   :type: file
-  :file_path: "./mk_semi_lattice/option_manager.rb"
+  :file_path: "./mk_semi_lattice/kickoff.rb"
 - :id: 5
-  :name: mk_dir_yaml.rb
-  :type: file
-  :file_path: "./mk_semi_lattice/mk_dir_yaml.rb"
+  :name: kickoff/
+  :type: dir
+  :file_path: "./mk_semi_lattice/kickoff"
 - :id: 6
-  :name: mk_node_edge.rb
-  :type: file
-  :file_path: "./mk_semi_lattice/mk_node_edge.rb"
-- :id: 7
-  :name: manage_yaml.rb
-  :type: file
-  :file_path: "./mk_semi_lattice/manage_yaml.rb"
-- :id: 8
-  :name: mk_semi_lattice_graph.rb
-  :type: file
-  :file_path: "./mk_semi_lattice/mk_semi_lattice_graph.rb"
-- :id: 9
   :name: ruby2d_action.rb
   :type: file
   :file_path: "./mk_semi_lattice/ruby2d_action.rb"
-- :id: 10
-  :name: config.rb
-  :type: file
-  :file_path: "./mk_semi_lattice/config.rb"
-- :id: 11
+- :id: 7
   :name: version.rb
   :type: file
   :file_path: "./mk_semi_lattice/version.rb"
-- :id: 12
-  :name: log.rb
-  :type: file
-  :file_path: "./mk_semi_lattice/log.rb"
 :edges:
 - :from: 1
   # from: lib/, to: mk_semi_lattice.rb
@@ -56,29 +36,14 @@
   # from: lib/, to: mk_semi_lattice/
   :to: 3
 - :from: 3
-  # from: mk_semi_lattice/, to: option_manager.rb
+  # from: mk_semi_lattice/, to: kickoff.rb
   :to: 4
 - :from: 3
-  # from: mk_semi_lattice/, to: mk_dir_yaml.rb
+  # from: mk_semi_lattice/, to: kickoff/
   :to: 5
 - :from: 3
-  # from: mk_semi_lattice/, to: mk_node_edge.rb
+  # from: mk_semi_lattice/, to: ruby2d_action.rb
   :to: 6
 - :from: 3
-  # from: mk_semi_lattice/, to: manage_yaml.rb
-  :to: 7
-- :from: 3
-  # from: mk_semi_lattice/, to: mk_semi_lattice_graph.rb
-  :to: 8
-- :from: 3
-  # from: mk_semi_lattice/, to: ruby2d_action.rb
-  :to: 9
-- :from: 3
-  # from: mk_semi_lattice/, to: config.rb
-  :to: 10
-- :from: 3
   # from: mk_semi_lattice/, to: version.rb
-  :to: 11
-- :from: 3
-  # from: mk_semi_lattice/, to: log.rb
-  :to: 12
+  :to: 7

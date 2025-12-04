@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative "manage_yaml/mk_dir_yaml"
+
 module MkSemiLattice
   class ManageYaml
     def initialize(parent_dir:, semi_dir:, semi_lattice_yaml_path:, options:)
