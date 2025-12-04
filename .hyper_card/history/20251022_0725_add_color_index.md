@@ -1,4 +1,4 @@
-daddygongon: 描かれたnodeにidも表示するoptionとして-i, -indexを追加．
+**daddygongon**: 描かれたnodeにidも表示するoptionとして-i, -indexを追加．
 
 GitHub Copilot: ### [mk_semi_lattice.rb](file:///Users/bob/git_hub/mk_semi_lattice/lib/mk_semi_lattice.rb)
 
