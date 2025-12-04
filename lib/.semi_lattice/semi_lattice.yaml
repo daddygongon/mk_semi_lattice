@@ -12,50 +12,50 @@
   :name: mk_semi_lattice.rb
   :type: file
   :file_path: "./mk_semi_lattice.rb"
-  :x: 223.421835649823
-  :y: 128.95769584105247
-  :color: orange
-  :fixed: false
+  :x: 315
+  :y: 290
+  :color: green
+  :fixed: true
 - :id: 3
   :name: mk_semi_lattice/
   :type: dir
   :file_path: "./mk_semi_lattice"
-  :x: 260.58752989420947
-  :y: 251.12975786387676
-  :color: orange
-  :fixed: false
+  :x: 359
+  :y: 272
+  :color: green
+  :fixed: true
 - :id: 4
   :name: kickoff.rb
   :type: file
   :file_path: "./mk_semi_lattice/kickoff.rb"
-  :x: 185.03886546927265
-  :y: 292.4718563214489
-  :color: orange
-  :fixed: false
+  :x: 502
+  :y: 317
+  :color: green
+  :fixed: true
 - :id: 5
   :name: kickoff/
   :type: dir
   :file_path: "./mk_semi_lattice/kickoff"
-  :x: 260.1542745670375
-  :y: 336.86913342532205
-  :color: orange
-  :fixed: false
+  :x: 535
+  :y: 295
+  :color: green
+  :fixed: true
 - :id: 6
   :name: ruby2d_action.rb
   :type: file
   :file_path: "./mk_semi_lattice/ruby2d_action.rb"
-  :x: 339.94482621311033
-  :y: 278.3111586226456
-  :color: orange
-  :fixed: false
+  :x: 502
+  :y: 410
+  :color: green
+  :fixed: true
 - :id: 7
   :name: version.rb
   :type: file
   :file_path: "./mk_semi_lattice/version.rb"
-  :x: 307.8824784019551
-  :y: 182.54014505781845
-  :color: orange
-  :fixed: false
+  :x: 357
+  :y: 490
+  :color: green
+  :fixed: true
 :edges:
 - :from: 1
   # from: lib/, to: mk_semi_lattice.rb

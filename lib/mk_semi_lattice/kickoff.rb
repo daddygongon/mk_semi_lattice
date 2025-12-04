@@ -3,6 +3,7 @@ require_relative "kickoff/log"
 require_relative "kickoff/mk_node_edge"
 require_relative "kickoff/mk_semi_lattice_graph"
 require_relative "kickoff/option_manager"
+require_relative "kickoff/manage_yaml"
 
 class Kickoff
   def setup

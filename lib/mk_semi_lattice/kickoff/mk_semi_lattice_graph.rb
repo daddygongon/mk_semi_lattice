@@ -197,11 +197,15 @@ class Edge
   end
 end
 
+# MkSemiLatticeGraphData クラス
+# MkSemiLatticeGraphData はノードとエッジのデータをYAMLファイルから読み込み
+# なければdirから作成．
 class MkSemiLatticeGraphData
   attr_reader :nodes, :edges, :node_table
   attr_accessor :selected, :shift_pressed, :show_index
 
-  def initialize(file = "dir_node_edge.yaml", with_semi_lattice_yaml: false, show_index: false)
+  def initialize(file = "dir_node_edge.yaml", with_semi_lattice_yaml: false, 
+      show_index: false, layer: 2)
     @nodes = []
     @edges = []
     @node_table = {}
