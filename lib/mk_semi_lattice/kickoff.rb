@@ -23,9 +23,9 @@ class Kickoff
     options: options
   )
   init_file, init_step = selector.select_init_file_and_step
-  p [init_file, init_step]
+  p ["init_file",init_file, init_step]
   input_path, with_semi_lattice_yaml = selector.select_input_path_and_flag(init_file, init_step)
-  p [input_path, with_semi_lattice_yaml]
+  p ["input_path",input_path, with_semi_lattice_yaml]
 
   # options[:layer] を MkSemiLatticeGraphData に渡す
   app = MkSemiLatticeGraphData.new(

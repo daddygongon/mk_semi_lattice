@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "manage_yaml/mk_dir_yaml"
-
 module MkSemiLattice
   class ManageYaml
     def initialize(parent_dir:, semi_dir:, semi_lattice_yaml_path:, options:)
@@ -9,6 +7,7 @@ module MkSemiLattice
       @semi_dir = semi_dir
       @semi_lattice_yaml_path = semi_lattice_yaml_path
       @options = options
+      p @options
     end
 
     # ARGV[0]とoptionsから初期ファイル・初期ステップを決定
@@ -88,4 +87,44 @@ module MkSemiLattice
       Log.event("exited", parent_dir: parent_dir)
     end
   end
+
+  class MkDirYaml
+    def initialize(path: '.', layer: 2, output_file: 'dir.yaml')
+      abs_path = File.expand_path(path)
+      root_key = File.basename(abs_path) + '/'
+
+      # layerの数だけ深さを調整
+      result = { root_key => dir_tree(path, layer - 1) }
+      p ["MkDirYaml result", result]
+      File.write(output_file, result.to_yaml)
+      puts "Directory structure exported to #{output_file}"
+    end
+
+    def dir_tree(path, depth)
+      return nil if depth < 0
+      tree = {}
+      Dir.children(path).each do |entry|
+        next if entry.start_with?('.')
+        full = File.join(path, entry)
+        # .yamlファイルは含めないが、semi_lattice.yamlは含める
+        next if File.file?(full) && File.extname(entry) == '.yaml' && entry != 'semi_lattice.yaml'
+        next if entry.end_with?('~')
+        if File.symlink?(full)
+          target = File.readlink(full)
+          tree[entry] = "-> #{target}"
+        elsif File.directory?(full)
+          subtree = dir_tree(full, depth - 1)
+          if subtree
+            tree["#{entry}/"] = subtree
+          else
+            tree["#{entry}/"] = nil
+          end
+        else
+          tree[entry] = nil
+        end
+      end
+      tree
+    end
+  end
+
 end

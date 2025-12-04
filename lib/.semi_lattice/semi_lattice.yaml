@@ -4,56 +4,120 @@
   :name: lib/
   :type: dir
   :file_path: "."
-  :x: 190
-  :y: 207
+  :x: 169
+  :y: 113
   :color: green
   :fixed: true
 - :id: 2
   :name: mk_semi_lattice.rb
   :type: file
   :file_path: "./mk_semi_lattice.rb"
-  :x: 315
-  :y: 290
+  :x: 245
+  :y: 158
   :color: green
   :fixed: true
 - :id: 3
   :name: mk_semi_lattice/
   :type: dir
   :file_path: "./mk_semi_lattice"
-  :x: 359
-  :y: 272
+  :x: 274
+  :y: 177
   :color: green
   :fixed: true
 - :id: 4
   :name: kickoff.rb
   :type: file
   :file_path: "./mk_semi_lattice/kickoff.rb"
-  :x: 502
-  :y: 317
+  :x: 346
+  :y: 112
   :color: green
   :fixed: true
 - :id: 5
   :name: kickoff/
   :type: dir
   :file_path: "./mk_semi_lattice/kickoff"
-  :x: 535
-  :y: 295
+  :x: 370
+  :y: 87
   :color: green
   :fixed: true
 - :id: 6
-  :name: ruby2d_action.rb
+  :name: option_manager.rb
   :type: file
-  :file_path: "./mk_semi_lattice/ruby2d_action.rb"
-  :x: 502
-  :y: 410
+  :file_path: "./mk_semi_lattice/kickoff/option_manager.rb"
+  :x: 519
+  :y: 194
   :color: green
   :fixed: true
 - :id: 7
+  :name: mk_node_edge.rb
+  :type: file
+  :file_path: "./mk_semi_lattice/kickoff/mk_node_edge.rb"
+  :x: 514
+  :y: 478
+  :color: green
+  :fixed: true
+- :id: 8
+  :name: manage_yaml.rb
+  :type: file
+  :file_path: "./mk_semi_lattice/kickoff/manage_yaml.rb"
+  :x: 517
+  :y: 261
+  :color: green
+  :fixed: true
+- :id: 9
+  :name: mk_semi_lattice_graph.rb
+  :type: file
+  :file_path: "./mk_semi_lattice/kickoff/mk_semi_lattice_graph.rb"
+  :x: 525
+  :y: 365
+  :color: green
+  :fixed: true
+- :id: 10
+  :name: config.rb
+  :type: file
+  :file_path: "./mk_semi_lattice/kickoff/config.rb"
+  :x: 530
+  :y: 133
+  :color: green
+  :fixed: true
+- :id: 11
+  :name: log.rb
+  :type: file
+  :file_path: "./mk_semi_lattice/kickoff/log.rb"
+  :x: 524
+  :y: 47
+  :color: green
+  :fixed: true
+- :id: 12
+  :name: manage_yaml/
+  :type: dir
+  :file_path: "./mk_semi_lattice/kickoff/manage_yaml"
+  :x: 534
+  :y: 285
+  :color: green
+  :fixed: true
+- :id: 13
+  :name: mk_dir_yaml.rb
+  :type: file
+  :file_path: "./mk_semi_lattice/kickoff/manage_yaml/mk_dir_yaml.rb"
+  :x: 657
+  :y: 285
+  :color: green
+  :fixed: true
+- :id: 14
+  :name: ruby2d_action.rb
+  :type: file
+  :file_path: "./mk_semi_lattice/ruby2d_action.rb"
+  :x: 348
+  :y: 230
+  :color: green
+  :fixed: true
+- :id: 15
   :name: version.rb
   :type: file
   :file_path: "./mk_semi_lattice/version.rb"
-  :x: 357
-  :y: 490
+  :x: 347
+  :y: 311
   :color: green
   :fixed: true
 :edges:
@@ -69,9 +133,33 @@
 - :from: 3
   # from: mk_semi_lattice/, to: kickoff/
   :to: 5
+- :from: 5
+  # from: kickoff/, to: option_manager.rb
+  :to: 6
+- :from: 5
+  # from: kickoff/, to: mk_node_edge.rb
+  :to: 7
+- :from: 5
+  # from: kickoff/, to: manage_yaml.rb
+  :to: 8
+- :from: 5
+  # from: kickoff/, to: mk_semi_lattice_graph.rb
+  :to: 9
+- :from: 5
+  # from: kickoff/, to: config.rb
+  :to: 10
+- :from: 5
+  # from: kickoff/, to: log.rb
+  :to: 11
+- :from: 5
+  # from: kickoff/, to: manage_yaml/
+  :to: 12
+- :from: 12
+  # from: manage_yaml/, to: mk_dir_yaml.rb
+  :to: 13
 - :from: 3
   # from: mk_semi_lattice/, to: ruby2d_action.rb
-  :to: 6
+  :to: 14
 - :from: 3
   # from: mk_semi_lattice/, to: version.rb
-  :to: 7
+  :to: 15
