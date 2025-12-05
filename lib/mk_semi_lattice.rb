@@ -75,7 +75,7 @@ def main
   end
 
   at_exit do
-    MkSemiLattice::ManageYaml.at_exit_action(sl_viewer_app, semi_dir, parent_dir)
+    ManageYaml::MkSemiLattice.at_exit_action(sl_viewer_app, semi_dir, parent_dir)
   end
 
   show

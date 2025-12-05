@@ -5,25 +5,10 @@ LINKED_COLOR = 'blue'
 EDGE_COLOR = 'black'  # 標準色に戻す
 
 module SLComponents
-# 日本語対応フォントの優先順位で選択 for win11, なければ省略
-  def japanese_font
-    fonts = [
-      '/usr/share/fonts/truetype/takao-gothic/TakaoGothic.ttf',
-      '/usr/share/fonts/truetype/vlgothic/VL-Gothic-Regular.ttf',
-      '/usr/share/fonts/truetype/fonts-japanese-gothic.ttf',
-      '/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc',
-      '/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc',
-      '/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf',
-      '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
-    ]
-    selected_font = fonts.find { |font| File.exist?(font) }
-    # puts "Selected font: #{selected_font}" if selected_font
-    selected_font || fonts.last
-  end
-
+  # 日本語対応フォントの優先順位で選択 for win11, なければ省略
   class Folder
     # フォルダアイコンをRuby2Dの図形で描画するクラス
-      attr_accessor :x, :y, :name, :label, :fixed, :linked, :dx, :dy, :type, :file_path
+    attr_accessor :x, :y, :name, :label, :fixed, :linked, :dx, :dy, :type, :file_path
     def initialize(attrs = {})
       @x = attrs[:x]
       @y = attrs[:y]
@@ -108,25 +93,40 @@ module SLComponents
       end
     end
 
+    def japanese_font
+      fonts = [
+        '/usr/share/fonts/truetype/takao-gothic/TakaoGothic.ttf',
+        '/usr/share/fonts/truetype/vlgothic/VL-Gothic-Regular.ttf',
+        '/usr/share/fonts/truetype/fonts-japanese-gothic.ttf',
+        '/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc',
+        '/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc',
+        '/usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf',
+        '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
+      ]
+      selected_font = fonts.find { |font| File.exist?(font) }
+      # puts "Selected font: #{selected_font}" if selected_font
+      selected_font || fonts.last
+    end
+
     def create_graphics
       return if @created
       font_path = japanese_font
 
       @circle = if @type == 'dir'
-        @text = if font_path && File.exist?(font_path)
-                  Text.new(label, x: x-28, y: y-10, size: 18, color: 'black', font: font_path, z: 11)
+                  @text = if font_path && File.exist?(font_path)
+                            Text.new(label, x: x-28, y: y-10, size: 18, color: 'black', font: font_path, z: 11)
+                          else
+                            Text.new(label, x: x-28, y: y-10, size: 18, color: 'black', z: 11)
+                          end
+                  Folder.new(x: x, y: y, color: NODE_COLOR, z: 10)
                 else
-                  Text.new(label, x: x-28, y: y-10, size: 18, color: 'black', z: 11)
+                  @text = if font_path && File.exist?(font_path)
+                            Text.new(label, x: x-28, y: y-10, size: 18, color: 'black', font: font_path, z: 11)
+                          else
+                            Text.new(label, x: x-28, y: y-10, size: 18, color: 'black', z: 11)
+                          end
+                  Circle.new(x: x, y: y, radius: 30, color: NODE_COLOR, z: 10)
                 end
-        Folder.new(x: x, y: y, color: NODE_COLOR, z: 10)
-      else
-        @text = if font_path && File.exist?(font_path)
-                  Text.new(label, x: x-28, y: y-10, size: 18, color: 'black', font: font_path, z: 11)
-                else
-                  Text.new(label, x: x-28, y: y-10, size: 18, color: 'black', z: 11)
-                end
-        Circle.new(x: x, y: y, radius: 30, color: NODE_COLOR, z: 10)
-      end
       @created = true
     end
     
@@ -199,61 +199,60 @@ module SLComponents
   end
 
   # SLComponents::GraphData はノードとエッジのデータをYAMLファイルから読み込み作成
-    class BuildViewer
-      attr_reader :nodes, :edges, :node_table
-      attr_accessor :selected, :shift_pressed, :show_index
+  class BuildViewer
+    attr_reader :nodes, :edges, :node_table
+    attr_accessor :selected, :shift_pressed, :show_index
 
-      def initialize(file = "dir_node_edge.yaml", options)
-        with_semi_lattice_yaml = options[:with_semi_lattice_yaml]
-        show_index = options[:show_index]
-        @nodes = []
-        @edges = []
-        @node_table = {}
-        @selected = nil
-        @shift_pressed = false
-        p @show_index = show_index
-        load_yaml_data_with_state(file, with_semi_lattice_yaml: with_semi_lattice_yaml)
+    def initialize(file = "dir_node_edge.yaml", options)
+      with_semi_lattice_yaml = options[:with_semi_lattice_yaml]
+      show_index = options[:show_index]
+      @nodes = []
+      @edges = []
+      @node_table = {}
+      @selected = nil
+      @shift_pressed = false
+      p @show_index = show_index
+      load_yaml_data_with_state(file, with_semi_lattice_yaml: with_semi_lattice_yaml)
+    end
+
+    def add_node(node_data)
+      return if node_data[:id].nil?
+      n = Node.new(node_data)
+      @nodes << n
+      @node_table[node_data[:id]] = n
+    end
+
+    def add_edge(from_id, to_id)
+      from = @node_table[from_id]
+      to = @node_table[to_id]
+      @edges << Edge.new(from, to) if from && to
+    end
+
+    def load_yaml_data_with_state(path, with_semi_lattice_yaml: false)
+      state_file = path
+      data = if with_semi_lattice_yaml && File.exist?(state_file)
+               YAML.load_file(state_file)
+             else
+               YAML.load_file(path, symbolize_names: true)
+             end
+      load_nodes_and_edges(data)
+    end
+
+    private
+
+    def load_nodes_and_edges(data)
+      nodes_data = data[:nodes]
+      edges_data = data[:edges]
+      nodes_data.each do |node_data|
+        node_data[:label] = @show_index ? 
+                              "#{node_data[:id]}:#{node_data[:name]}" : 
+                              node_data[:name]
+        add_node(node_data)
       end
-
-      def add_node(node_data)
-        return if node_data[:id].nil?
-        n = Node.new(node_data)
-        @nodes << n
-        @node_table[node_data[:id]] = n
-      end
-
-      def add_edge(from_id, to_id)
-        from = @node_table[from_id]
-        to = @node_table[to_id]
-        @edges << Edge.new(from, to) if from && to
-      end
-
-      def load_yaml_data_with_state(path, with_semi_lattice_yaml: false)
-        state_file = path
-        data = if with_semi_lattice_yaml && File.exist?(state_file)
-          YAML.load_file(state_file)
-        else
-          YAML.load_file(path, symbolize_names: true)
-        end
-        load_nodes_and_edges(data)
-      end
-
-      private
-
-      def load_nodes_and_edges(data)
-        nodes_data = data[:nodes]
-        edges_data = data[:edges]
-        nodes_data.each do |node_data|
-          node_data[:label] = @show_index ? 
-            "#{node_data[:id]}:#{node_data[:name]}" : 
-            node_data[:name]
-          add_node(node_data)
-        end
-        edges_data.each do |edge_data|
-          from_id = edge_data[:from]
-          to_id = edge_data[:to]
-          add_edge(from_id, to_id)
-        end
+      edges_data.each do |edge_data|
+        from_id = edge_data[:from]
+        to_id = edge_data[:to]
+        add_edge(from_id, to_id)
       end
     end
   end

@@ -31,17 +31,17 @@ module ManageYaml
         Dir.mkdir(@semi_dir) unless Dir.exist?(@semi_dir)
         in_path = init_file
         out_path = File.join(@semi_dir, 'dir_tree.yaml')
-        MkSemiLattice::MkDirYaml.new(path: in_path, layer: @options[:layer], output_file: out_path)
+        MkDirYaml.new(path: in_path, layer: @options[:layer], output_file: out_path)
         in_path = out_path
         out_path = File.join(@semi_dir, 'dir_node_edge.yaml')
-        MkSemiLattice::MkNodeEdge.new(input_path: in_path, output_path: out_path)
+        MkNodeEdge.new(input_path: in_path, output_path: out_path)
         [out_path, false]
       when :from_tree
         init_file = @options[:file]
         base = File.basename(init_file, File.extname(init_file))
         in_path = init_file
         out_path = File.join(@parent_dir, "#{base}_node_edge.yaml")
-        MkSemiLattice::MkNodeEdge.new(input_path: in_path, output_path: out_path)
+        MkNodeEdge.new(input_path: in_path, output_path: out_path)
         [out_path, false]
       when :from_node_edge
         if File.exist?(File.join(@parent_dir, 'semi_lattice.yaml'))
@@ -88,7 +88,7 @@ module ManageYaml
       end
 
       yaml_data = { nodes: nodes_data, edges: edges_data }
-      yaml_text = MkSemiLattice::MkNodeEdge.add_edge_comments(yaml_data)
+      yaml_text = MkNodeEdge.add_edge_comments(yaml_data)
       if Dir.exist?(semi_dir)
         File.write(File.join(semi_dir, "semi_lattice.yaml"), yaml_text)
       else
@@ -97,7 +97,7 @@ module ManageYaml
       InitEnv::Log.event("exited", parent_dir: parent_dir)
     end
   end
-
+ 
   class MkDirYaml
     def initialize(path: '.', layer: 2, output_file: 'dir.yaml')
       abs_path = File.expand_path(path)
