@@ -1,8 +1,8 @@
 require_relative "init_env"
 require_relative "option_manager"
-require_relative "mk_semi_lattice_module/mk_node_edge"
-require_relative "mk_semi_lattice_module/mk_semi_lattice_graph"
-require_relative "mk_semi_lattice_module/manage_yaml"
+require_relative "mk_semi_lattice_yaml/mk_node_edge"
+require_relative "mk_semi_lattice_yaml/mk_semi_lattice_graph"
+require_relative "mk_semi_lattice_yaml/manage_yaml"
 
 class Kickoff
   def prep_sl_viewer_app
@@ -19,7 +19,7 @@ class Kickoff
       options: options
     ).prepare_paths_and_flags
 
-    app = MkSemiLatticeGraphData.new(
+    app = MkSemiLattice::GraphData.new(
       input_path,
       with_semi_lattice_yaml: with_semi_lattice_yaml,
       show_index: options[:show_index],
