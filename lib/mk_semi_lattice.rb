@@ -15,10 +15,12 @@ class Error < StandardError; end
 def main
   puts "mk_semi_lattice is running... with method mk_semi_lattice_viewer"
 
+  # prep semi lattice viewer app
   sl_viewer_app, semi_dir, parent_dir = Kickoff.new.prep_sl_viewer_app
+
   require 'ruby2d'
 
-  top_node_label = sl_viewer_app.nodes.first&.label || "KnowledgeFixer Graph"
+  top_node_label = sl_viewer_app.nodes.first&.label || "Semi Lattice Graph"
   set width: 800, height: 600
   set title: top_node_label
   set background: 'white'

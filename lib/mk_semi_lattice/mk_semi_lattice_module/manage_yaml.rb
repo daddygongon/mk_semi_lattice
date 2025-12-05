@@ -94,7 +94,7 @@ module MkSemiLattice
       else
         File.write(File.join('.', "semi_lattice.yaml"), yaml_text)
       end
-      Log.event("exited", parent_dir: parent_dir)
+      InitEnv::Log.event("exited", parent_dir: parent_dir)
     end
   end
 

@@ -1,8 +1,8 @@
 require_relative "init_env"
 require_relative "option_manager"
-require_relative "kickoff/mk_node_edge"
-require_relative "kickoff/mk_semi_lattice_graph"
-require_relative "kickoff/manage_yaml"
+require_relative "mk_semi_lattice_module/mk_node_edge"
+require_relative "mk_semi_lattice_module/mk_semi_lattice_graph"
+require_relative "mk_semi_lattice_module/manage_yaml"
 
 class Kickoff
   def prep_sl_viewer_app

@@ -74,7 +74,7 @@ module Ruby2dAction
         end
       end
       puts comm
-      Log.event("open", target_dir: abs_path, parent_dir: parent_dir)
+      InitEnv::Log.event("open", target_dir: abs_path, parent_dir: parent_dir)
       system comm
     else
       puts "no link error"
