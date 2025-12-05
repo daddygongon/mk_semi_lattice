@@ -10,7 +10,7 @@ require_relative "mk_semi_lattice/version"
 require_relative "mk_semi_lattice/ruby2d_action"
 require_relative "mk_semi_lattice/init_env"
 require_relative "mk_semi_lattice/option_manager"
-require_relative "mk_semi_lattice/manage_yamle/mk_node_edge"
+require_relative "mk_semi_lattice/manage_yaml/mk_node_edge"
 require_relative "mk_semi_lattice/manage_yaml/mk_semi_lattice"
 require_relative "mk_semi_lattice/sl_components"
 
@@ -30,11 +30,11 @@ def main
   options[:semi_dir] = semi_dir
   options[:semi_lattice_yaml_path] = semi_lattice_yaml_path
 
-  input_path, with_semi_lattice_yaml = MkSemiLattice::ManageYaml.new(
+  input_path, with_semi_lattice_yaml = ManageYaml::MkSemiLattice.new(
     options).prepare_paths_and_flags
 
   options[:with_semi_lattice_yaml] = with_semi_lattice_yaml
-  sl_viewer_app = MkSemiLattice::GraphData.new(
+  sl_viewer_app = SLComponents::BuildViewer.new(
     input_path, options)
 
   require 'ruby2d'
