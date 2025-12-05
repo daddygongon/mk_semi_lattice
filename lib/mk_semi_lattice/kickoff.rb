@@ -1,28 +1,23 @@
-require_relative "kickoff/config"
-require_relative "kickoff/log"
+require_relative "init_env"
+require_relative "option_manager"
 require_relative "kickoff/mk_node_edge"
 require_relative "kickoff/mk_semi_lattice_graph"
-require_relative "kickoff/option_manager"
 require_relative "kickoff/manage_yaml"
 
 class Kickoff
-  def setup
-    Config.setup
-    parent_dir = Dir.pwd
-    Log.event("started", parent_dir: parent_dir)
+  def prep_sl_viewer_app
+    init_env
 
-    option_manager = OptionManager.new
-    options = option_manager.parse!
+    options = OptionManager.new.parse!
 
-    semi_dir = File.join(parent_dir, '.semi_lattice')
+    semi_dir = File.join(@parent_dir, '.semi_lattice')
     semi_lattice_yaml_path = File.join(semi_dir, "semi_lattice.yaml")
-    selector = MkSemiLattice::ManageYaml.new(
-      parent_dir: parent_dir,
+    input_path, with_semi_lattice_yaml = MkSemiLattice::ManageYaml.new(
+      parent_dir: @parent_dir,
       semi_dir: semi_dir,
       semi_lattice_yaml_path: semi_lattice_yaml_path,
       options: options
-    )
-    input_path, with_semi_lattice_yaml = selector.prepare_paths_and_flags
+    ).prepare_paths_and_flags
 
     app = MkSemiLatticeGraphData.new(
       input_path,
@@ -30,6 +25,12 @@ class Kickoff
       show_index: options[:show_index],
       layer: options[:layer]
     )
-    return app, semi_dir, parent_dir
+    return app, semi_dir, @parent_dir
+  end
+
+  def init_env
+    InitEnv::Config.setup
+    @parent_dir = Dir.pwd
+    InitEnv::Log.event("started", parent_dir: @parent_dir)
   end
 end
