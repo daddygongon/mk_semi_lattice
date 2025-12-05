@@ -1,6 +1,6 @@
 require 'pathname'
 
-module MkSemiLattice
+module ManageYaml
   class MkNodeEdge
     def initialize(input_path:, output_path:)
       dir_tree = YAML.load_file(input_path)
@@ -99,10 +99,3 @@ module MkSemiLattice
     end
   end
 end
-
-# 実行部分例（必要なら有効化）
-# if __FILE__ == $0
-#   input_path = File.join(File.dirname(__FILE__), '.semi_lattice', 'dir.yaml')
-#   output_path = File.join(File.dirname(__FILE__), '.semi_lattice', 'dir_node_edge.yaml')
-#   SemiLattice::MkNodeEdge.run(input_path: input_path, output_path: output_path)
-# end

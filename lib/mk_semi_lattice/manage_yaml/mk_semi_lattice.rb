@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module MkSemiLattice
-  class ManageYaml
+module ManageYaml
+  class MkSemiLattice
     def initialize(options)
       @parent_dir = options[:parent_dir]
       @semi_dir = options[:semi_dir]

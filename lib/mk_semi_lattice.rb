@@ -10,9 +10,9 @@ require_relative "mk_semi_lattice/version"
 require_relative "mk_semi_lattice/ruby2d_action"
 require_relative "mk_semi_lattice/init_env"
 require_relative "mk_semi_lattice/option_manager"
-require_relative "mk_semi_lattice/mk_semi_lattice_yaml/mk_node_edge"
-require_relative "mk_semi_lattice/mk_semi_lattice_yaml/mk_semi_lattice_graph"
-require_relative "mk_semi_lattice/mk_semi_lattice_yaml/manage_yaml"
+require_relative "mk_semi_lattice/manage_yamle/mk_node_edge"
+require_relative "mk_semi_lattice/manage_yaml/mk_semi_lattice"
+require_relative "mk_semi_lattice/sl_components"
 
 class Error < StandardError; end
 
@@ -33,13 +33,9 @@ def main
   input_path, with_semi_lattice_yaml = MkSemiLattice::ManageYaml.new(
     options).prepare_paths_and_flags
 
+  options[:with_semi_lattice_yaml] = with_semi_lattice_yaml
   sl_viewer_app = MkSemiLattice::GraphData.new(
-    input_path,
-    with_semi_lattice_yaml: with_semi_lattice_yaml,
-    show_index: options[:show_index],
-    layer: options[:layer]
-  )
-#  sl_viewer_app, semi_dir, parent_dir = Kickoff.prep_sl_viewer_app(parent_dir, options)
+    input_path, options)
 
   require 'ruby2d'
 
