@@ -2,10 +2,10 @@
 
 module MkSemiLattice
   class ManageYaml
-    def initialize(parent_dir:, semi_dir:, semi_lattice_yaml_path:, options:)
-      @parent_dir = parent_dir
-      @semi_dir = semi_dir
-      @semi_lattice_yaml_path = semi_lattice_yaml_path
+    def initialize(options)
+      @parent_dir = options[:parent_dir]
+      @semi_dir = options[:semi_dir]
+      @semi_lattice_yaml_path = options[:semi_lattice_yaml_path]
       @options = options
       p @options
     end

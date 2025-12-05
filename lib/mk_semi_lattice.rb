@@ -8,7 +8,6 @@ require 'fileutils'
 
 require_relative "mk_semi_lattice/version"
 require_relative "mk_semi_lattice/ruby2d_action"
-require_relative "mk_semi_lattice/kickoff"
 require_relative "mk_semi_lattice/init_env"
 require_relative "mk_semi_lattice/option_manager"
 require_relative "mk_semi_lattice/mk_semi_lattice_yaml/mk_node_edge"
@@ -27,13 +26,12 @@ def main
   options = OptionManager.new.parse!
   semi_dir = File.join(parent_dir, '.semi_lattice')
   semi_lattice_yaml_path = File.join(semi_dir, "semi_lattice.yaml")
-  
+  options[:parent_dir] = parent_dir
+  options[:semi_dir] = semi_dir
+  options[:semi_lattice_yaml_path] = semi_lattice_yaml_path
+
   input_path, with_semi_lattice_yaml = MkSemiLattice::ManageYaml.new(
-    parent_dir: parent_dir,
-    semi_dir: semi_dir,
-    semi_lattice_yaml_path: semi_lattice_yaml_path,
-    options: options
-  ).prepare_paths_and_flags
+    options).prepare_paths_and_flags
 
   sl_viewer_app = MkSemiLattice::GraphData.new(
     input_path,
