@@ -15,10 +15,10 @@ class Error < StandardError; end
 def main
   puts "mk_semi_lattice is running... with method mk_semi_lattice_viewer"
 
-app, semi_dir, parent_dir = Kickoff.new.setup
+  sl_viewer_app, semi_dir, parent_dir = Kickoff.new.prep_sl_viewer_app
   require 'ruby2d'
 
-  top_node_label = app.nodes.first&.label || "KnowledgeFixer Graph"
+  top_node_label = sl_viewer_app.nodes.first&.label || "KnowledgeFixer Graph"
   set width: 800, height: 600
   set title: top_node_label
   set background: 'white'
@@ -28,33 +28,33 @@ app, semi_dir, parent_dir = Kickoff.new.setup
   last_click_node = nil
 
   on :key_down do |event|
-    Ruby2dAction.on_key_down(app, event)
+    Ruby2dAction.on_key_down(sl_viewer_app, event)
   end
 
   on :key_up do |event|
-    Ruby2dAction.on_key_up(app, event)
+    Ruby2dAction.on_key_up(sl_viewer_app, event)
   end
 
   on :mouse_down do |event|
-    clicked_node, last_time = Ruby2dAction.on_mouse_down(app, event, last_click_node, last_click_time, parent_dir)
+    clicked_node, last_time = Ruby2dAction.on_mouse_down(sl_viewer_app, event, last_click_node, last_click_time, parent_dir)
     last_click_node = clicked_node
     last_click_time = last_time
   end
 
   on :mouse_up do
-    Ruby2dAction.on_mouse_up(app)
+    Ruby2dAction.on_mouse_up(sl_viewer_app)
   end
 
   on :mouse_move do |event|
-    Ruby2dAction.on_mouse_move(app, event)
+    Ruby2dAction.on_mouse_move(sl_viewer_app, event)
   end
 
   update do
-    Ruby2dAction.update_action(app)
+    Ruby2dAction.update_action(sl_viewer_app)
   end
 
   at_exit do
-    MkSemiLattice::ManageYaml.at_exit_action(app, semi_dir, parent_dir)
+    MkSemiLattice::ManageYaml.at_exit_action(sl_viewer_app, semi_dir, parent_dir)
   end
 
   show

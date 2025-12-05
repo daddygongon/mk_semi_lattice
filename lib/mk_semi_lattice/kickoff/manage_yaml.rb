@@ -12,6 +12,7 @@ module MkSemiLattice
 
     # ARGV[0]とoptionsから初期ファイル・初期ステップを決定
     def select_init_file_and_step
+      p ['ARGV', ARGV]
       if (ARGV[0] == '.' || ARGV[0].nil?) && !@options[:file]
         if File.exist?(@semi_lattice_yaml_path)
           [@semi_lattice_yaml_path, :from_semi_lattice]
@@ -53,6 +54,15 @@ module MkSemiLattice
       else
         raise "Unknown init_step: #{init_step}"
       end
+    end
+
+    # 新メソッド: 初期ファイル・ステップ・入力パス・フラグをまとめて取得
+    def prepare_paths_and_flags
+      init_file, init_step = select_init_file_and_step
+      p ["init_file", init_file, init_step]
+      input_path, with_semi_lattice_yaml = select_input_path_and_flag(init_file, init_step)
+      p ["input_path", input_path, with_semi_lattice_yaml]
+      [input_path, with_semi_lattice_yaml]
     end
 
     # アプリ終了時の状態保存
