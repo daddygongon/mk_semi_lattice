@@ -4,6 +4,11 @@ require 'fileutils'
 require 'colorize'
 
 module InitEnv
+  def self.init_env(parent_dir)
+    Config.setup
+    Log.event("started", parent_dir: parent_dir)
+  end
+
   class Config
     CONFIG_DIR = File.expand_path("~/.config/semi_lattice")
     CONF_PATH = File.join(CONFIG_DIR, "semi_lattice.conf")

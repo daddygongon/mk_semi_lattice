@@ -9,6 +9,11 @@ require 'fileutils'
 require_relative "mk_semi_lattice/version"
 require_relative "mk_semi_lattice/ruby2d_action"
 require_relative "mk_semi_lattice/kickoff"
+require_relative "mk_semi_lattice/init_env"
+require_relative "mk_semi_lattice/option_manager"
+require_relative "mk_semi_lattice/mk_semi_lattice_yaml/mk_node_edge"
+require_relative "mk_semi_lattice/mk_semi_lattice_yaml/mk_semi_lattice_graph"
+require_relative "mk_semi_lattice/mk_semi_lattice_yaml/manage_yaml"
 
 class Error < StandardError; end
 
@@ -16,7 +21,27 @@ def main
   puts "mk_semi_lattice is running... with method mk_semi_lattice_viewer"
 
   # prep semi lattice viewer app
-  sl_viewer_app, semi_dir, parent_dir = Kickoff.new.prep_sl_viewer_app
+  parent_dir = Dir.pwd
+  InitEnv.init_env(parent_dir)
+  
+  options = OptionManager.new.parse!
+  semi_dir = File.join(parent_dir, '.semi_lattice')
+  semi_lattice_yaml_path = File.join(semi_dir, "semi_lattice.yaml")
+  
+  input_path, with_semi_lattice_yaml = MkSemiLattice::ManageYaml.new(
+    parent_dir: parent_dir,
+    semi_dir: semi_dir,
+    semi_lattice_yaml_path: semi_lattice_yaml_path,
+    options: options
+  ).prepare_paths_and_flags
+
+  sl_viewer_app = MkSemiLattice::GraphData.new(
+    input_path,
+    with_semi_lattice_yaml: with_semi_lattice_yaml,
+    show_index: options[:show_index],
+    layer: options[:layer]
+  )
+#  sl_viewer_app, semi_dir, parent_dir = Kickoff.prep_sl_viewer_app(parent_dir, options)
 
   require 'ruby2d'
 

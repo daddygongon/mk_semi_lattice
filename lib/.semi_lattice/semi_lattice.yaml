@@ -4,104 +4,104 @@
   :name: lib/
   :type: dir
   :file_path: "."
-  :x: 112.98813590515238
-  :y: 332.51747691010297
+  :x: 79.21130740685155
+  :y: 340.1205736283708
   :color: orange
   :fixed: false
 - :id: 2
   :name: mk_semi_lattice.rb
   :type: file
   :file_path: "./mk_semi_lattice.rb"
-  :x: 33.37820117623334
-  :y: 361.37931164395803
+  :x: 1.6420713133182765
+  :y: 373.989064821325
   :color: orange
   :fixed: false
 - :id: 3
   :name: mk_semi_lattice/
   :type: dir
   :file_path: "./mk_semi_lattice"
-  :x: 157.78095638291708
-  :y: 253.79879235099733
+  :x: 117.50386651030182
+  :y: 258.8493142670003
   :color: orange
   :fixed: false
 - :id: 4
   :name: kickoff.rb
   :type: file
   :file_path: "./mk_semi_lattice/kickoff.rb"
-  :x: 96.81976192166353
-  :y: 195.33085411787698
+  :x: 51.79984696775765
+  :y: 205.3472285223366
   :color: orange
   :fixed: false
 - :id: 5
   :name: kickoff/
   :type: dir
   :file_path: "./mk_semi_lattice/kickoff"
-  :x: 245.93574938361735
-  :y: 262.1437689569219
+  :x: 206.15881073179946
+  :y: 259.39664933733417
   :color: orange
   :fixed: false
 - :id: 6
   :name: option_manager.rb
   :type: file
   :file_path: "./mk_semi_lattice/kickoff/option_manager.rb"
-  :x: 232.39172115722516
-  :y: 178.34902351201046
+  :x: 185.19447657625622
+  :y: 177.16323544585353
   :color: orange
   :fixed: false
 - :id: 7
   :name: mk_node_edge.rb
   :type: file
   :file_path: "./mk_semi_lattice/kickoff/mk_node_edge.rb"
-  :x: 296.1561738024769
-  :y: 193.30857269227678
+  :x: 250.10473021166345
+  :y: 186.41791558176567
   :color: orange
   :fixed: false
 - :id: 8
   :name: manage_yaml.rb
   :type: file
   :file_path: "./mk_semi_lattice/kickoff/manage_yaml.rb"
-  :x: 320.101778495156
-  :y: 304.4544685836013
+  :x: 283.7697759291738
+  :y: 295.0081038797951
   :color: orange
   :fixed: false
 - :id: 9
   :name: mk_semi_lattice_graph.rb
   :type: file
   :file_path: "./mk_semi_lattice/kickoff/mk_semi_lattice_graph.rb"
-  :x: 329.6355405473164
-  :y: 245.16557908680656
+  :x: 288.02880679201695
+  :y: 235.11302931050304
   :color: orange
   :fixed: false
 - :id: 10
   :name: config.rb
   :type: file
   :file_path: "./mk_semi_lattice/kickoff/config.rb"
-  :x: 210.91390691709955
-  :y: 339.1384283898634
+  :x: 176.99972230598806
+  :y: 338.745761589574
   :color: orange
   :fixed: false
 - :id: 11
   :name: log.rb
   :type: file
   :file_path: "./mk_semi_lattice/kickoff/log.rb"
-  :x: 273.19821982041503
-  :y: 342.82987862799695
+  :x: 240.30902727043213
+  :y: 337.433905513561
   :color: orange
   :fixed: false
 - :id: 12
   :name: ruby2d_action.rb
   :type: file
   :file_path: "./mk_semi_lattice/ruby2d_action.rb"
-  :x: 73.90076506122543
-  :y: 265.90854902728665
+  :x: 35.082864104674606
+  :y: 277.47629653211226
   :color: orange
   :fixed: false
 - :id: 13
   :name: version.rb
   :type: file
   :file_path: "./mk_semi_lattice/version.rb"
-  :x: 161.64690951839336
-  :y: 169.3156454450891
+  :x: 114.10383061229027
+  :y: 173.77852585873416
   :color: orange
   :fixed: false
 :edges:
