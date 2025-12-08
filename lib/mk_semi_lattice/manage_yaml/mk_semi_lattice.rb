@@ -74,6 +74,7 @@ module ManageYaml
           name: n.name,
           type: n.type,
           file_path: n.file_path,
+          icon_path: n.icon_path,
           x: n.x,
           y: n.y,
           color: n.color,

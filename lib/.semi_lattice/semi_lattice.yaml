@@ -1,0 +1,121 @@
+---
+:nodes:
+- :id: 1
+  :name: lib/
+  :type: dir
+  :file_path: "."
+  :x: 181
+  :y: 88
+  :color: green
+  :fixed: true
+- :id: 2
+  :name: mk_semi_lattice.rb
+  :type: file
+  :file_path: "./mk_semi_lattice.rb"
+  :x: 181
+  :y: 171
+  :color: green
+  :fixed: true
+- :id: 3
+  :name: mk_semi_lattice/
+  :type: dir
+  :file_path: "./mk_semi_lattice"
+  :x: 410
+  :y: 233
+  :color: green
+  :fixed: true
+- :id: 4
+  :name: option_manager.rb
+  :type: file
+  :file_path: "./mk_semi_lattice/option_manager.rb"
+  :x: 519
+  :y: 348
+  :color: green
+  :fixed: true
+- :id: 5
+  :name: ruby2d_action.rb
+  :type: file
+  :file_path: "./mk_semi_lattice/ruby2d_action.rb"
+  :x: 447
+  :y: 92
+  :color: green
+  :fixed: true
+- :id: 6
+  :name: version.rb
+  :type: file
+  :file_path: "./mk_semi_lattice/version.rb"
+  :x: 573
+  :y: 284
+  :color: green
+  :fixed: true
+- :id: 7
+  :name: init_env.rb
+  :type: file
+  :file_path: "./mk_semi_lattice/init_env.rb"
+  :x: 368
+  :y: 321
+  :color: green
+  :fixed: true
+- :id: 8
+  :name: sl_components.rb
+  :type: file
+  :file_path: "./mk_semi_lattice/sl_components.rb"
+  :x: 493
+  :y: 154
+  :color: green
+  :fixed: true
+- :id: 9
+  :name: manage_yaml/
+  :type: dir
+  :file_path: "./mk_semi_lattice/manage_yaml"
+  :x: 619
+  :y: 496
+  :color: green
+  :fixed: true
+- :id: 10
+  :name: mk_semi_lattice.rb
+  :type: file
+  :file_path: "./mk_semi_lattice/manage_yaml/mk_semi_lattice.rb"
+  :x: 591.3978299547788
+  :y: 576.3935333767256
+  :color: orange
+  :fixed: false
+- :id: 11
+  :name: mk_node_edge.rb
+  :type: file
+  :file_path: "./mk_semi_lattice/manage_yaml/mk_node_edge.rb"
+  :x: 541.9347356671766
+  :y: 460.1399242428008
+  :color: orange
+  :fixed: false
+:edges:
+- :from: 1
+  # from: lib/, to: mk_semi_lattice.rb
+  :to: 2
+- :from: 1
+  # from: lib/, to: mk_semi_lattice/
+  :to: 3
+- :from: 3
+  # from: mk_semi_lattice/, to: option_manager.rb
+  :to: 4
+- :from: 3
+  # from: mk_semi_lattice/, to: ruby2d_action.rb
+  :to: 5
+- :from: 3
+  # from: mk_semi_lattice/, to: version.rb
+  :to: 6
+- :from: 3
+  # from: mk_semi_lattice/, to: init_env.rb
+  :to: 7
+- :from: 3
+  # from: mk_semi_lattice/, to: sl_components.rb
+  :to: 8
+- :from: 3
+  # from: mk_semi_lattice/, to: manage_yaml/
+  :to: 9
+- :from: 9
+  # from: manage_yaml/, to: mk_semi_lattice.rb
+  :to: 10
+- :from: 9
+  # from: manage_yaml/, to: mk_node_edge.rb
+  :to: 11
