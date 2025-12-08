@@ -24,16 +24,16 @@ module InitEnv
 
     def self.copy_default_icons(icons_dir)
       default_folder_icon_src = File.expand_path(
-        File.join(__dir__, "..", "..", "assets", "folder.png"))
+        File.join(__dir__, "..", "..", "lib", "icons","folder.png"))
       default_document_icon_src = File.expand_path(
-        File.join(__dir__, "..", "..", "assets", "document.png"))
+        File.join(__dir__, "..", "..", "lib","icons","folder.png"))
       folder_icon_dest = File.join(icons_dir, "folder.png")
       document_icon_dest = File.join(icons_dir, "document.png")
       FileUtils.cp(default_folder_icon_src, folder_icon_dest) unless File.exist?(folder_icon_dest)
       FileUtils.cp(default_document_icon_src, document_icon_dest) unless File.exist?(document_icon_dest)
     end
   end
-  
+
   class Config
     CONFIG_DIR = File.expand_path("~/.config/semi_lattice")
     CONF_PATH = File.join(CONFIG_DIR, "semi_lattice.conf")
