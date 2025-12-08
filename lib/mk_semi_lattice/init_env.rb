@@ -8,7 +8,6 @@ module InitEnv
     Config.setup
     Log.event("started", parent_dir: parent_dir)
     MkSemiLatticeDir.setup(parent_dir)
-
   end
 
   class MkSemiLatticeDir
@@ -23,14 +22,13 @@ module InitEnv
     end
 
     def self.copy_default_icons(icons_dir)
-      default_folder_icon_src = File.expand_path(
-        File.join(__dir__, "..", "..", "app", "assets", "icons","folder.png"))
-      default_document_icon_src = File.expand_path(
-        File.join(__dir__, "..", "..", "app","assets","icons","folder.png"))
-      folder_icon_dest = File.join(icons_dir, "folder.png")
-      document_icon_dest = File.join(icons_dir, "document.png")
-      FileUtils.cp(default_folder_icon_src, folder_icon_dest) unless File.exist?(folder_icon_dest)
-      FileUtils.cp(default_document_icon_src, document_icon_dest) unless File.exist?(document_icon_dest)
+      icons_src_dir = File.expand_path(File.join(__dir__, "..", "..", "app", "assets", "icons"))
+      ["folder.png", "document.png"
+      ].each do |icon_name|
+        src_path = File.join(icons_src_dir, icon_name)
+        dest_path = File.join(icons_dir, icon_name)
+        FileUtils.cp(src_path, dest_path) unless File.exist?(dest_path)
+      end
     end
   end
 
