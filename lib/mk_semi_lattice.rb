@@ -16,7 +16,8 @@ require_relative "mk_semi_lattice/sl_components"
 
 class Error < StandardError; end
 
-def main
+
+def init_env
   puts "mk_semi_lattice is running... with method mk_semi_lattice_viewer"
 
   # prep semi lattice viewer app
@@ -37,6 +38,10 @@ def main
   sl_viewer_app = SLComponents::BuildViewer.new(
     input_path, options)
 
+  return [sl_viewer_app, semi_dir, parent_dir]
+end
+
+def ruby2d_run(sl_viewer_app, semi_dir, parent_dir)
   require 'ruby2d'
 
   top_node_label = sl_viewer_app.nodes.first&.label || "Semi Lattice Graph"
@@ -82,4 +87,4 @@ def main
 
 end
 
-main
+ruby2d_run(*init_env())

@@ -70,7 +70,7 @@ module SLComponents
   class FolderIcon < NodeShape
     def setup_shape
       @image = Image.new(
-        './icons/folder.png',
+        './.semi_lattice/icons/folder.png',
         x: @x-28, y: @y-20, width: 56, height: 36, z: @z
       )
     end
@@ -91,7 +91,7 @@ module SLComponents
   class Document < NodeShape
     def setup_shape
       @image = Image.new(
-        './icons/document.png',
+        './.semi_lattice/icons/document.png',
         x: @x-28, y: @y-20, width: 38, height: 56, z: @z
       )
     end
