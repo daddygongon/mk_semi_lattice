@@ -24,9 +24,9 @@ module InitEnv
 
     def self.copy_default_icons(icons_dir)
       default_folder_icon_src = File.expand_path(
-        File.join(__dir__, "..", "..", "lib", "icons","folder.png"))
+        File.join(__dir__, "..", "..", "assets", "icons","folder.png"))
       default_document_icon_src = File.expand_path(
-        File.join(__dir__, "..", "..", "lib","icons","folder.png"))
+        File.join(__dir__, "..", "..", "assets","icons","folder.png"))
       folder_icon_dest = File.join(icons_dir, "folder.png")
       document_icon_dest = File.join(icons_dir, "document.png")
       FileUtils.cp(default_folder_icon_src, folder_icon_dest) unless File.exist?(folder_icon_dest)
