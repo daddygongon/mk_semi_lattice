@@ -2,6 +2,9 @@
 Making semi-lattice graph from directory or other yaml files.
 
 ** Installation
+'mk_semi_lattice' depends on 'ruby2d'.
+See the installation manual on https://www.ruby2d.com.
+
 Install the gem and add to the application's Gemfile by executing:
 
 #+begin_src sh
