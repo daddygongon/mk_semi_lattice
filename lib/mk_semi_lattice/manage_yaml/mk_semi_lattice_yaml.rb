@@ -68,7 +68,7 @@ module ManageYaml
     # アプリ終了時の状態保存
     def self.at_exit_action(app, semi_dir, parent_dir)
       nodes_data = app.nodes.map do |n|
-        p [n.label, n.fixed, n.color]
+        #p [n.label, n.fixed, n.color]
         {
           id: app.node_table.key(n),
           name: n.name,
@@ -92,8 +92,10 @@ module ManageYaml
       yaml_text = MkNodeEdge.add_edge_comments(yaml_data)
       if Dir.exist?(semi_dir)
         File.write(File.join(semi_dir, "semi_lattice.yaml"), yaml_text)
+        puts "Semi-lattice state saved to #{File.join(semi_dir, "semi_lattice.yaml")}"
       else
         File.write(File.join('.', "semi_lattice.yaml"), yaml_text)
+        puts "Semi-lattice state saved to #{File.join('.', "semi_lattice.yaml")}"
       end
       InitEnv::Log.event("exited", parent_dir: parent_dir)
     end

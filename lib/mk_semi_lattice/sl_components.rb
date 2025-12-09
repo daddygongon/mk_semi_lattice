@@ -314,7 +314,7 @@ module SLComponents
       @node_table = {}
       @selected = nil
       @shift_pressed = false
-      p @show_index = show_index
+      @show_index = show_index
       load_yaml_data_with_state(file, with_semi_lattice_yaml: with_semi_lattice_yaml)
     end
 
@@ -338,7 +338,7 @@ module SLComponents
              else
                YAML.load_file(path, symbolize_names: true)
              end
-      p data
+      #p data
       load_nodes_and_edges(data)
     end
 
