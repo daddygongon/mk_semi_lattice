@@ -10,14 +10,14 @@ require_relative "mk_semi_lattice/version"
 require_relative "mk_semi_lattice/ruby2d_action"
 require_relative "mk_semi_lattice/init_env"
 require_relative "mk_semi_lattice/option_manager"
-require_relative "mk_semi_lattice/manage_yaml/mk_node_edge"
-require_relative "mk_semi_lattice/manage_yaml/mk_semi_lattice"
+require_relative "mk_semi_lattice/manage_yaml/mk_node_edge_yaml"
+require_relative "mk_semi_lattice/manage_yaml/mk_semi_lattice_yaml"
 require_relative "mk_semi_lattice/sl_components"
 
 class Error < StandardError; end
 
 
-def init_env
+def init
   puts "mk_semi_lattice is running... with method mk_semi_lattice_viewer"
 
   # prep semi lattice viewer app
@@ -87,4 +87,4 @@ def ruby2d_run(sl_viewer_app, semi_dir, parent_dir)
 
 end
 
-ruby2d_run(*init_env())
+ruby2d_run(*init())
