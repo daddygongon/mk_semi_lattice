@@ -1,0 +1,53 @@
+* MkSemiLattice
+Making semi-lattice graph from directory or other yaml files.
+
+** Installation
+Install the gem and add to the application's Gemfile by executing:
+
+#+begin_src sh
+bundle add mk_semi_lattice
+#+end_src
+
+If bundler is not being used to manage dependencies, install the gem by
+executing:
+
+#+begin_src sh
+gem install mk_semi_lattice
+#+end_src
+
+** Usage
+#+begin_src bash
+mk_semi_lattice is running... with method mk_semi_lattice_viewer
+Usage: mk_semi_lattice PATH [-L layer] [-t FILE] [-n FILE]
+ default PATH = '.'
+    -L N                             Layer depth (default: 2)
+    -n, --node=FILE                  using File from node-edge
+    -t, --tree=FILE                  using File from tree
+    -i, --index                      Display node ids
+    -l, --log [BOOL]                 Enable/disable logging (true/false), and save to config
+#+end_src
+
+** Development
+After checking out the repo, run =bin/setup= to install dependencies.
+Then, run =rake test= to run the tests. You can also run =bin/console=
+for an interactive prompt that will allow you to experiment.
+
+To install this gem onto your local machine, run
+=bundle exec rake install=. To release a new version, update the version
+number in =version.rb=, and then run =bundle exec rake release=, which
+will create a git tag for the version, push git commits and the created
+tag, and push the =.gem= file to [[https://rubygems.org][rubygems.org]].
+
+** Contributing
+Bug reports and pull requests are welcome on GitHub at
+https://github.com/daddygongon/mk_semi_lattice. This project is intended
+to be a safe, welcoming space for collaboration, and contributors are
+expected to adhere to the [[https://github.com/%5BUSERNAME%5D/mk_semi_lattice/blob/main/CODE_OF_CONDUCT.md][code of conduct]].
+
+** License
+The gem is available as open source under the terms of the [[https://opensource.org/licenses/MIT][MIT License]].
+
+** Code of Conduct
+Everyone interacting in the MkSemiLattice project's codebases, issue
+trackers, chat rooms and mailing lists is expected to follow the
+[[https://github.com/%5BUSERNAME%5D/mk_semi_lattice/blob/main/CODE_OF_CONDUCT.md][code of conduct]].
