@@ -35,4 +35,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "command_line"
   spec.add_dependency "colorize"
   spec.add_dependency "ruby2d"
+  spec.add_dependency "minitest-reporters"
 end

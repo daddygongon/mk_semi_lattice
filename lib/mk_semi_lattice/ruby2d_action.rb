@@ -60,14 +60,20 @@ module Ruby2dAction
         puts "[DEBUG] parent_dir: #{parent_dir}"
         puts "[DEBUG] file_path: #{clicked_node.file_path}"
         puts "[DEBUG] abs_path: #{abs_path}"
+        p  ["debug", InitEnv::Config.conf_path]
+        p InitEnv::Config.conf['open_terminal_command']
+        puts "[DEBUG] config[open_terminal_command]: #{InitEnv::Config.conf['open_terminal_command']}"
 
         if File.directory?(abs_path)
           if RbConfig::CONFIG['host_os'] =~ /darwin/
             comm = "open -a Terminal '#{abs_path}'"
+            # comm = "osascript -e 'tell application \"Terminal\" to do script \"cd #{abs_path}; your_command_here\"'"
           elsif RbConfig::CONFIG['host_os'] =~ /debian/
             comm = "gnome-terminal --working-directory='#{abs_path}'"
+            # comm = "gnome-terminal --working-directory='#{abs_path}' -- bash -c 'your_command_here; exec bash'"
           else
             comm = "wt.exe -p Ubuntu-24.04 --colorScheme 'Tango Light' -d '#{abs_path}'"
+            # comm = "wt.exe -d '#{abs_path}' bash -c 'your_command_here; exec bash'"
           end
         else
           comm = "open '#{abs_path}'"

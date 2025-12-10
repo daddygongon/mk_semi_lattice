@@ -18,7 +18,7 @@ class Error < StandardError; end
 
 
 def init
-  puts "mk_semi_lattice is running... with method mk_semi_lattice_viewer"
+  puts "mk_semi_lattice is running..."
 
   # prep semi lattice viewer app
   parent_dir = Dir.pwd
@@ -87,4 +87,8 @@ def ruby2d_run(sl_viewer_app, semi_dir, parent_dir)
 
 end
 
-ruby2d_run(*init())
+if defined?(RSpec) || defined?(Minitest)
+  # テスト時は何もしない
+else
+  ruby2d_run(*init())
+end

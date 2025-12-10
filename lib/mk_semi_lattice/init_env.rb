@@ -33,37 +33,53 @@ module InitEnv
   end
 
   class Config
-    CONFIG_DIR = File.expand_path("~/.config/semi_lattice")
-    CONF_PATH = File.join(CONFIG_DIR, "semi_lattice.conf")
-    LOG_PATH = File.join(CONFIG_DIR, "semi_lattice_history")
+    @conf = { "log" => false,
+         "open_terminal_command" => "open -a Terminal .",
+         "open_finder_command" => "open ." }
 
-    @conf = { "log" => false }
+    def self.conf # needed, failed by attr_reader
+      @conf
+    end
+
+    def self.config_dir
+      ENV['SEMI_LATTICE_CONFIG_DIR'] || File.expand_path("~/.config/semi_lattice")
+    end
+
+    def self.conf_path
+      File.join(config_dir, "semi_lattice.conf")
+    end
+
+    def self.log_path
+      File.join(config_dir, "semi_lattice_history")
+    end
 
     class << self
-      attr_reader :conf
-
       def setup
-        FileUtils.mkdir_p(CONFIG_DIR)
-        load_conf
+        FileUtils.mkdir_p(config_dir)
+        if File.file?(conf_path)
+          load_conf
+        else
+          save_conf
+        end
       end
 
       def load_conf
-        if File.file?(CONF_PATH)
+        if File.file?(conf_path)
           begin
-            loaded = YAML.load_file(CONF_PATH)
+            loaded = YAML.load_file(conf_path)
             if loaded.is_a?(Hash)
               @conf.merge!(loaded)
             else
-              puts "Warning: #{CONF_PATH} is not a hash. Using default config.".yellow
+              puts "Warning: #{conf_path} is not a hash. Using default config.".yellow
             end
           rescue
-            puts "Warning: #{CONF_PATH} is invalid. Using default config.".yellow
+            puts "Warning: #{conf_path} is invalid. Using default config.".yellow
           end
         end
       end
 
       def save_conf
-        File.write(CONF_PATH, @conf.to_yaml)
+        File.write(conf_path, @conf.to_yaml)
       end
 
       def log_enabled?
@@ -73,10 +89,6 @@ module InitEnv
       def set_log(value)
         @conf["log"] = value
         save_conf
-      end
-
-      def log_path
-        LOG_PATH
       end
     end
   end

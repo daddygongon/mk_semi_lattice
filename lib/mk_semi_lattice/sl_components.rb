@@ -225,10 +225,11 @@ module SLComponents
           Folder.new(x: x, y: y, color: NODE_COLOR, z: 10)
         when 'document'
           Document.new(x: x, y: y, color: NODE_COLOR, z: 10)
-        when 'file'
-          Circle.new(x: x, y: y, radius: 30, color: NODE_COLOR, z: 10)
-        else
+        when 'icon'
+          p @type
           Icon.new(x: x, y: y, color: NODE_COLOR, z: 10, icon_path: @icon_path)
+        else #when 'file'
+          Circle.new(x: x, y: y, radius: 30, color: NODE_COLOR, z: 10)
         end
       @created = true
     end

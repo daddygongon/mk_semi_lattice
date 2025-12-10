@@ -52,6 +52,13 @@ class OptionManager
         puts "Logging is now #{bool ? 'enabled' : 'disabled'} (saved to #{Config::CONF_PATH})"
         exit
       end
+
+      opts.on("-v", "--version", "show version") do
+        puts MkSemiLattice::VERSION
+        exit
+      end
+
+
     end.parse!
     @options
   end
