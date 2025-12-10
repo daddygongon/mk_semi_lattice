@@ -79,6 +79,7 @@ module Ruby2dAction
           comm = "open '#{abs_path}'"
         end
       end
+      p ["comm", comm]
       puts comm
       InitEnv::Log.event("open", target_dir: abs_path, parent_dir: parent_dir)
       system comm
