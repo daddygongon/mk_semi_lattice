@@ -37,7 +37,7 @@ module InitEnv
          "open_terminal_command" => "open -a Terminal .",
          "open_finder_command" => "open ." }
 
-    def self.conf # needed, failed by attr_reader
+    def self.conf # needed, failed by attr_reader, private?
       @conf
     end
 

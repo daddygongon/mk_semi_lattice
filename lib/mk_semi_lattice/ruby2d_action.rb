@@ -72,7 +72,8 @@ module Ruby2dAction
             comm = "gnome-terminal --working-directory='#{abs_path}'"
             # comm = "gnome-terminal --working-directory='#{abs_path}' -- bash -c 'your_command_here; exec bash'"
           else
-            comm = "wt.exe -p Ubuntu-24.04 --colorScheme 'Tango Light' -d '#{abs_path}'"
+            comm = InitEnv::Config.conf['open_terminal_command'] || "wt.exe -p Ubuntu-24.04 "
+            comm += " --colorScheme 'Tango Light' -d '#{abs_path}'"
             # comm = "wt.exe -d '#{abs_path}' bash -c 'your_command_here; exec bash'"
           end
         else
