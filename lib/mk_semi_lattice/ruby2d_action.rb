@@ -60,8 +60,6 @@ module Ruby2dAction
         puts "[DEBUG] parent_dir: #{parent_dir}"
         puts "[DEBUG] file_path: #{clicked_node.file_path}"
         puts "[DEBUG] abs_path: #{abs_path}"
-        p  ["debug", InitEnv::Config.conf_path]
-        p InitEnv::Config.conf['open_terminal_command']
         puts "[DEBUG] config[open_terminal_command]: #{InitEnv::Config.conf['open_terminal_command']}"
 
         if File.directory?(abs_path)
@@ -72,9 +70,10 @@ module Ruby2dAction
             comm = "gnome-terminal --working-directory='#{abs_path}'"
             # comm = "gnome-terminal --working-directory='#{abs_path}' -- bash -c 'your_command_here; exec bash'"
           else
-            p comm = InitEnv::Config.conf['open_terminal_command'] || "wt.exe -p Ubuntu-24.04 "
+            comm = InitEnv::Config.conf['open_terminal_command'] || "wt.exe -p Ubuntu-24.04 "
             comm += " --colorScheme 'Tango Light' -d '#{abs_path}'"
             # comm = "wt.exe -d '#{abs_path}' bash -c 'your_command_here; exec bash'"
+            p comm
           end
         else
           comm = "open '#{abs_path}'"
