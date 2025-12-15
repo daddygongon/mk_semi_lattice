@@ -31,7 +31,7 @@ module ManageYaml
         Dir.mkdir(@semi_dir) unless Dir.exist?(@semi_dir)
         in_path = init_file
         out_path = File.join(@semi_dir, 'dir_tree.yaml')
-        MkDirYaml.new(path: in_path, layer: @options[:layer], output_file: out_path)
+        MkDirYaml.new(path: in_path, layer: @options[:layer], output_file: out_path, options: @options)
         in_path = out_path
         out_path = File.join(@semi_dir, 'dir_node_edge.yaml')
         MkNodeEdge.new(input_path: in_path, output_path: out_path)
@@ -102,7 +102,8 @@ module ManageYaml
   end
  
   class MkDirYaml
-    def initialize(path: '.', layer: 2, output_file: 'dir.yaml')
+    def initialize(path: '.', layer: 2, output_file: 'dir.yaml', options: nil)
+      @options = options
       abs_path = File.expand_path(path)
       root_key = File.basename(abs_path) + '/'
 
@@ -113,15 +114,55 @@ module ManageYaml
       puts "Directory structure exported to #{output_file}"
     end
 
+    def build_ignore_regex(ignore_pattern)
+      return nil unless ignore_pattern
+      # '_stack_*|*.yaml' → /(?:\A_stack_.*\z|\A.*\.yaml\z)/
+      regex_str = ignore_pattern.split('|').map do |pat|
+        pat = pat.strip
+        pat = Regexp.escape(pat).gsub('\*', '.*').gsub('\?', '.')
+        "\\A#{pat}\\z"
+      end.join('|')
+      Regexp.new("(?:#{regex_str})")
+    end
+
+    def skip_name?(entry, full, ignore_regex)
+      return true if entry.end_with?('~')
+      return true if ignore_regex && entry.match(ignore_regex)
+      case @options && @options[:visibility]
+      when 'dir_only'
+        return true if entry.start_with?('.') # 隠しディレクトリ除外
+        return true unless File.directory?(full)
+      when 'dir_and_hidden_dir'
+        return true unless File.directory?(full) # 隠しも含めてディレクトリのみ
+      when 'all'
+        # すべて含める（除外なし）
+      when 'yaml_exclude'
+        return true if File.extname(entry) == '.yaml'
+      else # 'normal'
+        return true if entry.start_with?('.')
+        return true if File.file?(full) && File.extname(entry) == '.yaml' && 
+          entry != 'semi_lattice.yaml'
+      end
+      false
+    end
+
     def dir_tree(path, depth)
       return nil if depth < 0
       tree = {}
-      Dir.children(path).each do |entry|
-        next if entry.start_with?('.')
+      entries =
+        if @options && (@options[:visibility] == 'all' || 
+            @options[:visibility] == 'dir_and_hidden_dir')
+          Dir.entries(path) - ['.', '..']
+        else
+          Dir.children(path)
+        end
+
+      ignore_pattern = @options && @options[:ignore] ? @options[:ignore] : nil
+      ignore_regex = build_ignore_regex(ignore_pattern)
+
+      entries.each do |entry|
         full = File.join(path, entry)
-        # .yamlファイルは含めないが、semi_lattice.yamlは含める
-        next if File.file?(full) && File.extname(entry) == '.yaml' && entry != 'semi_lattice.yaml'
-        next if entry.end_with?('~')
+        next if skip_name?(entry, full, ignore_regex)
         if File.symlink?(full)
           target = File.readlink(full)
           tree[entry] = "-> #{target}"
@@ -133,7 +174,9 @@ module ManageYaml
             tree["#{entry}/"] = nil
           end
         else
-          tree[entry] = nil
+          tree[entry] = nil unless @options && 
+            (@options[:visibility] == 'dir_only' || 
+            @options[:visibility] == 'dir_and_hidden_dir')
         end
       end
       tree

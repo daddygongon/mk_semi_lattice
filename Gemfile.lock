@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    mk_semi_lattice (0.3.0)
+    mk_semi_lattice (0.3.1)
       colorize
       command_line
       minitest-reporters
