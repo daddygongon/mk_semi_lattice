@@ -20,14 +20,27 @@ gem install mk_semi_lattice
 
 ** Usage
 #+begin_src bash
-mk_semi_lattice is running... with method mk_semi_lattice_viewer
-Usage: mk_semi_lattice PATH [-L layer] [-t FILE] [-n FILE]
- default PATH = '.'
+mk_semi_lattice is running...
+Usage: mk_semi_lattice PATH [options]
+Default PATH = '.'
+
+When using -I, always use '=' or quote the pattern, e.g.:
+    -I='_stack_*|*.yaml' -a
+    --ignore='_stack_*|*.yaml' -a
+  Multiple patterns can be separated by '|'.
+  Wildcards '*' and '?' are supported (like the 'tree' command).
+Do not use -ad; use -a -d for combined flags.
+
     -L N                             Layer depth (default: 2)
     -n, --node=FILE                  using File from node-edge
     -t, --tree=FILE                  using File from tree
     -i, --index                      Display node ids
     -l, --log [BOOL]                 Enable/disable logging (true/false), and save to config
+    -v, --version                    show version
+    -d                               Show directories only
+    -a                               Show all (files and directories)
+    -Y                               YAML exclude mode
+    -I, --ignore=PATTERN             Ignore files/dirs matching PATTERN (e.g. '_stack_*|*.yaml')
 #+end_src
 
 ** Development

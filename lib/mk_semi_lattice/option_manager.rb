@@ -17,11 +17,11 @@ class OptionManager
         Usage: mk_semi_lattice PATH [options]
         Default PATH = '.'
 
-        Multiple patterns can be separated by '|'.
-        Wildcards '*' and '?' are supported (like the 'tree' command).
         When using -I, always use '=' or quote the pattern, e.g.:
-          -I='_stack_*|*.yaml' -a
-          --ignore='_stack_*|*.yaml' -a
+            -I='_stack_*|*.yaml' -a
+            --ignore='_stack_*|*.yaml' -a
+          Multiple patterns can be separated by '|'.
+          Wildcards '*' and '?' are supported (like the 'tree' command).
         Do not use -ad; use -a -d for combined flags.
         
       BANNER
