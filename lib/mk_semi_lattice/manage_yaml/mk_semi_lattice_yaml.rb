@@ -140,8 +140,8 @@ module ManageYaml
         return true if File.extname(entry) == '.yaml'
       else # 'normal'
         return true if entry.start_with?('.')
-        return true if File.file?(full) && File.extname(entry) == '.yaml' && 
-          entry != 'semi_lattice.yaml'
+#        return true if File.file?(full) && File.extname(entry) == '.yaml' && 
+# entry != 'semi_lattice.yaml'
       end
       false
     end
@@ -162,6 +162,7 @@ module ManageYaml
 
       entries.each do |entry|
         full = File.join(path, entry)
+        p [entry, skip_name?(entry, full, ignore_regex)]
         next if skip_name?(entry, full, ignore_regex)
         if File.symlink?(full)
           target = File.readlink(full)
