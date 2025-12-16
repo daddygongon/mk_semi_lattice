@@ -34,7 +34,6 @@ class TestMkDirYaml < Minitest::Test
       ["dir_tree_node_edge.yaml", false],
       ["dir_tree.yaml", false],
       [".DS_Store", true],
-      [".semi_lattice", true]
     ]
 
     sample.each do |entry, expected|
@@ -42,6 +41,28 @@ class TestMkDirYaml < Minitest::Test
       result = mk_dir_yaml.skip_name?(entry, full, nil)
 #      p [entry, result, expected]
       assert_equal expected, result, "skip_name? for #{entry.inspect} should be #{expected}"
+    end
+  end
+
+  def test_skip_name_for_various_entries_with_yaml_exclude
+    options = { visibility: 'yaml_exclude' }
+    mk_dir_yaml = ManageYaml::MkDirYaml.allocate
+    mk_dir_yaml.instance_variable_set(:@options, options)
+
+    sample = [
+      ["cur_sur", false],
+      [".semi_lattice", true],
+      ["sl_shot.png", false],
+      ["dir_tree_node_edge.yaml", true],
+      ["dir_tree.yaml", true],
+      [".DS_Store", true],
+    ]
+
+    sample.each do |entry, expected|
+      full = File.join(TEST_DIR, entry)
+      result = mk_dir_yaml.skip_name?(entry, full, nil)
+#      p [entry, result, expected]
+      assert_equal expected, result, "skip_name? (yaml_exclude) for #{entry.inspect} should be #{expected}"
     end
   end
 end

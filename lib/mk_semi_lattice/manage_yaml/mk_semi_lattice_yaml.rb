@@ -137,6 +137,7 @@ module ManageYaml
       when 'all'
         # すべて含める（除外なし）
       when 'yaml_exclude'
+        return true if entry.start_with?('.')
         return true if File.extname(entry) == '.yaml'
       else # 'normal'
         return true if entry.start_with?('.')
