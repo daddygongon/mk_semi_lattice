@@ -20,8 +20,8 @@ class CLI < Thor
   def split_pdf(*argv)
     SplitPDF.new(argv).run
   end
-  desc 'voca_buil', 'vocabulary builder check'
-  def voca_buil(*argv)
+  desc 'check_word', 'check word for vocabulary builder'
+  def check_word(*argv)
     options = VocaBuil::OptionParserWrapper.parse
     if options[:entire]
       VocaBuil::EntireCheck.new(options, options[:entire]).run
