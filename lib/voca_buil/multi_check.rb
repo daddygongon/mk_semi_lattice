@@ -59,7 +59,7 @@ module VocaBuil
           user_inputs << "0"
         else
           # 入力値を半角に変換
-          input = gets
+          input = Thor::Shell::Basic.new.ask "Q#{idx}: '#{ew[0]}' ? -> "
           user_input = input ? input.chomp.unicode_normalize(:nfkc) : ""
           user_inputs << user_input
         end
