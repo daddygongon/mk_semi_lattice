@@ -8,15 +8,19 @@ class SplitPDF
   def initialize(argv)
     @options = {}
     OptionParser.new do |opts|
-      opts.on('-d DIR', '--dir=DIR', 'Target directory for mk_yaml') do |dir|
-        @options[:dir] = dir
+      opts.on('-d[DIR]', '--dir=[DIR]', 'Target directory for mk_yaml (default: .)') do |dir|
+        @options[:dir] = dir || '.'
         @options[:action] = :dir
       end
-      opts.on('-y YAML', '--yaml=YAML', 'YAML file for split_pdf') do |yaml|
-        @options[:yaml] = yaml
-        @options[:action] = :yaml
+      opts.on('-s[YAML]', '--split[=YAML]', 'Split pdf wo pages by YAML (default: hc_array.yaml)') do |yaml|
+        @options[:yaml] = yaml || 'hc_array.yaml'
+        @options[:action] = :split_without_pages
       end
-      opts.on('-s', '--sample', 'Output sample YAML') do
+      opts.on('-w[YAML]', '--split_with_pages[=YAML]', 'Split pdf with pages by YAML (default: hc_array.yaml)') do |yaml|
+        @options[:yaml] = yaml || 'hc_array.yaml'
+        @options[:action] = :split_with_pages
+      end      
+      opts.on('-y', '--yaml', 'Output sample YAML') do
         @options[:action] = :sample
       end
     end.parse!(argv)
@@ -28,8 +32,10 @@ class SplitPDF
       puts_sample_yaml
     when :dir
       mk_yaml
-    when :yaml
-      split_pdf
+    when :split_without_pages
+      split_pdf(true) # option: pages_wo
+    when :split_with_pages
+      split_pdf(false)
     else
       # OptionParserがusageを表示するので何もしない
     end
@@ -37,7 +43,8 @@ class SplitPDF
 
   # ディレクトリからyamlを作成
   def mk_yaml(t_dir = nil, out_file = 'tmp.yaml')
-    t_dir ||= @options[:dir] || 'fine_part/p3_suffix'
+    t_dir ||= @options[:dir]
+    t_dir = '.' if t_dir.nil? || t_dir.empty?
     puts t_dir
     toc = []
     Dir.glob(File.join(t_dir, '*')).each do |file|
@@ -56,8 +63,9 @@ class SplitPDF
   end
 
   # yamlを元にPDFを分割
-  def split_pdf(yaml_file = nil)
-    yaml_file ||= @options[:yaml] || 'hc_array.yaml'
+  def split_pdf(pages_wo = true, yaml_file = nil)
+    yaml_file ||= @options[:yaml]
+
     puts yaml_file
     data = YAML.load(File.read(yaml_file))
     source_file = data[:source_file]
@@ -72,7 +80,11 @@ class SplitPDF
               else
                 "#{init}-#{fin}"
               end
-      o_file = [v[:no], v[:head], pages].compact.join('_') + ".pdf"
+      if pages_wo
+        o_file = [v[:no], v[:head]].compact.join('_') + ".pdf"
+      else
+        o_file = [v[:no], v[:head], pages].compact.join('_') + ".pdf"
+      end
       target = File.join(target_dir, o_file)
       comm = "qpdf #{source_file} --pages . #{init}-#{fin} -- #{target}"
       puts comm

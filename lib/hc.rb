@@ -18,10 +18,8 @@ class CLI < Thor
 
   desc 'split_pdf', 'split PDF files'
   def split_pdf(*argv)
-      puts "not implemented yet"
-      puts "convert multi_scale_25f/ruby/ruby_basic/p4_rake/Rakefile to class"
+    SplitPDF.new(argv).run
   end
-
   desc 'voca_buil', 'vocabulary builder check'
   def voca_buil(*argv)
     options = VocaBuil::OptionParserWrapper.parse
