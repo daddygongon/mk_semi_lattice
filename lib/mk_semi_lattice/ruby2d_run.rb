@@ -1,4 +1,10 @@
+require_relative "./ruby2d_action"
 
+require_relative "./init_env"
+require_relative "./option_manager"
+require_relative "./manage_yaml/mk_node_edge_yaml"
+require_relative "./manage_yaml/mk_semi_lattice_yaml"
+require_relative "./sl_components"
 def init
   puts "mk_semi_lattice is running..."
 
