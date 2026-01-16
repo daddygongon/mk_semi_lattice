@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="jp" xml:lang="jp">
+<head>
+<!-- 2026-01-15 Thu 23:12 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>mk_semi_lattice, hc</title>
+<meta name="author" content="Shigeto R. Nishitani" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/code-copy.css"/>
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/search.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/search.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/code-copy.js"></script>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">mk_semi_lattice, hc</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#org66b2453">1. Name</a></li>
+<li><a href="#org7841981">2. Installation</a></li>
+<li><a href="#orge22878e">3. Usage</a></li>
+<li><a href="#orga1dfc28">4. Contributing</a></li>
+<li><a href="#org317e2bc">5. License</a></li>
+<li><a href="#org679c84b">6. Code of Conduct</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org66b2453" class="outline-2">
+<h2 id="org66b2453"><span class="section-number-2">1.</span> Name</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+セミラティス(semi lattice)構造を表示するmk_slコマンドと，
+英単語の習得を目指したhcコマンドです．
+</p>
+</div>
+</div>
+<div id="outline-container-org7841981" class="outline-2">
+<h2 id="org7841981"><span class="section-number-2">2.</span> Installation</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+'mk_semi_lattice' or 'hc view' depends on 'ruby2d'.
+See the installation manual on <a href="https://www.ruby2d.com/learn/linux/#install-packages">https://www.ruby2d.com</a>.
+</p>
+
+<p>
+Install the gem and add to the application's Gemfile by executing:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">bundle add mk_semi_lattice
+</pre>
+</div>
+
+<p>
+If bundler is not being used to manage dependencies, install the gem by
+executing:
+</p>
+
+<div class="org-src-container">
+<pre class="src src-sh">gem install mk_semi_lattice
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orge22878e" class="outline-2">
+<h2 id="orge22878e"><span class="section-number-2">3.</span> Usage</h2>
+<div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+<pre class="src src-bash">&gt; hc -h
+Commands:
+</pre>
+</div>
+<ul class="org-ul">
+<li><a href="./lib/abbrev_checker/docs/readme.html">hc abbrev</a>          # check abbreviations</li>
+<li><a href="./lib/voca_buil/docs/readme.html">hc check</a>           # check word for vocabulary builder</li>
+<li>hc help [COMMAND]  # Describe available commands or one specific command</li>
+<li><a href="./lib/split_pdf/docs/readme.html">hc split_pdf</a>       # split PDF files</li>
+<li><a href="./lib/mk_stack/docs/readme.html">hc stack</a>           # make stacks</li>
+<li><a href="./lib/mk_semi_lattice/docs/readme.html">hc view</a>            # View Semi Lattice Graph</li>
+</ul>
+
+
+<ul class="org-ul">
+<li><a href="./lib/docs/short_intro.html">short introduction for vocabulary builder</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orga1dfc28" class="outline-2">
+<h2 id="orga1dfc28"><span class="section-number-2">4.</span> Contributing</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Bug reports and pull requests are welcome on GitHub at
+<a href="https://github.com/daddygongon/mk_semi_lattice">https://github.com/daddygongon/mk_semi_lattice</a>. This project is intended
+to be a safe, welcoming space for collaboration, and contributors are
+expected to adhere to the <a href="https://github.com/%5BUSERNAME%5D/mk_semi_lattice/blob/main/CODE_OF_CONDUCT.md">code of conduct</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-org317e2bc" class="outline-2">
+<h2 id="org317e2bc"><span class="section-number-2">5.</span> License</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+The gem is available as open source under the terms of the <a href="https://opensource.org/licenses/MIT">MIT License</a>.
+</p>
+</div>
+</div>
+<div id="outline-container-org679c84b" class="outline-2">
+<h2 id="org679c84b"><span class="section-number-2">6.</span> Code of Conduct</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+Everyone interacting in the MkSemiLattice project's codebases, issue
+trackers, chat rooms and mailing lists is expected to follow the
+<a href="https://github.com/%5BUSERNAME%5D/mk_semi_lattice/blob/main/CODE_OF_CONDUCT.md">code of conduct</a>.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Shigeto R. Nishitani</p>
+<p class="date">Created: 2026-01-15 Thu 23:12</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

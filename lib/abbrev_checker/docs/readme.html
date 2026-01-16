@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="jp" xml:lang="jp">
+<head>
+<!-- 2026-01-12 Mon 13:02 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>hc abbrevの使い方</title>
+<meta name="author" content="Shigeto R. Nishitani" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/code-copy.css"/>
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/search.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/search.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/code-copy.js"></script>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">hc abbrevの使い方</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgdfd811e">1. name</a></li>
+<li><a href="#org93d8eb7">2. install</a></li>
+<li><a href="#org9672085">3. help</a></li>
+<li><a href="#orgda40b6d">4. usage</a></li>
+<li><a href="#org33c9e32">5. dir_tree.yaml編集</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgdfd811e" class="outline-2">
+<h2 id="orgdfd811e"><span class="section-number-2">1.</span> name</h2>
+<div class="outline-text-2" id="text-1">
+<ul class="org-ul">
+<li>'hc abbrev'はプログラミングで頻出するabbreviation(短縮形)の
+buildingを行うclaです．</li>
+<li>短縮形になっているwordのfull spellを打ち込んでください．</li>
+<li>'hc check'を少し拡張しただけです．</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-org93d8eb7" class="outline-2">
+<h2 id="org93d8eb7"><span class="section-number-2">2.</span> install</h2>
+<div class="outline-text-2" id="text-2">
+<div class="org-src-container">
+<pre class="src src-bash">&gt; sudo gem install mk_semi_lattice  <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">install mk_sl and hc</span>
+&gt; hc abbrev --install                <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">install abbrev_yamls</span>
+&gt; cd abbrev_yamls
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-org9672085" class="outline-2">
+<h2 id="org9672085"><span class="section-number-2">3.</span> help</h2>
+<div class="outline-text-2" id="text-3">
+<div class="org-src-container">
+<pre class="src src-bash">&gt; hc abbrev -h
+Usage: hc check [options]
+    -f, --file FILE                  YAML file to use
+    -a, --answer NUM                 <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">not used</span>
+    -q, --quiz NUM                   Number of quiz(def 5)
+    -i, --iterative [NUM]            Test iteratively (<span style="color: #2e8b57;">num</span>=2)
+        --install                    Install sample check data
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-orgda40b6d" class="outline-2">
+<h2 id="orgda40b6d"><span class="section-number-2">4.</span> usage</h2>
+<div class="outline-text-2" id="text-4">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><img src="./abbrev_checker/abbrev_checker.002.png" alt="abbrev_checker.002.png" /></td>
+</tr>
+
+<tr>
+<td class="org-left">Fig.1 hc abbrevの動作.</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="outline-container-org33c9e32" class="outline-2">
+<h2 id="org33c9e32"><span class="section-number-2">5.</span> dir_tree.yaml編集</h2>
+<div class="outline-text-2" id="text-5">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><img src="./abbrev_checker/abbrev_checker.003.png" alt="abbrev_checker.003.png" /></td>
+</tr>
+
+<tr>
+<td class="org-left">Fig.2 dir_tree.yamlのフォーマット.</td>
+</tr>
+</tbody>
+</table>
+<p>
+Answers-Quizはdir_tree.yamlから取り出しています．
+自分の進捗に合わせて編集していってください．
+消してしまわずに'#'でコメントアウトするのが正しいやり方．
+</p>
+
+<p>
+さらに，
+</p>
+<pre class="example">
+&gt; hc stack
+</pre>
+
+<p>
+でバックアップをとって変えていくのがコツです．
+<a href="../../mk_stack/docs/readme.html">stackの解説</a>を参照ください．
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Shigeto R. Nishitani</p>
+<p class="date">Created: 2026-01-12 Mon 13:02</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

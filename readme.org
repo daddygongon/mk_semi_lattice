@@ -1,0 +1,58 @@
+#+OPTIONS: ^:{}
+#+STARTUP: indent nolineimages overview num
+#+TITLE: mk_semi_lattice, hc
+#+AUTHOR: Shigeto R. Nishitani
+#+EMAIL:     (concat "shigeto_nishitani@mac.com")
+#+LANGUAGE:  jp
+#+OPTIONS:   H:4 toc:t num:2
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+
+* Name
+セミラティス(semi lattice)構造を表示するmk_slコマンドと，
+英単語の習得を目指したhcコマンドです．
+
+* Installation
+'mk_semi_lattice' or 'hc view' depends on 'ruby2d'.
+See the installation manual on [[https://www.ruby2d.com/learn/linux/#install-packages][https://www.ruby2d.com]].
+
+Install the gem and add to the application's Gemfile by executing:
+
+#+begin_src sh
+bundle add mk_semi_lattice
+#+end_src
+
+If bundler is not being used to manage dependencies, install the gem by
+executing:
+
+#+begin_src sh
+gem install mk_semi_lattice
+#+end_src
+
+* Usage
+#+begin_src bash
+> hc -h
+Commands:
+#+end_src
+- [[./lib/abbrev_checker/docs/readme.org][hc abbrev]]          # check abbreviations
+- [[./lib/voca_buil/docs/readme.org][hc check]]           # check word for vocabulary builder
+- hc help [COMMAND]  # Describe available commands or one specific command
+- [[./lib/split_pdf/docs/readme.org][hc split_pdf]]       # split PDF files
+- [[./lib/mk_stack/docs/readme.org][hc stack]]           # make stacks
+- [[./lib/mk_semi_lattice/docs/readme.org][hc view]]            # View Semi Lattice Graph
+
+
+- [[./lib/docs/short_intro.org][short introduction for vocabulary builder]]
+
+* Contributing
+Bug reports and pull requests are welcome on GitHub at
+https://github.com/daddygongon/mk_semi_lattice. This project is intended
+to be a safe, welcoming space for collaboration, and contributors are
+expected to adhere to the [[https://github.com/%5BUSERNAME%5D/mk_semi_lattice/blob/main/CODE_OF_CONDUCT.md][code of conduct]].
+
+* License
+The gem is available as open source under the terms of the [[https://opensource.org/licenses/MIT][MIT License]].
+
+* Code of Conduct
+Everyone interacting in the MkSemiLattice project's codebases, issue
+trackers, chat rooms and mailing lists is expected to follow the
+[[https://github.com/%5BUSERNAME%5D/mk_semi_lattice/blob/main/CODE_OF_CONDUCT.md][code of conduct]].

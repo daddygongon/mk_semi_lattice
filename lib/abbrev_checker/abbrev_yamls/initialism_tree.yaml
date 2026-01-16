@@ -1,0 +1,13 @@
+---
+GPT=generative pre-trained transformer:
+  LLM=large language model:
+CLI=command line interface:
+CLA=command line application:
+GUI=graphical user interface:
+CUI=character user interface:
+TCP=transmission control protocol:
+  HTTP=hyper text transfer protocol:
+  DNS=domain name system:
+IP=internet protocol:
+cwd=current working directory:
+

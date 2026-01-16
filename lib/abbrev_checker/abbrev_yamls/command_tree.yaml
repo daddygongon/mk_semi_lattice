@@ -1,0 +1,30 @@
+---
+#file=file=ファイル操作:
+  ls=list=cwdのファイル，dirの表示:
+    ls -lat=list long all time:
+  mv=move=ファイルの移動:
+  cp=copy=ファイルの複製:
+  rm=remove=ファイルの削除:
+  cat=catenate=ファイルの中身を出力:
+#dir=directory=フォルダ:
+  pwd=print working directory=cwd PATHを表示:
+    mkdir=make directory=dir作成:
+  rm -rf=remove recursively forcefully=PATHを再帰的で強制的に削除/dir丸ごと削除:
+  cwd=current working directory=ファイル操作をしているPATH,基準となる場所:
+  cd=change directory=cwdの移動:
+  tree=tree=ディレクトリのツリー表示:
+#path=path=パス，小径:
+  full_path=full path=絶対パス:
+  rel_path=relative path=相対パス:
+#c-keys=controll-keys=ファイル編集のkeyバインド:
+  c-a=ahead=行頭へ移動:
+  c-e=end=行末へ移動:
+  c-p=previous=前行へ移動:
+  c-n=next=次行へ移動:
+  c-f=forward=一字進む:
+  c-b=backward=一字戻る:
+  c-d=delete=一字削除:
+  c-k=kill line=一行削除:
+
+
+

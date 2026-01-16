@@ -1,0 +1,99 @@
+---
+:nodes:
+- :id: 1
+  :name: mk_semi_lattice/
+  :type: dir
+  :file_path: "."
+  :x: 275.02162808595216
+  :y: 314.87430515494754
+  :color: orange
+  :fixed: false
+- :id: 2
+  :name: option_manager.rb
+  :type: file
+  :file_path: "./option_manager.rb"
+  :x: 346.9161695907995
+  :y: 269.19879019844353
+  :color: orange
+  :fixed: false
+- :id: 3
+  :name: ruby2d_action.rb
+  :type: file
+  :file_path: "./ruby2d_action.rb"
+  :x: 217.6026086862854
+  :y: 377.3833947075089
+  :color: orange
+  :fixed: false
+- :id: 4
+  :name: version.rb
+  :type: file
+  :file_path: "./version.rb"
+  :x: 196.70324002652094
+  :y: 282.82727426583205
+  :color: orange
+  :fixed: false
+- :id: 5
+  :name: init_env.rb
+  :type: file
+  :file_path: "./init_env.rb"
+  :x: 336.69859191671014
+  :y: 373.90134873437574
+  :color: orange
+  :fixed: false
+- :id: 6
+  :name: sl_components.rb
+  :type: file
+  :file_path: "./sl_components.rb"
+  :x: 275.5713052007363
+  :y: 230.10419857002472
+  :color: orange
+  :fixed: false
+- :id: 7
+  :name: manage_yaml/
+  :type: dir
+  :file_path: "./manage_yaml"
+  :x: 299.7712906846464
+  :y: 399.95204864889575
+  :color: orange
+  :fixed: false
+- :id: 8
+  :name: mk_semi_lattice.rb
+  :type: file
+  :file_path: "./manage_yaml/mk_semi_lattice.rb"
+  :x: 376.1077960220242
+  :y: 361.86505364409146
+  :color: orange
+  :fixed: false
+- :id: 9
+  :name: mk_node_edge.rb
+  :type: file
+  :file_path: "./manage_yaml/mk_node_edge.rb"
+  :x: 293.40510780338064
+  :y: 484.3912842691303
+  :color: orange
+  :fixed: false
+:edges:
+- :from: 1
+  # from: mk_semi_lattice/, to: option_manager.rb
+  :to: 2
+- :from: 1
+  # from: mk_semi_lattice/, to: ruby2d_action.rb
+  :to: 3
+- :from: 1
+  # from: mk_semi_lattice/, to: version.rb
+  :to: 4
+- :from: 1
+  # from: mk_semi_lattice/, to: init_env.rb
+  :to: 5
+- :from: 1
+  # from: mk_semi_lattice/, to: sl_components.rb
+  :to: 6
+- :from: 1
+  # from: mk_semi_lattice/, to: manage_yaml/
+  :to: 7
+- :from: 7
+  # from: manage_yaml/, to: mk_semi_lattice.rb
+  :to: 8
+- :from: 7
+  # from: manage_yaml/, to: mk_node_edge.rb
+  :to: 9

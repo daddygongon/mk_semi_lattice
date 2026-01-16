@@ -1,0 +1,24 @@
+#+OPTIONS: ^:{}
+#+STARTUP: indent nolineimages overview num
+#+TITLE: Vocabulary Builderの簡単な説明
+#+AUTHOR: Shigeto R. Nishitani
+#+EMAIL:     (concat "shigeto_nishitani@mac.com")
+#+LANGUAGE:  jp
+#+OPTIONS:   H:4 toc:t num:2
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+
+* name
+- hc checkは英単語のetymological(語源に基づく) buildingを行うclaです．
+- 簡単な始め方を紹介します．
+
+* usage
+** sample install
+| [[file:./short_intro/short_intro.002.png]]
+| Fig.1 サンプルのインストール方法．
+** hc check
+| [[file:./short_intro/short_intro.003.png]]
+| Fig.2 checkの仕方．
+** plot
+| [[file:./short_intro/short_intro.004.png]]
+| Fig.3 プロットの例.
+

@@ -1,0 +1,68 @@
+#+OPTIONS: ^:{}
+#+STARTUP: indent nolineimages overview num
+#+TITLE: split_pdf
+#+AUTHOR: Shigeto R. Nishitani
+#+EMAIL:     (concat "shigeto_nishitani@mac.com")
+#+LANGUAGE:  jp
+#+OPTIONS:   H:4 toc:t num:2
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+
+* Name
+split pdf using YAML
+
+自炊したpdfを読みやすいようにdivideするツールです．
+conquerしてください．
+
+* Help
+#+begin_src bash
+> hc split_pdf -h
+Usage: hc [options]
+    -d, --dir=[DIR]                  Target directory for mk_yaml (default: .)
+    -s, --split [YAML]               Split pdf wo pages by YAML (default: hc_array.yaml)
+    -w, --split_with_pages [YAML]    Split pdf with pages by YAML (default: hc_array.yaml)
+    -y, --yaml                       Output sample YAML
+#+end_src
+
+* Usage
+** sample
+#+begin_src bash
+> hc split_pdf -y
+---
+:source_file: "./linux_basic.pdf"
+:target_dir: "./linux_basic"
+:toc:
+- :no:
+  :init: 1
+  :fin:
+  :head: title
+- :no: s1
+  :init: 2
+  :fin:
+  :head: command
+- :no: s1
+  :init: 7
+  :fin: 7
+  :head: line_edit
+Save yaml data in 'hc_array.yaml'.
+#+end_src
+
+** split
+#+begin_src bash
+> hc split_pdf -w
+hc_array.yaml
+qpdf /Users/bob/Documents/epub_books/たのしいRuby.pdf --pages . 1-8 -- ./happy_ruby/preface_1-8.pdf
+qpdf /Users/bob/Documents/epub_books/たのしいRuby.pdf --pages . 9-20 -- ./happy_ruby/toc_9-20.pdf
+qpdf /Users/bob/Documents/epub_books/たのしいRuby.pdf --pages . 21-22 -- ./happy_ruby/p1_Rubyをはじめよう_21-22.pdf
+qpdf /Users/bob/Documents/epub_books/たのしいRuby.pdf --pages . 23-48 -- ./happy_ruby/c1_はじめてのRuby_23-48.pdf
+qpdf /Users/bob/Documents/epub_books/
+...
+#+end_src
+
+** then modify
+: > hc view
+を見ながら整理してください．
+こんな感じがいいでしょうね．
+
+| [[./images/split_pdf.001.png]]
+| 編集後のview
+

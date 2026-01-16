@@ -1,0 +1,83 @@
+#+OPTIONS: ^:{}
+#+STARTUP: indent nolineimages overview num
+#+TITLE: hc checkの使い方
+#+AUTHOR: Shigeto R. Nishitani
+#+EMAIL:     (concat "shigeto_nishitani@mac.com")
+#+LANGUAGE:  jp
+#+OPTIONS:   H:4 toc:t num:2
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+
+* name
+- hc checkは英単語のetymological(語源に基づく) buildingを行うclaです．
+- 単語帳のcli版です．
+- dir_tree.yamlを編集しながら
+  自分の記憶に残る英単語学習を目指しています．
+
+* install
+#+begin_src bash
+> sudo gem install mk_semi_lattice  # install mk_sl and hc
+> hc check --install                # install etymological builder yamls
+> cd _stack_init_check_dirs
+#+end_src
+* usage
+| [[file:./voca_buil/voca_buil.003.png]]
+| Fig.1 hc checkの動作の概略図.
+** hc check
+mk_semi_latticeをgemでinstallすると，
+hc(hyper cardの略)も同時にinstallされます．
+
+: > hc check -h
+
+を使って単語の習得checkを行います．
+
+** tree構造
+展開された_stack_init_check_dirsはtreeで確認できます．
+
+** iterative check(#1)
+_stack_init_check_dirs上で
+: > hc check -i 5 -a 8 -q 5
+とすると iteration=5, answer=8, quiz=5で
+繰り返し(iterative) checkが走ります．
+
+** single check(#2)
+間違いの多かったdirに移動(cd)してチェックを
+: > cd r1_sta
+: > hc check
+走らせると，r1_sta/dir_tree.yamlを参照して
+単一(single)のcheckが走ります．
+* help
+#+begin_src zsh
+> hc abbrev -h
+Usage: hc check [options]
+    -f, --file FILE                  YAML file to use
+    -a, --answer NUM                 # not implemented
+    -q, --quiz NUM                   Number of quiz(def 5)
+    -i, --iterative [NUM]            Test iteratively (num=2)
+        --install                    Install sample abbrev data
+#+end_src
+* dir_tree.yaml編集
+| [[file:./voca_buil/voca_buil.004.png]]
+| Fig.2 dir_tree.yamlのフォーマット.
+Answers-Quizはdir_tree.yamlから取り出しています．
+自分の進捗に合わせて編集していってください．
+消してしまわずに'#'でコメントアウトするのが正しいやり方．
+
+さらに，
+: > hc stack
+でバックアップをとって変えていくのがコツです．
+[[../../mk_stack/docs/readme.org][stackの解説]]を参照ください．
+
+* reverse and plot
+| [[file:./voca_buil/voca_buil.002.png]]
+| Fig.3 日本語から英単語(j2e)のチェックとplot.
+
+発展形です．reverseを指定すると日本語から英単語(j2e)ができます．
+また
+: > hc plot
+: > hc plot -s
+すると練習時間の履歴や点数(score)が表示されます．
+
+
+
+* references
+「由来とつながりがわかる英単語語源マップ」, 臼井俊雄著, (ベレ出版, 2017).

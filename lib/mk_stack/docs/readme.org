@@ -1,0 +1,58 @@
+#+OPTIONS: ^:{}
+#+STARTUP: indent nolineimages overview num
+#+TITLE: hc stack
+#+AUTHOR: Shigeto R. Nishitani
+#+EMAIL:     (concat "shigeto_nishitani@mac.com")
+#+LANGUAGE:  jp
+#+OPTIONS:   H:4 toc:t num:2
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+
+* Name
+make stack structures.
+
+- gitのrepositoryのように，
+  - 新しい作業を始める前に，
+  - バックアップの'stack'構造を作成するコマンドです．
+- 安心してcodeやdocsの改変に取り組むことが可能です．
+  - gitに慣れると手戻り(rewind)ができるようになりますが，
+  - 初心者が，いつでも過去のファイルを直接参照できるので，
+  - 安心です．
+
+* Help
+#+begin_src bash
+> hc stack -h
+Usage: hc stack [options]
+    -n, --number=NUMBER              Add ordinal number
+    -d, --dryrun                     Dry run (do not move or create anything)
+    -D                               Do not move directories (only move files)
+    -A                               Do not move hidden files and directories
+    -e, --empty                      create empty stack
+#+end_src
+
+* What does 'stack' do?
+| [[./mk_stack/mk_stack.001.png]]
+| stack動作のポンチ絵.
+
+stackという動作名称は，昔のHyperCardシステムからの借用です．
+
+やってることは，current directoryで新しい_stack_ordinal_yymmdd という
+名前のdirectoryを作成し，そこに全てのファイル，directoryを
+移すという操作です．
+
+この後，
+- directory名の修正
+- 必要なファイルの移動，copy
+を行い，新しく作業を上書きしていくことになります．
+昔のファイルを参照することが多い作業者には，便利なはずです．
+
+特に，mdでChatGPTとの会話を記録する必要がある作業者は，
+その場でmdを保存すると，
+- treeコマンドで過去の履歴が一望，
+- そこへcdすれば，その時の環境ですぐに検証可能，
+- _stack_ordinal_yymmdd -> .stack_ordinal_yymmdd
+- などとhiddenにすることも容易
+  - 不要なmd, code fileなどを隠す
+ができます．
+
+整理の基本となる，chunking, tight bindingを
+強制するシステムコマンドです．ご活用ください．

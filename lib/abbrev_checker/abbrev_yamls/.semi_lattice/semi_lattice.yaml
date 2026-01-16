@@ -1,0 +1,304 @@
+---
+:nodes:
+- :id: 1
+  :name: file=file=ファイル操作
+  :type: dir
+  :file_path: "."
+  :icon_path:
+  :x: 74
+  :y: 211
+  :color: green
+  :fixed: true
+- :id: 2
+  :name: ls=list=cwdのファイル，dirの表示
+  :type: dir
+  :file_path: "./ls=list=cwdのファイル，dirの表示"
+  :icon_path:
+  :x: 174
+  :y: 251
+  :color: green
+  :fixed: true
+- :id: 3
+  :name: ls -lat=list long all time
+  :type: file
+  :file_path: "./ls=list=cwdのファイル，dirの表示/ls -lat=list long all time"
+  :icon_path:
+  :x: 208
+  :y: 273
+  :color: green
+  :fixed: true
+- :id: 4
+  :name: mv=move=ファイルの移動
+  :type: file
+  :file_path: "./mv=move=ファイルの移動"
+  :icon_path:
+  :x: 168
+  :y: 298
+  :color: green
+  :fixed: true
+- :id: 5
+  :name: cp=copy=ファイルの複製
+  :type: file
+  :file_path: "./cp=copy=ファイルの複製"
+  :icon_path:
+  :x: 166
+  :y: 321
+  :color: green
+  :fixed: true
+- :id: 6
+  :name: rm=remove=ファイルの削除
+  :type: file
+  :file_path: "./rm=remove=ファイルの削除"
+  :icon_path:
+  :x: 165
+  :y: 347
+  :color: green
+  :fixed: true
+- :id: 7
+  :name: cat=catenate=ファイルの中身を出力
+  :type: file
+  :file_path: "./cat=catenate=ファイルの中身を出力"
+  :icon_path:
+  :x: 80
+  :y: 381
+  :color: green
+  :fixed: true
+- :id: 8
+  :name: dir=directory=フォルダ
+  :type: dir
+  :file_path: "../dir=directory=フォルダ"
+  :icon_path:
+  :x: 425
+  :y: 88
+  :color: green
+  :fixed: true
+- :id: 9
+  :name: pwd=print working directory=cwd PATHを表示
+  :type: dir
+  :file_path: "../dir=directory=フォルダ/pwd=print working directory=cwd PATHを表示"
+  :icon_path:
+  :x: 351
+  :y: 36
+  :color: green
+  :fixed: true
+- :id: 10
+  :name: mkdir=make directory=dir作成
+  :type: file
+  :file_path: "../dir=directory=フォルダ/pwd=print working directory=cwd PATHを表示/mkdir=make
+    directory=dir作成"
+  :icon_path:
+  :x: 414
+  :y: 137
+  :color: green
+  :fixed: true
+- :id: 11
+  :name: rm -rf=remove recursively forcefully=PATHを再帰的で強制的に削除
+  :type: file
+  :file_path: "../dir=directory=フォルダ/rm -rf=remove recursively forcefully=PATHを再帰的で強制的に削除"
+  :icon_path:
+  :x: 468
+  :y: 104
+  :color: green
+  :fixed: true
+- :id: 12
+  :name: cwd=current working directory=ファイル操作をしているPATH,基準となる場所
+  :type: file
+  :file_path: "../dir=directory=フォルダ/cwd=current working directory=ファイル操作をしているPATH,基準となる場所"
+  :icon_path:
+  :x: 314
+  :y: 18
+  :color: green
+  :fixed: true
+- :id: 13
+  :name: cd=change directory=cwdの移動
+  :type: file
+  :file_path: "../dir=directory=フォルダ/cd=change directory=cwdの移動"
+  :icon_path:
+  :x: 418
+  :y: 167
+  :color: green
+  :fixed: true
+- :id: 14
+  :name: tree=tree=ディレクトリのツリー表示
+  :type: file
+  :file_path: "../dir=directory=フォルダ/tree=tree=ディレクトリのツリー表示"
+  :icon_path:
+  :x: 340
+  :y: 193
+  :color: green
+  :fixed: true
+- :id: 15
+  :name: path=path=パス，小径
+  :type: dir
+  :file_path: "../path=path=パス，小径"
+  :icon_path:
+  :x: 70
+  :y: 33
+  :color: green
+  :fixed: true
+- :id: 16
+  :name: full_path=full path=絶対パス
+  :type: file
+  :file_path: "../path=path=パス，小径/full_path=full path=絶対パス"
+  :icon_path:
+  :x: 97
+  :y: 52
+  :color: green
+  :fixed: true
+- :id: 17
+  :name: rel_path=relative path=相対パス
+  :type: file
+  :file_path: "../path=path=パス，小径/rel_path=relative path=相対パス"
+  :icon_path:
+  :x: 95
+  :y: 76
+  :color: green
+  :fixed: true
+- :id: 18
+  :name: c-keys=controll-keys=ファイル編集のkeyバインド
+  :type: dir
+  :file_path: "../c-keys=controll-keys=ファイル編集のkeyバインド"
+  :icon_path:
+  :x: 403
+  :y: 412
+  :color: green
+  :fixed: true
+- :id: 19
+  :name: c-a=ahead=行頭へ移動
+  :type: file
+  :file_path: "../c-keys=controll-keys=ファイル編集のkeyバインド/c-a=ahead=行頭へ移動"
+  :icon_path:
+  :x: 198
+  :y: 464
+  :color: green
+  :fixed: true
+- :id: 20
+  :name: c-e=end=行末へ移動
+  :type: file
+  :file_path: "../c-keys=controll-keys=ファイル編集のkeyバインド/c-e=end=行末へ移動"
+  :icon_path:
+  :x: 572
+  :y: 454
+  :color: green
+  :fixed: true
+- :id: 21
+  :name: c-p=previous=前行へ移動
+  :type: file
+  :file_path: "../c-keys=controll-keys=ファイル編集のkeyバインド/c-p=previous=前行へ移動"
+  :icon_path:
+  :x: 401
+  :y: 344
+  :color: green
+  :fixed: true
+- :id: 22
+  :name: c-n=next=次行へ移動
+  :type: file
+  :file_path: "../c-keys=controll-keys=ファイル編集のkeyバインド/c-n=next=次行へ移動"
+  :icon_path:
+  :x: 403
+  :y: 475
+  :color: green
+  :fixed: true
+- :id: 23
+  :name: c-f=forward=一字進む
+  :type: file
+  :file_path: "../c-keys=controll-keys=ファイル編集のkeyバインド/c-f=forward=一字進む"
+  :icon_path:
+  :x: 272
+  :y: 444
+  :color: green
+  :fixed: true
+- :id: 24
+  :name: c-b=backward=一字戻る
+  :type: file
+  :file_path: "../c-keys=controll-keys=ファイル編集のkeyバインド/c-b=backward=一字戻る"
+  :icon_path:
+  :x: 474
+  :y: 439
+  :color: green
+  :fixed: true
+- :id: 25
+  :name: c-d=delete=一字削除
+  :type: file
+  :file_path: "../c-keys=controll-keys=ファイル編集のkeyバインド/c-d=delete=一字削除"
+  :icon_path:
+  :x: 263
+  :y: 546
+  :color: green
+  :fixed: true
+- :id: 26
+  :name: c-k=kill line=一行削除
+  :type: file
+  :file_path: "../c-keys=controll-keys=ファイル編集のkeyバインド/c-k=kill line=一行削除"
+  :icon_path:
+  :x: 262
+  :y: 564
+  :color: green
+  :fixed: true
+:edges:
+- :from: 1
+  # from: file=file=ファイル操作, to: ls=list=cwdのファイル，dirの表示
+  :to: 2
+- :from: 2
+  # from: ls=list=cwdのファイル，dirの表示, to: ls -lat=list long all time
+  :to: 3
+- :from: 1
+  # from: file=file=ファイル操作, to: mv=move=ファイルの移動
+  :to: 4
+- :from: 1
+  # from: file=file=ファイル操作, to: cp=copy=ファイルの複製
+  :to: 5
+- :from: 1
+  # from: file=file=ファイル操作, to: rm=remove=ファイルの削除
+  :to: 6
+- :from: 1
+  # from: file=file=ファイル操作, to: cat=catenate=ファイルの中身を出力
+  :to: 7
+- :from: 8
+  # from: dir=directory=フォルダ, to: pwd=print working directory=cwd PATHを表示
+  :to: 9
+- :from: 9
+  # from: pwd=print working directory=cwd PATHを表示, to: mkdir=make directory=dir作成
+  :to: 10
+- :from: 8
+  # from: dir=directory=フォルダ, to: rm -rf=remove recursively forcefully=PATHを再帰的で強制的に削除
+  :to: 11
+- :from: 8
+  # from: dir=directory=フォルダ, to: cwd=current working directory=ファイル操作をしているPATH,基準となる場所
+  :to: 12
+- :from: 8
+  # from: dir=directory=フォルダ, to: cd=change directory=cwdの移動
+  :to: 13
+- :from: 8
+  # from: dir=directory=フォルダ, to: tree=tree=ディレクトリのツリー表示
+  :to: 14
+- :from: 15
+  # from: path=path=パス，小径, to: full_path=full path=絶対パス
+  :to: 16
+- :from: 15
+  # from: path=path=パス，小径, to: rel_path=relative path=相対パス
+  :to: 17
+- :from: 18
+  # from: c-keys=controll-keys=ファイル編集のkeyバインド, to: c-a=ahead=行頭へ移動
+  :to: 19
+- :from: 18
+  # from: c-keys=controll-keys=ファイル編集のkeyバインド, to: c-e=end=行末へ移動
+  :to: 20
+- :from: 18
+  # from: c-keys=controll-keys=ファイル編集のkeyバインド, to: c-p=previous=前行へ移動
+  :to: 21
+- :from: 18
+  # from: c-keys=controll-keys=ファイル編集のkeyバインド, to: c-n=next=次行へ移動
+  :to: 22
+- :from: 18
+  # from: c-keys=controll-keys=ファイル編集のkeyバインド, to: c-f=forward=一字進む
+  :to: 23
+- :from: 18
+  # from: c-keys=controll-keys=ファイル編集のkeyバインド, to: c-b=backward=一字戻る
+  :to: 24
+- :from: 18
+  # from: c-keys=controll-keys=ファイル編集のkeyバインド, to: c-d=delete=一字削除
+  :to: 25
+- :from: 18
+  # from: c-keys=controll-keys=ファイル編集のkeyバインド, to: c-k=kill line=一行削除
+  :to: 26

@@ -1,0 +1,58 @@
+#+OPTIONS: ^:{}
+#+STARTUP: indent nolineimages overview num
+#+TITLE: hc abbrevの使い方
+#+AUTHOR: Shigeto R. Nishitani
+#+EMAIL:     (concat "shigeto_nishitani@mac.com")
+#+LANGUAGE:  jp
+#+OPTIONS:   H:4 toc:t num:2
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+
+* name
+- 'hc abbrev'はプログラミングで頻出するabbreviation(短縮形)の
+  buildingを行うclaです．
+- 短縮形になっているwordのfull spellを打ち込んでください．
+- 'hc check'を少し拡張しただけです．
+
+* install
+#+begin_src bash
+> sudo gem install mk_semi_lattice  # install mk_sl and hc
+> hc abbrev --install                # install abbrev_yamls
+> cd abbrev_yamls
+#+end_src
+* help
+#+begin_src bash
+> hc abbrev -h
+Usage: hc check [options]
+    -f, --file FILE                  YAML file to use
+    -a, --answer NUM                 # not used
+    -q, --quiz NUM                   Number of quiz(def 5)
+    -i, --iterative [NUM]            Test iteratively (num=2)
+        --install                    Install sample check data
+#+end_src
+* usage
+| [[file:./abbrev_checker/abbrev_checker.004.png]]
+| Fig.1 hc abbrevの動作.
+** nomal check
+: > hc check -f abbrev_yamls/command_tree.yaml
+とするとword checkerと同様の動き．
+** abbreviation check
+: > hc abbrev -f abbrev_yamls/command_tree.yaml
+とするとabbrev(短縮形)のチェックとなり，
+full spellをチェック．
+
+* dir_tree.yaml編集
+| [[file:./abbrev_checker/abbrev_checker.003.png]]
+| Fig.2 dir_tree.yamlのフォーマット.
+Answers-Quizはdir_tree.yamlから取り出しています．
+自分の進捗に合わせて編集していってください．
+消してしまわずに'#'でコメントアウトするのが正しいやり方．
+
+: > hc view -t command_tree.yaml
+でchunkのまとまりごとに表示できるように
+dummyの選択肢を入れています．
+
+さらに，
+: > hc stack
+でバックアップをとって変えていくのがコツです．
+[[../../mk_stack/docs/readme.org][stackの解説]]を参照ください．
+

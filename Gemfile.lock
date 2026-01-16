@@ -1,0 +1,37 @@
+PATH
+  remote: .
+  specs:
+    mk_semi_lattice (0.3.1)
+      colorize
+      command_line
+      minitest-reporters
+      ruby2d
+
+GEM
+  remote: https://rubygems.org/
+  specs:
+    ansi (1.5.0)
+    builder (3.3.0)
+    colorize (1.1.0)
+    command_line (2.0.1)
+    minitest (5.26.2)
+    minitest-reporters (1.7.1)
+      ansi
+      builder
+      minitest (>= 5.0)
+      ruby-progressbar
+    rake (13.3.1)
+    ruby-progressbar (1.13.0)
+    ruby2d (0.12.1)
+
+PLATFORMS
+  arm64-darwin-20
+  ruby
+
+DEPENDENCIES
+  minitest (~> 5.16)
+  mk_semi_lattice!
+  rake (~> 13.0)
+
+BUNDLED WITH
+   2.7.2
