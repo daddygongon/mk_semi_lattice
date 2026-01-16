@@ -308,9 +308,9 @@ module VocaBuil
                     end
       @wrong_answers.uniq.each do |w|
         print "#{w}: ".red
-#        result = `grep -E "^\\s*#{w}=" #{grep_target}`
         result = `grep -E "#{w}" #{grep_target}`
-        puts result.split(":")[1].strip # 単語のみ表示
+        word = result.split(":")[1]
+        puts word ? word.strip : "(not found)"
         count_dirs(result)
       end
     end
