@@ -344,7 +344,7 @@ module VocaBuil
         return
       end
       puts "Extracting #{@tgz_file} to current directory...".green
-      system("tar", "xzf", @tgz_file)
+      system("tar", "xf", @tgz_file)
       puts "Extraction complete.".green
     end
   end
