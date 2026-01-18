@@ -285,13 +285,17 @@ module VocaBuil
 
     # 追加: スコアをscore_log.yamlに記録
     def log_score
+      word_log_file = @options[:reverse] ? VocaBuil::BaseCheck::WORD_LOG_FILE_J2E : VocaBuil::BaseCheck::WORD_LOG_FILE
+      words_size = File.exist?(word_log_file) ? YAML.load_file(word_log_file).size : 0
+
       log_file = self.class::SCORE_LOG_FILE
       logs = File.exist?(log_file) ? YAML.load_file(log_file) : []
-      log_line = [
-        Time.now.strftime('%Y-%m-%d %H:%M:%S'),
-        @options[:cmd_line] || "",
-        "#{@score}/#{@iter * @options[:w_num]}"
-      ]
+      log_line = {
+        date:  Time.now.strftime('%Y-%m-%d %H:%M:%S'),
+        comm:  @options[:cmd_line] || "",
+        score: "#{@score}/#{@iter * @options[:w_num]}",
+        size:  words_size # 追加
+      }
       logs << log_line
       File.write(log_file, YAML.dump(logs))
     end

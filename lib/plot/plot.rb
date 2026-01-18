@@ -7,7 +7,7 @@ require 'date'
 
 module Plot
   class OptionParserWrapper
-    OPTIONS_DEFAULT = { file: 'check_log.yaml', score: false }
+    OPTIONS_DEFAULT = { file: 'check_log.yaml', plot: :cumulative }
 
     def self.parse(args = ARGV)
       options = OPTIONS_DEFAULT.dup
@@ -19,7 +19,10 @@ module Plot
         options[:file] = v
       end
       opt.on('-s', '--score', 'Plot score_log.yaml') do
-        options[:score] = true
+        options[:plot] = :score
+      end
+      opt.on('-w', '--word_size', 'Plot size from score_log.yaml') do
+        options[:plot] = :word_size
       end
       opt.parse!(args)
       p options
@@ -59,14 +62,39 @@ module Plot
       PYTHON
     end
 
+    def self.plot_word_size_log
+      log = YAML.load(File.read('score_log.yaml'))
+      times = []
+      sizes = []
+
+      log.each do |entry|
+        timestamp = entry[:date]
+        size = entry[:size]
+        next if timestamp.nil? || size.nil?
+        times << timestamp
+        sizes << size.to_i
+      end
+
+      py_code = generate_py_code(
+        x_label: 'Time',
+        y_label: 'Word Size',
+        title: 'Word Size Over Time',
+        x_data: times,
+        y_data: sizes,
+        x_fmt: "%Y-%m-%d %H:%M:%S"
+      )
+
+      run_python_plot(py_code)
+    end
+
     def self.plot_score_log
       log = YAML.load(File.read('score_log.yaml'))
       times = []
       scores = []
 
       log.each do |entry|
-        timestamp = entry[0]
-        score_str = entry[2] # "20/25" の形式
+        timestamp = entry[:date]
+        score_str = entry[:score].to_s # "4/5" の形式
         num, denom = score_str.split('/').map(&:to_f)
         percent = (num / denom * 100).round(1)
         times << timestamp
@@ -107,8 +135,8 @@ module Plot
 
       py_code = generate_py_code(
         x_label: 'Time (minute)',
-        y_label: 'Cumulative Count',
-        title: 'Cumulative Access Count per Minute',
+        y_label: 'Cumulative Practice Count',
+        title: 'Dependence of Cumulative Practice Time',
         x_data: sorted_minutes,
         y_data: cumulative_counts,
         x_fmt: "%Y-%m-%d %H:%M"
@@ -121,8 +149,11 @@ end
 
 if __FILE__ == $0
   options = Plot::OptionParserWrapper.parse
-  if options[:score]
+  case options[:plot]
+  when :score
     Plot::Plotter.plot_score_log
+  when :word_size
+    Plot::Plotter.plot_word_size_log
   else
     Plot::Plotter.plot_check_cumulative_per_minute
   end
