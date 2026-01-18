@@ -38,11 +38,13 @@ module Plot
     end
 
     # 共通のpy_code生成メソッド
-    def self.generate_py_code(x_label:, y_label:, title:, x_data:, y_data:, x_fmt:, y_lim: nil)
+    def self.generate_py_code(x_label:, y_label:, title:, x_data:, y_data:, x_fmt:, y_lim: nil, x_date_fmt: nil)
       y_lim_code = y_lim ? "plt.ylim(#{y_lim[0]}, #{y_lim[1]})" : ""
+      x_date_fmt_code = x_date_fmt ? "from matplotlib.dates import DateFormatter\nplt.gca().xaxis.set_major_formatter(DateFormatter('#{x_date_fmt}'))" : ""
       <<~PYTHON
         import matplotlib.pyplot as plt
         from datetime import datetime
+        #{x_date_fmt_code}
 
         x_data = #{x_data}
         y_data = #{y_data}
@@ -56,6 +58,7 @@ module Plot
         plt.xlabel('#{x_label}')
         plt.ylabel('#{y_label}')
         #{y_lim_code}
+        #{x_date_fmt_code}
         plt.grid(True)
         plt.tight_layout()
         plt.show()
@@ -114,6 +117,7 @@ module Plot
       run_python_plot(py_code)
     end
 
+    # 例えば cumulative の場合
     def self.plot_check_cumulative_per_minute
       log = YAML.load(File.read('check_log.yaml'))
       counts = Hash.new(0)
@@ -139,7 +143,8 @@ module Plot
         title: 'Dependence of Cumulative Practice Time',
         x_data: sorted_minutes,
         y_data: cumulative_counts,
-        x_fmt: "%Y-%m-%d %H:%M"
+        x_fmt: "%Y-%m-%d %H:%M",
+        x_date_fmt: "%m-%d"
       )
 
       run_python_plot(py_code)

@@ -52,9 +52,12 @@ class CLI < Thor
 
   desc 'plot', 'plot logs'
   def plot(*argv)
-    options = Plot::OptionParserWrapper.parse(argv)
-    if options[:score]
+    options = Plot::OptionParserWrapper.parse
+    case options[:plot]
+    when :score
       Plot::Plotter.plot_score_log
+    when :word_size
+      Plot::Plotter.plot_word_size_log
     else
       Plot::Plotter.plot_check_cumulative_per_minute
     end
