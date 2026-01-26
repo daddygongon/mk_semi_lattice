@@ -79,7 +79,13 @@ module VocaBuil
           puts question
           user_inputs << "0"
         else
-          input = Thor::Shell::Basic.new.ask question
+          # reverseモードかつquestionが標準ターミナル幅(80-10)を超える場合はputsで表示しaskは空文字
+          if @options[:reverse] && question.length > 70
+            puts question
+            input = Thor::Shell::Basic.new.ask ""
+          else
+            input = Thor::Shell::Basic.new.ask question
+          end
           # 入力値を半角に変換
           user_input = input ? input.chomp.unicode_normalize(:nfkc) : ""
           user_inputs << user_input
@@ -210,7 +216,7 @@ module VocaBuil
 
     def parse_word_file(filepath)
       lines = File.readlines(filepath)
-      lines[1..-1].each_with_object([]) do |line, words|
+      words = lines[1..-1].each_with_object([]) do |line, arr|
         line = line.split('#', 2)[0]
         next if line.strip == ''
         line_strip = if line.strip[0] == ':'
@@ -219,8 +225,9 @@ module VocaBuil
                        line.strip[0..-2]
                      end
         tmp = line_strip.split("=")
-        words << (@options[:reverse] ? tmp.reverse : tmp)
+        arr << (@options[:reverse] ? tmp.reverse : tmp)
       end
+      words # ← ここを元に戻す
     end
 
     def shuffle_words(words, w_num)
