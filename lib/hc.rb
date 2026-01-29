@@ -12,6 +12,11 @@ class CLI < Thor
     system "mk_semi_lattice", *argv
   end
 
+  desc "version", "show version"
+  def version()
+    puts MkSemiLattice::VERSION
+  end
+
   desc 'stack', 'make stacks'
   def stack(*argv)
       MkStack.new(argv).run
