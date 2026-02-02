@@ -45,6 +45,31 @@ namespace :learn do
 end
 
 namespace :deploy do
+  desc "swap to translated/sample sentence"
+  task :swap_sentence do
+    file = ARGV[1] || 'r1_2_sta_sist_situ/dir_tree.yaml'
+    File.readlines(file).each do |line|
+      #  p line
+      if line =~ /^#/ || line.strip == '' || line.chomp == '---'
+        puts line
+        next
+      end
+      orig_line = line
+      line = line.lstrip  # 最初の空白を読み飛ばす
+      leading_spaces = orig_line[/^\s*/]  # 最初の空白を取得
+      line = line.chomp[0..-2]
+      parts = line.split('=')
+      subparts = parts[1].split('/', 2)
+      # 新しい形式: [空白][英単語]=[日本語訳]=[日本語訳/英語例文]:
+      word = parts[0]
+      intermit = subparts[0]
+      sentence = subparts[1]
+      translated = parts[2]
+      new_line = "#{leading_spaces}#{word}=#{intermit}=#{translated}/#{sentence}:"
+      puts new_line
+    end
+  end
+
   def collect_dir_trees(dir, glob_pattern, target_dir_proc)
     FileUtils.mkdir(dir) unless File.exist?(dir)
     FileUtils.cp('Rakefile', dir, verbose: true)
