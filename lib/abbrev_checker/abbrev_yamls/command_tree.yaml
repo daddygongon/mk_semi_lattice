@@ -17,7 +17,8 @@
   tree=tree=ディレクトリのツリー表示:
   ssh=secure shell=安全なremote shell接続:
 #path=path=パス，小径:
-  full_path=full path=絶対(absolute)パス:
+  full_path=full path=フルパス:
+  abs_oath=abosolute path=絶対(absolute)パス:
   rel_path=relative path=相対パス:
 #c-keys=controll-keys=fishコマンド編集keyバインド:
   c-a/ahead=行頭へ移動:
