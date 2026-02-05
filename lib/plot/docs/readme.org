@@ -8,10 +8,10 @@
 #+SETUPFILE: https://fniessen.github.io/org-html-themes/org/html-theme-readtheorg.setup
 
 * plot
-** 
+** 通常
 学習の進捗状況を確認するために
 : hc plot
-がある．
+があります．
 
 [[file:./plot/plot.002.png]]
 
@@ -22,17 +22,17 @@
 1. cumulative time(without option)
 1. score (-s)
 1. word number (-w)
-を表示する．
+を表示します．
 
 ** dirごと，全体
 記憶を確実に進めるためには，
 : divide and conquer(各個撃破）
 が基本．したがって，細かく分けたdirごとに
-仕上げていくのがいい．
-また，それらをまとめる(chunking)する単語を
+仕上げていくのがいいです．
+また，それらをまとめる(chunking)単語を
 directory名に置いておくのがコツ．
 
-しかし，全体の進捗が知りたい時がある．
+しかし，全体の進捗が知りたい時があります．
 その時には
 : hc -L 2
-を使って，cwdと一つ下の合計を表示することができる．
+を使って，cwdと一つ下の合計を表示することができます．
