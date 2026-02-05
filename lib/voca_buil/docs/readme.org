@@ -5,7 +5,7 @@
 #+EMAIL:     (concat "shigeto_nishitani@mac.com")
 #+LANGUAGE:  jp
 #+OPTIONS:   H:4 toc:t num:2
-#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/html-theme-readtheorg.setup
 
 * name
 - hc checkは英単語のetymological(語源に基づく) buildingを行うclaです．
@@ -66,6 +66,38 @@ Answers-Quizはdir_tree.yamlから取り出しています．
 : > hc stack
 でバックアップをとって変えていくのがコツです．
 [[../../mk_stack/docs/readme.org][stackの解説]]を参照ください．
+
+** 基本フォーマット
+YAMLのHashを真似ていますが，
+実際はYAMLで読み込んでいません．
+各行は，
+: cap,cept=取る，捕らえる(Latin):
+となっています．
+先頭の空白はviewなんかを使う時の字下げになっています．
+
+dir_tree.yamlを読み込むと，
+: words[0]=['cap,cept', '取る，捕らえる(Latin)']
+となります．
+1. '#'以降はコメント
+1. '='でseparate
+1. word[0]がQuiz
+1. word[-1]が Answers
+1.  '/'はそのまま表示
+です
+
+これらを並べてAnswersとQuizになります．
+答え合わせでは，全てを出力します．
+間違った答えを確認して，覚えるkeyとしてください．
+
+** with sample sentence
+覚える単語が高度になってくると，
+etymologyがよく似ているので干渉が起こりやすくなります．
+そういうよく似た単語はsample sentenc(phrase)を一緒に
+覚えると，そこで記述されている情景とともに覚える
+ことが可能となります．
+
+最後のAnswersに'/'でsample sentenceを書き加えるだけですが，
+劇的に記憶のスピードが上がりますので試してみてください．
 
 * reverse and plot
 | [[file:./voca_buil/voca_buil.002.png]]

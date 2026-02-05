@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="jp" xml:lang="jp">
+<head>
+<!-- 2026-02-05 Thu 12:40 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>hc plot</title>
+<meta name="author" content="Shigeto R. Nishitani" />
+<meta name="generator" content="Org Mode" />
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/htmlize.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/readtheorg.css"/>
+<link rel="stylesheet" type="text/css" href="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/css/code-copy.css"/>
+<link rel="stylesheet" type="text/css" href="src/readtheorg_theme/css/search.css"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/lib/js/jquery.stickytableheaders.min.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/search.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/readtheorg.js"></script>
+<script type="text/javascript" src="https://fniessen.github.io/org-html-themes/src/readtheorg_theme/js/code-copy.js"></script>
+</head>
+<body>
+<div id="content" class="content">
+<h1 class="title">hc plot</h1>
+<div id="table-of-contents" role="doc-toc">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents" role="doc-toc">
+<ul>
+<li><a href="#orgdeedf74">1. plot</a>
+<ul>
+<li><a href="#org9c0ca4d">1.1. </a></li>
+<li><a href="#org503c78e">1.2. dirごと，全体</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgdeedf74" class="outline-2">
+<h2 id="orgdeedf74"><span class="section-number-2">1.</span> plot</h2>
+<div class="outline-text-2" id="text-1">
+</div>
+<div id="outline-container-org9c0ca4d" class="outline-3">
+<h3 id="org9c0ca4d"><span class="section-number-3">1.1.</span> </h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+学習の進捗状況を確認するために
+</p>
+<pre class="example">
+hc plot
+</pre>
+
+<p>
+がある．
+</p>
+
+
+<div id="org67f2488" class="figure">
+<p><img src="./plot/plot.002.png" alt="plot.002.png" />
+</p>
+</div>
+
+<p>
+通常のplotでは実行directoryにある
+</p>
+<ol class="org-ol">
+<li>check_log.yaml</li>
+<li>score_log.yaml</li>
+</ol>
+<p>
+を参照して
+</p>
+<ol class="org-ol">
+<li>cumulative time(without option)</li>
+<li>score (-s)</li>
+<li>word number (-w)</li>
+</ol>
+<p>
+を表示する．
+</p>
+</div>
+</div>
+<div id="outline-container-org503c78e" class="outline-3">
+<h3 id="org503c78e"><span class="section-number-3">1.2.</span> dirごと，全体</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+記憶を確実に進めるためには，
+</p>
+<pre class="example">
+divide and conquer(各個撃破）
+</pre>
+
+<p>
+が基本．したがって，細かく分けたdirごとに
+仕上げていくのがいい．
+また，それらをまとめる(chunking)する単語を
+directory名に置いておくのがコツ．
+</p>
+
+<p>
+しかし，全体の進捗が知りたい時がある．
+その時には
+</p>
+<pre class="example">
+hc -L 2
+</pre>
+
+<p>
+を使って，cwdと一つ下の合計を表示することができる．
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: Shigeto R. Nishitani</p>
+<p class="date">Created: 2026-02-05 Thu 12:40</p>
+<p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

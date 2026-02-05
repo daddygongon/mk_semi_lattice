@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="jp" xml:lang="jp">
 <head>
-<!-- 2026-01-15 Thu 17:20 -->
+<!-- 2026-02-05 Thu 12:06 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>hc checkの使い方</title>
@@ -27,25 +27,30 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#orgd4cfdbb">1. name</a></li>
-<li><a href="#org861776c">2. install</a></li>
-<li><a href="#orgf6412d9">3. usage</a>
+<li><a href="#org3b454df">1. name</a></li>
+<li><a href="#orgf29b788">2. install</a></li>
+<li><a href="#org67c33e6">3. usage</a>
 <ul>
-<li><a href="#org1c3543c">3.1. hc check</a></li>
-<li><a href="#orgf97f457">3.2. tree構造</a></li>
-<li><a href="#org2b3ecb4">3.3. iterative check(#1)</a></li>
-<li><a href="#org84c543e">3.4. single check(#2)</a></li>
+<li><a href="#orgb2fba48">3.1. hc check</a></li>
+<li><a href="#orga8257ec">3.2. tree構造</a></li>
+<li><a href="#orgf5195e3">3.3. iterative check(#1)</a></li>
+<li><a href="#orgb5f6230">3.4. single check(#2)</a></li>
 </ul>
 </li>
-<li><a href="#org903ea6e">4. help</a></li>
-<li><a href="#org78fd54c">5. dir_tree.yaml編集</a></li>
-<li><a href="#orga87872a">6. reverse and plot</a></li>
-<li><a href="#org22e1ff0">7. references</a></li>
+<li><a href="#org6c51ff5">4. help</a></li>
+<li><a href="#orgfa5a976">5. dir_tree.yaml編集</a>
+<ul>
+<li><a href="#orgd170323">5.1. 基本フォーマット</a></li>
+<li><a href="#org9447d69">5.2. with sample sentence</a></li>
+</ul>
+</li>
+<li><a href="#org5ca7224">6. reverse and plot</a></li>
+<li><a href="#orga7ed31f">7. references</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orgd4cfdbb" class="outline-2">
-<h2 id="orgd4cfdbb"><span class="section-number-2">1.</span> name</h2>
+<div id="outline-container-org3b454df" class="outline-2">
+<h2 id="org3b454df"><span class="section-number-2">1.</span> name</h2>
 <div class="outline-text-2" id="text-1">
 <ul class="org-ul">
 <li>hc checkは英単語のetymological(語源に基づく) buildingを行うclaです．</li>
@@ -55,19 +60,19 @@
 </ul>
 </div>
 </div>
-<div id="outline-container-org861776c" class="outline-2">
-<h2 id="org861776c"><span class="section-number-2">2.</span> install</h2>
+<div id="outline-container-orgf29b788" class="outline-2">
+<h2 id="orgf29b788"><span class="section-number-2">2.</span> install</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
-<pre class="src src-bash">&gt; sudo gem install mk_semi_lattice  <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">install mk_sl and hc</span>
-&gt; hc check --install                <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">install etymological builder yamls</span>
+<pre class="src src-bash">&gt; sudo gem install mk_semi_lattice  <span style="color: #595959;"># </span><span style="color: #595959;">install mk_sl and hc</span>
+&gt; hc check --install                <span style="color: #595959;"># </span><span style="color: #595959;">install etymological builder yamls</span>
 &gt; cd _stack_init_check_dirs
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orgf6412d9" class="outline-2">
-<h2 id="orgf6412d9"><span class="section-number-2">3.</span> usage</h2>
+<div id="outline-container-org67c33e6" class="outline-2">
+<h2 id="org67c33e6"><span class="section-number-2">3.</span> usage</h2>
 <div class="outline-text-2" id="text-3">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -86,8 +91,8 @@
 </tbody>
 </table>
 </div>
-<div id="outline-container-org1c3543c" class="outline-3">
-<h3 id="org1c3543c"><span class="section-number-3">3.1.</span> hc check</h3>
+<div id="outline-container-orgb2fba48" class="outline-3">
+<h3 id="orgb2fba48"><span class="section-number-3">3.1.</span> hc check</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
 mk_semi_latticeをgemでinstallすると，
@@ -104,16 +109,16 @@ hc(hyper cardの略)も同時にinstallされます．
 </p>
 </div>
 </div>
-<div id="outline-container-orgf97f457" class="outline-3">
-<h3 id="orgf97f457"><span class="section-number-3">3.2.</span> tree構造</h3>
+<div id="outline-container-orga8257ec" class="outline-3">
+<h3 id="orga8257ec"><span class="section-number-3">3.2.</span> tree構造</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
 展開された_stack_init_check_dirsはtreeで確認できます．
 </p>
 </div>
 </div>
-<div id="outline-container-org2b3ecb4" class="outline-3">
-<h3 id="org2b3ecb4"><span class="section-number-3">3.3.</span> iterative check(#1)</h3>
+<div id="outline-container-orgf5195e3" class="outline-3">
+<h3 id="orgf5195e3"><span class="section-number-3">3.3.</span> iterative check(#1)</h3>
 <div class="outline-text-3" id="text-3-3">
 <p>
 _stack_init_check_dirs上で
@@ -128,8 +133,8 @@ _stack_init_check_dirs上で
 </p>
 </div>
 </div>
-<div id="outline-container-org84c543e" class="outline-3">
-<h3 id="org84c543e"><span class="section-number-3">3.4.</span> single check(#2)</h3>
+<div id="outline-container-orgb5f6230" class="outline-3">
+<h3 id="orgb5f6230"><span class="section-number-3">3.4.</span> single check(#2)</h3>
 <div class="outline-text-3" id="text-3-4">
 <p>
 間違いの多かったdirに移動(cd)してチェックを
@@ -146,23 +151,23 @@ _stack_init_check_dirs上で
 </div>
 </div>
 </div>
-<div id="outline-container-org903ea6e" class="outline-2">
-<h2 id="org903ea6e"><span class="section-number-2">4.</span> help</h2>
+<div id="outline-container-org6c51ff5" class="outline-2">
+<h2 id="org6c51ff5"><span class="section-number-2">4.</span> help</h2>
 <div class="outline-text-2" id="text-4">
 <div class="org-src-container">
 <pre class="src src-zsh">&gt; hc abbrev -h
 Usage: hc check [options]
     -f, --file FILE                  YAML file to use
-    -a, --answer NUM                 <span style="color: #7f7f7f;"># </span><span style="color: #7f7f7f;">not implemented</span>
+    -a, --answer NUM                 <span style="color: #595959;"># </span><span style="color: #595959;">not implemented</span>
     -q, --quiz NUM                   Number of quiz(def 5)
-    -i, --iterative [NUM]            Test iteratively (<span style="color: #2e8b57;">num</span>=2)
+    -i, --iterative [NUM]            Test iteratively (<span style="color: #005e8b;">num</span>=2)
         --install                    Install sample abbrev data
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-org78fd54c" class="outline-2">
-<h2 id="org78fd54c"><span class="section-number-2">5.</span> dir_tree.yaml編集</h2>
+<div id="outline-container-orgfa5a976" class="outline-2">
+<h2 id="orgfa5a976"><span class="section-number-2">5.</span> dir_tree.yaml編集</h2>
 <div class="outline-text-2" id="text-5">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -198,9 +203,71 @@ Answers-Quizはdir_tree.yamlから取り出しています．
 <a href="../../mk_stack/docs/readme.html">stackの解説</a>を参照ください．
 </p>
 </div>
+<div id="outline-container-orgd170323" class="outline-3">
+<h3 id="orgd170323"><span class="section-number-3">5.1.</span> 基本フォーマット</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+YAMLのHashを真似ていますが，
+実際はYAMLで読み込んでいません．
+各行は，
+</p>
+<pre class="example">
+cap,cept=取る，捕らえる(Latin):
+</pre>
+
+<p>
+となっています．
+先頭の空白はviewなんかを使う時の字下げになっています．
+</p>
+
+<p>
+dir_tree.yamlを読み込むと，
+</p>
+<pre class="example">
+words[0]=['cap,cept', '取る，捕らえる(Latin)']
+</pre>
+
+<p>
+となります．
+</p>
+<ol class="org-ol">
+<li>'#'以降はコメント</li>
+<li>'='でseparate</li>
+<li>word[0]がQuiz</li>
+<li>word[-1]が Answers</li>
+<li>'/'はそのまま表示</li>
+</ol>
+<p>
+です
+</p>
+
+<p>
+これらを並べてAnswersとQuizになります．
+答え合わせでは，全てを出力します．
+間違った答えを確認して，覚えるkeyとしてください．
+</p>
 </div>
-<div id="outline-container-orga87872a" class="outline-2">
-<h2 id="orga87872a"><span class="section-number-2">6.</span> reverse and plot</h2>
+</div>
+<div id="outline-container-org9447d69" class="outline-3">
+<h3 id="org9447d69"><span class="section-number-3">5.2.</span> with sample sentence</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+覚える単語が高度になってくると，
+etymologyがよく似ているので干渉が起こりやすくなります．
+そういうよく似た単語はsample sentenc(phrase)を一緒に
+覚えると，そこで記述されている情景とともに覚える
+ことが可能となります．
+</p>
+
+<p>
+最後のAnswersに'/'でsample sentenceを書き加えるだけですが，
+劇的に記憶のスピードが上がりますので試してみてください．
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-org5ca7224" class="outline-2">
+<h2 id="org5ca7224"><span class="section-number-2">6.</span> reverse and plot</h2>
 <div class="outline-text-2" id="text-6">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -233,8 +300,8 @@ Answers-Quizはdir_tree.yamlから取り出しています．
 </p>
 </div>
 </div>
-<div id="outline-container-org22e1ff0" class="outline-2">
-<h2 id="org22e1ff0"><span class="section-number-2">7.</span> references</h2>
+<div id="outline-container-orga7ed31f" class="outline-2">
+<h2 id="orga7ed31f"><span class="section-number-2">7.</span> references</h2>
 <div class="outline-text-2" id="text-7">
 <p>
 「由来とつながりがわかる英単語語源マップ」, 臼井俊雄著, (ベレ出版, 2017).
@@ -244,7 +311,7 @@ Answers-Quizはdir_tree.yamlから取り出しています．
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Shigeto R. Nishitani</p>
-<p class="date">Created: 2026-01-15 Thu 17:20</p>
+<p class="date">Created: 2026-02-05 Thu 12:06</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>

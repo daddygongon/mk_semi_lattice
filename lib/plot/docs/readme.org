@@ -1,0 +1,38 @@
+#+OPTIONS: ^:{}
+#+STARTUP: indent nolineimages overview num
+#+TITLE: hc plot
+#+AUTHOR: Shigeto R. Nishitani
+#+EMAIL:     (concat "shigeto_nishitani@mac.com")
+#+LANGUAGE:  jp
+#+OPTIONS:   H:4 toc:t num:2
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/html-theme-readtheorg.setup
+
+* plot
+** 
+学習の進捗状況を確認するために
+: hc plot
+がある．
+
+[[file:./plot/plot.002.png]]
+
+通常のplotでは実行directoryにある
+1. check_log.yaml
+1. score_log.yaml
+を参照して
+1. cumulative time(without option)
+1. score (-s)
+1. word number (-w)
+を表示する．
+
+** dirごと，全体
+記憶を確実に進めるためには，
+: divide and conquer(各個撃破）
+が基本．したがって，細かく分けたdirごとに
+仕上げていくのがいい．
+また，それらをまとめる(chunking)する単語を
+directory名に置いておくのがコツ．
+
+しかし，全体の進捗が知りたい時がある．
+その時には
+: hc -L 2
+を使って，cwdと一つ下の合計を表示することができる．
