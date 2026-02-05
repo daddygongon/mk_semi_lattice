@@ -5,7 +5,7 @@
 #+EMAIL:     (concat "shigeto_nishitani@mac.com")
 #+LANGUAGE:  jp
 #+OPTIONS:   H:4 toc:t num:2
-#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/html-theme-readtheorg.setup
 
 * Name
 セミラティス(semi lattice)構造を表示するmk_slコマンドと，
@@ -29,6 +29,16 @@ gem install mk_semi_lattice
 #+end_src
 
 * Usage
+hcは単語カードをpcで実装したアプリです．
+Thor(git風)を使っているので，subcommandにhelpをつければ
+そこで用意されているoptionsが表示されます．
+help(-h)にしたがって操作すれば大体使えることを期待しています．
+
+短いイントロは
+- [[./lib/docs/short_intro.org][short introduction for vocabulary builder]]
+にあります．
+
+詳しくは下のリンクを参照．
 #+begin_src bash
 > hc -h
 Commands:
@@ -42,7 +52,6 @@ Commands:
 - [[./lib/plot/docs/readme.org][hc plot]]            # plot logs
 - hc tree            # Print a tree of all available commands
 
-- [[./lib/docs/short_intro.org][short introduction for vocabulary builder]]
 
 * Contributing
 Bug reports and pull requests are welcome on GitHub at

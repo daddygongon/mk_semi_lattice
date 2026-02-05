@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="jp" xml:lang="jp">
 <head>
-<!-- 2026-01-15 Thu 23:12 -->
+<!-- 2026-02-05 Thu 12:55 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>mk_semi_lattice, hc</title>
@@ -27,17 +27,17 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org66b2453">1. Name</a></li>
-<li><a href="#org7841981">2. Installation</a></li>
-<li><a href="#orge22878e">3. Usage</a></li>
-<li><a href="#orga1dfc28">4. Contributing</a></li>
-<li><a href="#org317e2bc">5. License</a></li>
-<li><a href="#org679c84b">6. Code of Conduct</a></li>
+<li><a href="#org167c6d7">1. Name</a></li>
+<li><a href="#org758ab1f">2. Installation</a></li>
+<li><a href="#org41e7592">3. Usage</a></li>
+<li><a href="#org0ab374d">4. Contributing</a></li>
+<li><a href="#org3cf110f">5. License</a></li>
+<li><a href="#org94b52ef">6. Code of Conduct</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org66b2453" class="outline-2">
-<h2 id="org66b2453"><span class="section-number-2">1.</span> Name</h2>
+<div id="outline-container-org167c6d7" class="outline-2">
+<h2 id="org167c6d7"><span class="section-number-2">1.</span> Name</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 セミラティス(semi lattice)構造を表示するmk_slコマンドと，
@@ -45,8 +45,8 @@
 </p>
 </div>
 </div>
-<div id="outline-container-org7841981" class="outline-2">
-<h2 id="org7841981"><span class="section-number-2">2.</span> Installation</h2>
+<div id="outline-container-org758ab1f" class="outline-2">
+<h2 id="org758ab1f"><span class="section-number-2">2.</span> Installation</h2>
 <div class="outline-text-2" id="text-2">
 <p>
 'mk_semi_lattice' or 'hc view' depends on 'ruby2d'.
@@ -73,9 +73,29 @@ executing:
 </div>
 </div>
 </div>
-<div id="outline-container-orge22878e" class="outline-2">
-<h2 id="orge22878e"><span class="section-number-2">3.</span> Usage</h2>
+<div id="outline-container-org41e7592" class="outline-2">
+<h2 id="org41e7592"><span class="section-number-2">3.</span> Usage</h2>
 <div class="outline-text-2" id="text-3">
+<p>
+hcは単語カードをpcで実装したアプリです．
+Thor(git風)を使っているので，subcommandにhelpをつければ
+そこで用意されているoptionsが表示されます．
+help(-h)にしたがって操作すれば大体使えることを期待しています．
+</p>
+
+<p>
+短いイントロは
+</p>
+<ul class="org-ul">
+<li><a href="./lib/docs/short_intro.html">short introduction for vocabulary builder</a></li>
+</ul>
+<p>
+にあります．
+</p>
+
+<p>
+詳しくは下のリンクを参照．
+</p>
 <div class="org-src-container">
 <pre class="src src-bash">&gt; hc -h
 Commands:
@@ -88,16 +108,13 @@ Commands:
 <li><a href="./lib/split_pdf/docs/readme.html">hc split_pdf</a>       # split PDF files</li>
 <li><a href="./lib/mk_stack/docs/readme.html">hc stack</a>           # make stacks</li>
 <li><a href="./lib/mk_semi_lattice/docs/readme.html">hc view</a>            # View Semi Lattice Graph</li>
-</ul>
-
-
-<ul class="org-ul">
-<li><a href="./lib/docs/short_intro.html">short introduction for vocabulary builder</a></li>
+<li><a href="./lib/plot/docs/readme.html">hc plot</a>            # plot logs</li>
+<li>hc tree            # Print a tree of all available commands</li>
 </ul>
 </div>
 </div>
-<div id="outline-container-orga1dfc28" class="outline-2">
-<h2 id="orga1dfc28"><span class="section-number-2">4.</span> Contributing</h2>
+<div id="outline-container-org0ab374d" class="outline-2">
+<h2 id="org0ab374d"><span class="section-number-2">4.</span> Contributing</h2>
 <div class="outline-text-2" id="text-4">
 <p>
 Bug reports and pull requests are welcome on GitHub at
@@ -107,16 +124,16 @@ expected to adhere to the <a href="https://github.com/%5BUSERNAME%5D/mk_semi_lat
 </p>
 </div>
 </div>
-<div id="outline-container-org317e2bc" class="outline-2">
-<h2 id="org317e2bc"><span class="section-number-2">5.</span> License</h2>
+<div id="outline-container-org3cf110f" class="outline-2">
+<h2 id="org3cf110f"><span class="section-number-2">5.</span> License</h2>
 <div class="outline-text-2" id="text-5">
 <p>
 The gem is available as open source under the terms of the <a href="https://opensource.org/licenses/MIT">MIT License</a>.
 </p>
 </div>
 </div>
-<div id="outline-container-org679c84b" class="outline-2">
-<h2 id="org679c84b"><span class="section-number-2">6.</span> Code of Conduct</h2>
+<div id="outline-container-org94b52ef" class="outline-2">
+<h2 id="org94b52ef"><span class="section-number-2">6.</span> Code of Conduct</h2>
 <div class="outline-text-2" id="text-6">
 <p>
 Everyone interacting in the MkSemiLattice project's codebases, issue
@@ -128,7 +145,7 @@ trackers, chat rooms and mailing lists is expected to follow the
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Shigeto R. Nishitani</p>
-<p class="date">Created: 2026-01-15 Thu 23:12</p>
+<p class="date">Created: 2026-02-05 Thu 12:55</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
