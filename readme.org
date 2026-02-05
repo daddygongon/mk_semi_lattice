@@ -39,7 +39,8 @@ Commands:
 - [[./lib/split_pdf/docs/readme.org][hc split_pdf]]       # split PDF files
 - [[./lib/mk_stack/docs/readme.org][hc stack]]           # make stacks
 - [[./lib/mk_semi_lattice/docs/readme.org][hc view]]            # View Semi Lattice Graph
-
+- [[./lib/plot/docs/readme.org][hc plot]]            # plot logs
+- hc tree            # Print a tree of all available commands
 
 - [[./lib/docs/short_intro.org][short introduction for vocabulary builder]]
 
