@@ -13,7 +13,9 @@ class MkStack
       opts.on('-d', '--dryrun', 'Dry run (do not move or create anything)') { @options[:dryrun] = true }
       opts.on('-D', 'Do not move directories (only move files)') { @options[:no_dir_move] = true }
       opts.on('-A', 'Do not move hidden files and directories') { @options[:no_hidden] = true }
-      opts.on('-e', '--empty', 'create empty stack') { @options[:empty] = true }
+      opts.on('-c', '--create', 'create (empty) stack only') { @options[:empty] = true }
+      opts.on('-e', '--exec', 'execute stack making') { @options[:exec] = true }
+      opts.on('-f', '--flatten', 'making stacks flatten') { @options[:flatten] = true }
     end.parse!(argv)
 
     @root_name = argv[0]
@@ -127,7 +129,7 @@ class MkStack
     end
   end
 
-  def run
+  def execute
     ensure_root_name
     @root_name, dir = next_available_dir(@root_name, @date)
     create_dir(dir)
@@ -136,5 +138,5 @@ class MkStack
 end
 
 if __FILE__ == $0
-  MkStack.new(ARGV).run
+  MkStack.new(ARGV).execute
 end

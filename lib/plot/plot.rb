@@ -41,12 +41,21 @@ module Plot
   class Plotter
     def initialize(log_file, layer: nil, dark: false)
       @dark = dark
-      if layer
-        patterns = (0...layer).map { |i| File.join(['.'] + ['*'] * i, log_file) }
-        files = patterns.flat_map { |pat| Dir.glob(pat, base: '.') }.select { |f| File.exist?(f) }
-        @log = files.flat_map { |f| YAML.load(File.read(f)) }
-      else
-        @log = YAML.load(File.read(log_file))
+      begin
+        if layer
+          patterns = (0...layer).map { |i| File.join(['.'] + ['*'] * i, log_file) }
+          files = patterns.flat_map { |pat| Dir.glob(pat, base: '.') }.select { |f| File.exist?(f) }
+          raise "No log files found for pattern(s): #{patterns.join(', ')}" if files.empty?
+          @log = files.flat_map { |f| YAML.load(File.read(f)) }
+        else
+          unless File.exist?(log_file)
+            raise "Log file not found: #{log_file}"
+          end
+          @log = YAML.load(File.read(log_file))
+        end
+      rescue => e
+        puts "[Error] #{e.message}".colorize(:red)
+        exit 1
       end
     end
 
@@ -65,6 +74,7 @@ module Plot
       <<~PYTHON
         import matplotlib.pyplot as plt
         from datetime import datetime
+        from matplotlib.ticker import MaxNLocator
         #{date_fmt_import}
         #{dark_theme_code}
 
@@ -74,8 +84,9 @@ module Plot
         x = [datetime.strptime(val, "#{x_fmt}") for val in x_data]
         y = y_data
 
-        plt.figure(figsize=(12,5))
+        plt.figure(figsize=(6,5))  # 横幅を半分に
         plt.plot(x, y, marker='o')
+        plt.gca().xaxis.set_major_locator(MaxNLocator(nbins=6))  # x軸tickを最大6個に制限
         #{date_fmt_setter}
         plt.title('#{title}')
         plt.xlabel('#{x_label}')
