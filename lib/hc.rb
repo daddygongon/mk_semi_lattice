@@ -19,7 +19,14 @@ class CLI < Thor
 
   desc 'stack', 'make stacks'
   def stack(*argv)
-      MkStack.new(argv).run
+    wrapper = StackOperations::OptionParserWrapper.new(argv)
+    if wrapper.options[:flatten]
+      StackOperations::MkFlatten.new(wrapper.options, wrapper.args).run
+    elsif wrapper.options[:nest]
+      StackOperations::MkNest.new(wrapper.options, wrapper.args).run
+    else
+      StackOperations::MkStack.new(wrapper.options, wrapper.args).run
+    end  
   end
 
   desc 'split_pdf', 'split PDF files'
