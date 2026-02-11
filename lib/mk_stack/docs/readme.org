@@ -5,7 +5,7 @@
 #+EMAIL:     (concat "shigeto_nishitani@mac.com")
 #+LANGUAGE:  jp
 #+OPTIONS:   H:4 toc:t num:2
-#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/html-theme-readtheorg.setup
 
 * Name
 make stack structures.
@@ -22,14 +22,19 @@ make stack structures.
 #+begin_src bash
 > hc stack -h
 Usage: hc stack [options]
-    -n, --number=NUMBER              Add ordinal number
+    -o, --ordinal=ORDINAL            Add ordinal number
     -d, --dryrun                     Dry run (do not move or create anything)
     -D                               Do not move directories (only move files)
     -A                               Do not move hidden files and directories
-    -e, --empty                      create empty stack
+    -c, --create                     Create (empty) stack only
+    -e, --exec                       Execute stack making
+    -f, --flatten                    Flatten stacks
+    -n, --nest                       Nest stacks by _yymmdd
+    -r, --reverse                    Reverse _yymmdd order for nest
 #+end_src
 
 * What does 'stack' do?
+
 | [[./mk_stack/mk_stack.001.png]]
 | stack動作のポンチ絵.
 
@@ -56,3 +61,20 @@ stackという動作名称は，昔のHyperCardシステムからの借用です
 
 整理の基本となる，chunking, tight bindingを
 強制するシステムコマンドです．ご活用ください．
+
+* flatten and nest
+
+| [[./mk_stack/mk_stack.002.png]]
+| stackのflatten, nest動作のポンチ絵.
+
+stackを積みすぎるとnestが深くなって移動が大変になります．
+hiddenにして表示を減らすよりもflatにして，
+見やすくしたくなります．
+あるいはflatな構造をnestに戻したくなります．
+これらを自動でやってくれるのがflatten, nestオプションです．
+
+対象とする名前(_stack_*_yymmdd)やdirectory構造
+に制約があるので，dryrunを使ってbefore, afterを
+確認してからexecute(-e)してください．
+それ以外の対象には手動で対処してください．
+

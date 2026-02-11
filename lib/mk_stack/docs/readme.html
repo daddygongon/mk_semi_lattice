@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="jp" xml:lang="jp">
 <head>
-<!-- 2026-01-10 Sat 12:05 -->
+<!-- 2026-02-11 Wed 16:16 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>hc stack</title>
@@ -27,14 +27,15 @@
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents" role="doc-toc">
 <ul>
-<li><a href="#org196c2c7">1. Name</a></li>
-<li><a href="#orga960af2">2. Help</a></li>
-<li><a href="#orga2b2010">3. What does 'stack' do?</a></li>
+<li><a href="#orgfbfb7db">1. Name</a></li>
+<li><a href="#org9e554f0">2. Help</a></li>
+<li><a href="#orgfbaa20d">3. What does 'stack' do?</a></li>
+<li><a href="#org6195cef">4. flatten and nest</a></li>
 </ul>
 </div>
 </div>
-<div id="outline-container-org196c2c7" class="outline-2">
-<h2 id="org196c2c7"><span class="section-number-2">1.</span> Name</h2>
+<div id="outline-container-orgfbfb7db" class="outline-2">
+<h2 id="orgfbfb7db"><span class="section-number-2">1.</span> Name</h2>
 <div class="outline-text-2" id="text-1">
 <p>
 make stack structures.
@@ -55,23 +56,27 @@ make stack structures.
 </ul>
 </div>
 </div>
-<div id="outline-container-orga960af2" class="outline-2">
-<h2 id="orga960af2"><span class="section-number-2">2.</span> Help</h2>
+<div id="outline-container-org9e554f0" class="outline-2">
+<h2 id="org9e554f0"><span class="section-number-2">2.</span> Help</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 <pre class="src src-bash">&gt; hc stack -h
 Usage: hc stack [options]
-    -n, --number=NUMBER              Add ordinal number
-    -d, --dryrun                     Dry run (<span style="color: #1c86ee;">do</span> not move or create anything)
+    -o, --ordinal=ORDINAL            Add ordinal number
+    -d, --dryrun                     Dry run (<span style="color: #531ab6;">do</span> not move or create anything)
     -D                               Do not move directories (only move files)
     -A                               Do not move hidden files and directories
-    -e, --empty                      create empty stack
+    -c, --create                     Create (empty) stack only
+    -e, --exec                       Execute stack making
+    -f, --flatten                    Flatten stacks
+    -n, --nest                       Nest stacks by _yymmdd
+    -r, --reverse                    Reverse _yymmdd order for nest
 </pre>
 </div>
 </div>
 </div>
-<div id="outline-container-orga2b2010" class="outline-2">
-<h2 id="orga2b2010"><span class="section-number-2">3.</span> What does 'stack' do?</h2>
+<div id="outline-container-orgfbaa20d" class="outline-2">
+<h2 id="orgfbaa20d"><span class="section-number-2">3.</span> What does 'stack' do?</h2>
 <div class="outline-text-2" id="text-3">
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
@@ -135,10 +140,46 @@ stackという動作名称は，昔のHyperCardシステムからの借用です
 </p>
 </div>
 </div>
+<div id="outline-container-org6195cef" class="outline-2">
+<h2 id="org6195cef"><span class="section-number-2">4.</span> flatten and nest</h2>
+<div class="outline-text-2" id="text-4">
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><img src="./mk_stack/mk_stack.002.png" alt="mk_stack.002.png" /></td>
+</tr>
+
+<tr>
+<td class="org-left">stackのflatten, nest動作のポンチ絵.</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+stackを積みすぎるとnestが深くなって移動が大変になります．
+hiddenにして表示を減らすよりもflatにして，
+見やすくしたくなります．
+あるいはflatな構造をnestに戻したくなります．
+これらを自動でやってくれるのがflatten, nestオプションです．
+</p>
+
+<p>
+対象とする名前(_stack_*_yymmdd)やdirectory構造
+に制約があるので，dryrunを使ってbefore, afterを
+確認してからexecute(-e)してください．
+それ以外の対象には手動で対処してください．
+</p>
+</div>
+</div>
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Shigeto R. Nishitani</p>
-<p class="date">Created: 2026-01-10 Sat 12:05</p>
+<p class="date">Created: 2026-02-11 Wed 16:16</p>
 <p class="validation"><a href="https://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
