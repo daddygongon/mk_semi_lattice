@@ -20,8 +20,8 @@ module StackOperations
         opts.on('-c', '--create', 'Create (empty) stack only') { @options[:empty] = true }
         opts.on('-e', '--exec', 'Execute stack making') { @options[:dryrun] = false }
         opts.on('-f', '--flatten', 'Flatten stacks') { @options[:flatten] = true }
-        opts.on('-n', '--nest', 'Nest stacks by ordinal') { @options[:nest] = true }
-        opts.on('-r', '--reverse', 'Reverse ordinal order for nest') { @options[:reverse] = true }
+        opts.on('-n', '--nest', 'Nest stacks by _yymmdd') { @options[:nest] = true }
+        opts.on('-r', '--reverse', 'Reverse _yymmdd order for nest') { @options[:reverse] = true }
       end.parse!(argv)
       @args = argv
     end
@@ -104,7 +104,7 @@ module StackOperations
 
     def create_dir(dir)
       if @options[:dryrun]
-        puts "[Dry Run] Would create directory: #{dir}"
+        puts "[Dry Run] mkdir #{dir}"
       else
         Dir.mkdir(dir) unless Dir.exist?(dir)
         puts "Created directory: #{dir}"
@@ -126,14 +126,14 @@ module StackOperations
       entries.each do |entry|
         next if @options[:no_dir_move] && File.directory?(entry)
         if @options[:dryrun]
-          puts "[Dry Run] Would move #{entry} to #{dir}"
+          puts "[Dry Run] mv #{entry} (to) #{dir}"
         else
           FileUtils.mv(entry, dir, force: true)
         end
       end
 
       if @options[:dryrun]
-        puts "[Dry Run] Would move #{entries.empty? ? 'nothing' : entries.join(', ')} to #{dir}"
+        puts "[Dry Run] mv #{entries.empty? ? 'nothing' : entries.join(', ')} (to) #{dir}"
       else
         puts "Moved #{entries.empty? ? 'nothing' : entries.join(', ')} to #{dir}"
       end
@@ -199,6 +199,11 @@ module StackOperations
 
     def execute_flatten_moves
       flatten_moves.each do |src, dest|
+        # mv元とmv先が同じ場合はスキップ
+        if File.expand_path(src) == File.expand_path(dest)
+          puts "[Skip] mv '#{src}' '#{dest}' (same path)"
+          next
+        end
         puts "mv '#{src}' '#{dest}'"
         FileUtils.mv(src, dest)
       end
@@ -226,11 +231,13 @@ module StackOperations
       @target_dir = args[0] || "."
     end
 
-    # ordinal順に並べ替え（reverseオプションで順序切替）
+    # yymmdd順に並べ替え（reverseオプションで順序切替）
     def sorted_stacks
       stacks = Dir.glob(File.join(@target_dir, "_stack_*_*"))
-        .select { |d| File.directory?(d) }
-        .sort_by { |d| d[/^_stack_(\d+)(st|nd|rd|th)_/, 1].to_i }
+         .select { |d| File.directory?(d) && d =~ /_stack_.+_\d{6}$/ }
+         .sort_by { |d| d[/_stack_.+_(\d{6})$/, 1].to_i }
+        #.select { |d| File.directory?(d) }
+        #.sort_by { |d| d[/^_stack_(\d+)(st|nd|rd|th)_/, 1].to_i }
       @options[:reverse] ? stacks : stacks.reverse
     end
 
@@ -253,7 +260,7 @@ module StackOperations
 
     # nest後のtree構造を表示
     def print_nested_tree
-      stacks = sorted_stacks
+      p stacks = sorted_stacks
       return if stacks.empty?
       puts "."
       stacks.each_with_index do |dir, idx|
