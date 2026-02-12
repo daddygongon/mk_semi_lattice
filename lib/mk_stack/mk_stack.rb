@@ -4,6 +4,7 @@ require 'fileutils'
 require 'optparse'
 require 'date'
 
+
 module StackOperations
   class OptionParserWrapper
     attr_reader :options, :args
@@ -28,6 +29,7 @@ module StackOperations
   end
 
   class MkStack
+
     def initialize(options, args)
       @options = options
       @root_name = args[0]
@@ -114,14 +116,7 @@ module StackOperations
     def move_entries(dir)
       exclude = ['.', '..', dir, '.vscode', 'project.code-workspace']
       entries = Dir.glob('*', File::FNM_DOTMATCH) - exclude
-
-      if @options[:no_hidden]
-        entries.reject! { |entry| entry.start_with?('.') }
-      end
-
-      if @options[:empty]
-        entries.select! { |entry| File.directory?(entry) && entry.start_with?('_stack') }
-      end
+      @moved_entries = entries # ←追加：移動予定を記録
 
       entries.each do |entry|
         next if @options[:no_dir_move] && File.directory?(entry)
@@ -139,11 +134,81 @@ module StackOperations
       end
     end
 
+    # tree構造を表示（ディレクトリのみ）
+    def print_tree(dir, prefix = "", is_last_arr = [])
+      puts "#{prefix}#{File.basename(dir)}"
+      if File.directory?(dir)
+        entries = Dir.children(dir).sort
+        entries.each_with_index do |entry, idx|
+          path = File.join(dir, entry)
+          is_last = idx == entries.size - 1
+          new_prefix = ""
+          is_last_arr.each { |last| new_prefix += last ? "    " : "│   " }
+          new_prefix += is_last ? "└── " : "├── "
+          if File.directory?(path)
+            print_tree(path, new_prefix, is_last_arr + [is_last])
+          else
+            puts "#{new_prefix}#{entry}"
+          end
+        end
+      end
+    end
+
+    def print_virtual_tree(root_dir, moved_entries, exclude)
+      # .直下の構造を仮想的に表示
+      all_entries = Dir.glob('*', File::FNM_DOTMATCH).reject { |e| ['.', '..'].include?(e) }
+      after_entries = all_entries.map do |e|
+        if moved_entries.include?(e)
+          nil # 移動したものは消える
+        else
+          e
+        end
+      end.compact
+      after_entries << File.basename(root_dir) # 新rootディレクトリを追加
+
+      puts "."
+      after_entries.sort.each_with_index do |entry, idx|
+        is_last = idx == after_entries.size - 1
+        prefix = is_last ? "└── " : "├── "
+        if entry == File.basename(root_dir)
+          # 新rootディレクトリの中身を表示
+          puts "#{prefix}#{entry}/"
+          moved_entries.sort.each_with_index do |m_entry, m_idx|
+            m_is_last = m_idx == moved_entries.size - 1
+            m_prefix = "    " + (m_is_last ? "└── " : "├── ")
+            m_path = File.join(".", m_entry)
+            m_name = File.directory?(m_path) ? "#{m_entry}/" : m_entry
+            puts "#{m_prefix}#{m_name}"
+          end
+        else
+          path = File.join(".", entry)
+          name = File.directory?(path) ? "#{entry}/" : entry
+          puts "#{prefix}#{name}"
+        end
+      end
+    end
+
+    def print_top_level(dir)
+      puts dir == "." ? "." : File.basename(dir)
+      entries = Dir.children(dir).sort.reject { |e| ['.', '..'].include?(e) }
+      entries.each_with_index do |entry, idx|
+        path = File.join(dir, entry)
+        is_last = idx == entries.size - 1
+        prefix = is_last ? "└── " : "├── "
+        name = File.directory?(path) ? "#{entry}/" : entry
+        puts "#{prefix}#{name}"
+      end
+    end
+
     def run
+      puts "Before stack:"
+      print_top_level(".") # ← .直下のみ表示
       ensure_root_name
       @root_name, dir = next_available_dir(@root_name, @date)
       create_dir(dir)
       move_entries(dir)
+      puts "\nAfter stack:"
+      print_virtual_tree(dir, @moved_entries, ['.vscode', 'project.code-workspace'])
     end
   end
 
@@ -156,7 +221,7 @@ module StackOperations
 
     # 指定ディレクトリ以下のtree構造を表示（ディレクトリのみ）
     def print_tree(dir, prefix = "", is_last_arr = [])
-      puts "#{prefix}#{File.basename(dir)}"
+      puts "#{prefix}#{File.basename(dir)}/"
       if File.directory?(dir)
         entries = Dir.children(dir).sort.select { |entry| File.directory?(File.join(dir, entry)) }
         entries.each_with_index do |entry, idx|
@@ -175,12 +240,11 @@ module StackOperations
     def print_flattened_tree
       stacks = []
       search_dirs = Dir.glob(File.join(@target_dir, "**/_stack_*_*")).select { |d| File.directory?(d) }
-      # ルート直下の_stack_*_*も含める
       root_stacks = Dir.glob(File.join(@target_dir, "_stack_*_*")).select { |d| File.directory?(d) }
       all_stacks = (root_stacks + search_dirs).uniq
       all_stacks.map! { |d| File.basename(d) }
       all_stacks.each do |d|
-        puts "└── #{d}"
+        puts "└── #{d}/"  # ← 末尾に / を追加
       end
     end
 
@@ -243,7 +307,7 @@ module StackOperations
 
     # ディレクトリのみtree表示
     def print_tree(dir, prefix = "", is_last_arr = [])
-      puts "#{prefix}#{File.basename(dir)}"
+      puts "#{prefix}#{File.basename(dir)}/"
       if File.directory?(dir)
         entries = Dir.children(dir).sort.select { |entry| File.directory?(File.join(dir, entry)) }
         entries.each_with_index do |entry, idx|
@@ -260,12 +324,12 @@ module StackOperations
 
     # nest後のtree構造を表示
     def print_nested_tree
-      p stacks = sorted_stacks
+      stacks = sorted_stacks
       return if stacks.empty?
       puts "."
       stacks.each_with_index do |dir, idx|
         indent = "  " * idx + "└── "
-        puts "#{indent}#{File.basename(dir)}"
+        puts "#{indent}#{File.basename(dir)}/"  # 末尾に /
       end
     end
 
