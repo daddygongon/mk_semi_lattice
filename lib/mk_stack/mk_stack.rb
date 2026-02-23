@@ -10,7 +10,7 @@ module StackOperations
     attr_reader :options, :args
 
     def initialize(argv)
-      @options = { flatten: false, nest: false, dryrun: true, reverse: false }
+      @options = { flatten: false, nest: false, dryrun: true, reverse: false, empty: false, no_dir_move: false }
       @args = []
       OptionParser.new do |opts|
         opts.banner = "Usage: hc stack [options]"
@@ -27,7 +27,46 @@ module StackOperations
       @args = argv
     end
   end
-  class MkStack
+
+  class MkTree
+    def mk_dir_tree(dir, current_level = 1, max_level = 2, dirs_only: false)
+      tree = {}
+      return tree unless File.directory?(dir)
+
+      Dir.children(dir).sort.each do |entry|
+        path = File.join(dir, entry)
+        is_dir = File.directory?(path)
+        next if dirs_only && !is_dir
+
+        if is_dir
+          tree[entry] = current_level < max_level ? mk_dir_tree(path, current_level + 1, max_level, dirs_only: dirs_only) : {}
+        else
+          tree[entry] = nil
+        end
+      end
+      tree
+    end
+
+    def print_tree(tree, is_last_arr = [])
+      entries = tree.keys
+      entries.each_with_index do |entry, idx|
+        is_last = idx == entries.size - 1
+        prefix = ""
+        is_last_arr.each { |last| prefix += last ? "    " : "│   " }
+        prefix += is_last ? "└── " : "├── "
+        
+        is_dir = tree[entry].is_a?(Hash)
+        name = is_dir ? "#{entry}/" : entry
+        puts "#{prefix}#{name}"
+        
+        if is_dir
+          print_tree(tree[entry], is_last_arr + [is_last])
+        end
+      end
+    end
+  end
+
+  class MkStack < MkTree
     def initialize(options, args)
       @options = options
       @root_name = args[0]
@@ -81,254 +120,211 @@ module StackOperations
     end
     def find_max_ordinal
       candidates = Dir.glob("_stack_*_*").select { |d| d =~ /^_stack_(\d+)(st|nd|rd|th)_(\d{6})$/ }
-      ordinals = candidates.map do |d|
-        if d =~ /^_stack_(\d+)(st|nd|rd|th)_(\d{6})$/
-          $1.to_i
-        else
-          nil
-        end
-      end.compact
+      ordinals = candidates.map { |d| d[/^_stack_(\d+)/, 1].to_i }.compact
       ordinals.any? ? ordinals.max : 0
     end
     def ensure_root_name
-      if @root_name.nil? || @root_name.strip.empty?
+      if @root_name.nil? || @root_name.empty?
         max_num = find_max_ordinal
-        @root_name = max_num > 0 ? ordinal(max_num) : "1st"
-      end
-    end
-    def create_dir(dir)
-      if @options[:dryrun]
-        puts "[Dry Run] mkdir #{dir}"
-      else
-        Dir.mkdir(dir) unless Dir.exist?(dir)
-        puts "Created directory: #{dir}"
-      end
-    end
-    def move_entries(dir)
-      exclude = ['.', '..', dir, '.vscode', 'project.code-workspace']
-      entries = Dir.glob('*', File::FNM_DOTMATCH) - exclude
-      @moved_entries = entries # ←追加：移動予定を記録
-
-      entries.each do |entry|
-        next if @options[:no_dir_move] && File.directory?(entry)
-        if @options[:dryrun]
-          puts "[Dry Run] mv #{entry} (to) #{dir}"
-        else
-          FileUtils.mv(entry, dir, force: true)
-        end
-      end
-
-      if @options[:dryrun]
-        puts "[Dry Run] mv #{entries.empty? ? 'nothing' : entries.join(', ')} (to) #{dir}"
-      else
-        puts "Moved #{entries.empty? ? 'nothing' : entries.join(', ')} to #{dir}"
-      end
-    end
-    def print_tree(dir, prefix = "", is_last_arr = [])
-      puts "#{prefix}#{File.basename(dir)}"
-      if File.directory?(dir)
-        entries = Dir.children(dir).sort
-        entries.each_with_index do |entry, idx|
-          path = File.join(dir, entry)
-          is_last = idx == entries.size - 1
-          new_prefix = ""
-          is_last_arr.each { |last| new_prefix += last ? "    " : "│   " }
-          new_prefix += is_last ? "└── " : "├── "
-          if File.directory?(path)
-            print_tree(path, new_prefix, is_last_arr + [is_last])
-          else
-            puts "#{new_prefix}#{entry}"
-          end
-        end
-      end
-    end
-    def print_virtual_tree(root_dir, moved_entries, exclude)
-      # .直下の構造を仮想的に表示
-      all_entries = Dir.glob('*', File::FNM_DOTMATCH).reject { |e| ['.', '..'].include?(e) }
-      after_entries = all_entries.map do |e|
-        if moved_entries.include?(e)
-          nil # 移動したものは消える
-        else
-          e
-        end
-      end.compact
-      after_entries << File.basename(root_dir) # 新rootディレクトリを追加
-
-      puts "."
-      after_entries.sort.each_with_index do |entry, idx|
-        is_last = idx == after_entries.size - 1
-        prefix = is_last ? "└── " : "├── "
-        if entry == File.basename(root_dir)
-          # 新rootディレクトリの中身を表示
-          puts "#{prefix}#{entry}/"
-          moved_entries.sort.each_with_index do |m_entry, m_idx|
-            m_is_last = m_idx == moved_entries.size - 1
-            m_prefix = "    " + (m_is_last ? "└── " : "├── ")
-            m_path = File.join(".", m_entry)
-            m_name = File.directory?(m_path) ? "#{m_entry}/" : m_entry
-            puts "#{m_prefix}#{m_name}"
-          end
-        else
-          path = File.join(".", entry)
-          name = File.directory?(path) ? "#{entry}/" : entry
-          puts "#{prefix}#{name}"
-        end
-      end
-    end
-    def print_top_level(dir)
-      puts dir == "." ? "." : File.basename(dir)
-      entries = Dir.children(dir).sort.reject { |e| ['.', '..'].include?(e) }
-      entries.each_with_index do |entry, idx|
-        path = File.join(dir, entry)
-        is_last = idx == entries.size - 1
-        prefix = is_last ? "└── " : "├── "
-        name = File.directory?(path) ? "#{entry}/" : entry
-        puts "#{prefix}#{name}"
+        @root_name = max_num > 0 ? "#{max_num}th" : "1st"
       end
     end
     def run
-      puts "Before stack:"
-      print_top_level(".")
       ensure_root_name
       @root_name, dir = next_available_dir(@root_name, @date)
-      create_dir(dir)
-      if @options[:empty]
-        puts "\nAfter stack:"
-        print_top_level(".") # 新ディレクトリだけ増えた状態を表示
+
+      # 1. 現在のツリーを取得
+      current_tree = mk_dir_tree(".", 1, 1)
+
+      # 2. 移動対象の決定
+      exclude = ['.', '..', dir, '.vscode', 'project.code-workspace']
+      all_entries = Dir.glob('*', File::FNM_DOTMATCH) - exclude
+      moved_entries = []
+      
+      unless @options[:empty]
+        all_entries.each do |entry|
+          next if @options[:no_dir_move] && File.directory?(entry)
+          moved_entries << entry
+        end
+      end
+
+      # 3. 仮想ツリーの構築 (Hashの操作としてmvをシミュレート)
+      virtual_tree = {}
+      current_tree.each do |k, v|
+        virtual_tree[k] = v unless moved_entries.include?(k)
+      end
+      
+      moved_tree = {}
+      moved_entries.each do |entry|
+        moved_tree[entry] = current_tree[entry]
+      end
+      virtual_tree[dir] = moved_tree
+      virtual_tree = virtual_tree.sort.to_h
+
+      # 4. Before表示
+      puts "Before stack:"
+      puts "."
+      print_tree(current_tree)
+
+      # 5. 操作の表示 (Dry Run or Execute)
+      puts "\nOperations:"
+      prefix = @options[:dryrun] ? "[Dry Run] " : ""
+      puts "#{prefix}mkdir #{dir}"
+      if moved_entries.empty?
+        puts "#{prefix}mv nothing (to) #{dir}"
       else
-        move_entries(dir)
-        puts "\nAfter stack:"
-        print_virtual_tree(dir, @moved_entries, ['.vscode', 'project.code-workspace'])
+        moved_entries.each do |entry|
+          puts "#{prefix}mv #{entry} (to) #{dir}"
+        end
+      end
+
+      # 6. After表示
+      puts "\nAfter stack:"
+      puts "."
+      print_tree(virtual_tree)
+
+      # 7. 実行 (-e 指定時)
+      unless @options[:dryrun]
+        Dir.mkdir(dir) unless Dir.exist?(dir)
+        moved_entries.each do |entry|
+          FileUtils.mv(entry, dir)
+        end
+        puts "\nExecution completed."
       end
     end
   end
-  class MkFlatten
+
+  class MkFlatten < MkTree
     def initialize(options, args)
       @options = options
       @target_dir = args[0] || "."
       @target_dir = @target_dir.chomp("/")
     end
-    def print_tree(dir, prefix = "", is_last_arr = [])
-      puts "#{prefix}#{File.basename(dir)}/"
-      if File.directory?(dir)
-        entries = Dir.children(dir).sort.select { |entry| File.directory?(File.join(dir, entry)) }
-        entries.each_with_index do |entry, idx|
-          path = File.join(dir, entry)
-          is_last = idx == entries.size - 1
-          # インデント生成
-          new_prefix = ""
-          is_last_arr.each { |last| new_prefix += last ? "    " : "│   " }
-          new_prefix += is_last ? "└── " : "├── "
-          print_tree(path, new_prefix, is_last_arr + [is_last])
-        end
-      end
-    end
-    def print_flattened_tree
-      stacks = []
+    def build_virtual_tree
       search_dirs = Dir.glob(File.join(@target_dir, "**/_stack_*_*")).select { |d| File.directory?(d) }
       root_stacks = Dir.glob(File.join(@target_dir, "_stack_*_*")).select { |d| File.directory?(d) }
       all_stacks = (root_stacks + search_dirs).uniq
-      all_stacks.map! { |d| File.basename(d) }
-      all_stacks.each do |d|
-        puts "└── #{d}/"  # ← 末尾に / を追加
+      
+      tree = {}
+      all_stacks.map { |d| File.basename(d) }.sort.each do |d|
+        tree[d] = {}
       end
-    end
-    def print_flatten_moves
-      flatten_moves.each do |src, dest|
-        puts "[Dry Run] mv '#{src}' '#{dest}'"
-      end
+      tree
     end
     def flatten_moves
-      stacks = Dir.glob(File.join(@target_dir, "**/_stack_*_*")).select { |d| File.directory?(d) }
-      stacks.sort_by! { |d| -d.count(File::SEPARATOR) }
-      stacks.map { |src| [src, File.join(".", File.basename(src))] }
-    end
-    def execute_flatten_moves
-      flatten_moves.each do |src, dest|
-        # mv元とmv先が同じ場合はスキップ
-        if File.expand_path(src) == File.expand_path(dest)
-          puts "[Skip] mv '#{src}' '#{dest}' (same path)"
-          next
-        end
-        puts "mv '#{src}' '#{dest}'"
-        FileUtils.mv(src, dest)
+      search_dirs = Dir.glob(File.join(@target_dir, "**/_stack_*_*")).select { |d| File.directory?(d) }
+      root_stacks = Dir.glob(File.join(@target_dir, "_stack_*_*")).select { |d| File.directory?(d) }
+      stacks = (root_stacks + search_dirs).uniq
+      
+      # 深い階層から順に移動させるため、パスの深さで降順ソート
+      stacks.sort_by! { |d| -d.count('/') }
+      
+      moves = []
+      stacks.each do |src|
+        dest = File.join(@target_dir, File.basename(src))
+        moves << [src, dest] unless src == dest
       end
+      moves
     end
     def run
       puts "Before flatten:"
-      puts "."
-      print_tree(@target_dir, "", [])
+      puts @target_dir == "." ? "." : "#{File.basename(@target_dir)}/"
+      print_tree(mk_dir_tree(@target_dir, 1, 999, dirs_only: true))
+
+      moves = flatten_moves
+
+      puts "\nOperations:"
+      prefix = @options[:dryrun] ? "[Dry Run] " : ""
+      if moves.empty?
+        puts "#{prefix}nothing to flatten"
+      else
+        moves.each do |src, dest|
+          puts "#{prefix}mv #{src} (to) #{dest}"
+        end
+      end
+
       puts "\nAfter flatten:"
       puts "."
-      print_flattened_tree
-      puts "\nFlatten moves:"
-      if @options[:dryrun]
-        print_flatten_moves
-      else
-        execute_flatten_moves
+      print_tree(build_virtual_tree)
+
+      unless @options[:dryrun]
+        moves.each do |src, dest|
+          FileUtils.mv(src, dest)
+        end
+        puts "\nExecution completed."
       end
     end
   end
-  class MkNest
+
+  class MkNest < MkTree
     def initialize(options, args)
       @options = options
       @target_dir = args[0] || "."
     end
     def sorted_stacks
-      stacks = Dir.glob(File.join(@target_dir, "_stack_*_*"))
-         .select { |d| File.directory?(d) && d =~ /_stack_.+_\d{6}$/ }
-         .sort_by { |d| d[/_stack_.+_(\d{6})$/, 1].to_i }
-        #.select { |d| File.directory?(d) }
-        #.sort_by { |d| d[/^_stack_(\d+)(st|nd|rd|th)_/, 1].to_i }
+      stacks = Dir.glob(File.join(@target_dir, "_stack_*_*")).select { |d| File.directory?(d) }
+      stacks = stacks.sort_by { |d| d[/_stack_(\d+)(st|nd|rd|th)_/, 1].to_i }
+      # デフォルトはFILO（新しいものがルート: 7th, 6th, 5th...）
+      # -r オプションでFIFO（古いものがルート: 1st, 2nd, 3rd...）
       @options[:reverse] ? stacks : stacks.reverse
     end
-    def print_tree(dir, prefix = "", is_last_arr = [])
-      puts "#{prefix}#{File.basename(dir)}/"
-      if File.directory?(dir)
-        entries = Dir.children(dir).sort.select { |entry| File.directory?(File.join(dir, entry)) }
-        entries.each_with_index do |entry, idx|
-          path = File.join(dir, entry)
-          is_last = idx == entries.size - 1
-          # インデント生成
-          new_prefix = ""
-          is_last_arr.each { |last| new_prefix += last ? "    " : "│   " }
-          new_prefix += is_last ? "└── " : "├── "
-          print_tree(path, new_prefix, is_last_arr + [is_last])
-        end
-      end
-    end
-    def print_nested_tree
+    def build_virtual_tree
       stacks = sorted_stacks
-      return if stacks.empty?
-      puts "."
-      stacks.each_with_index do |dir, idx|
-        indent = "  " * idx + "└── "
-        puts "#{indent}#{File.basename(dir)}/"  # 末尾に /
+      tree = {}
+      return tree if stacks.empty?
+      
+      current = tree
+      stacks.each do |dir|
+        name = File.basename(dir)
+        current[name] = {}
+        current = current[name]
       end
+      tree
     end
     def nest_moves
       stacks = sorted_stacks
-      # 子から親へ（パスが変わらないように逆順でmv）
-      moves = stacks.each_cons(2).to_a.reverse
-      moves.each do |parent, child|
+      moves = []
+      return moves if stacks.size < 2
+      
+      # ENOENTエラーを防ぐため、一番奥（深い階層）に入るものから順に親へ移動する
+      # 例: stacks = [7th, 6th, 5th] の場合
+      # 1. 5th を 6th へ移動
+      # 2. 6th を 7th へ移動
+      (0...stacks.size - 1).to_a.reverse.each do |i|
+        parent = stacks[i]
+        child = stacks[i + 1]
         dest = File.join(parent, File.basename(child))
-        if @options[:dryrun]
-          puts "[Dry Run] mv '#{child}' '#{dest}'"
-        else
-          puts "mv '#{child}' '#{dest}'"
-          FileUtils.mkdir_p(parent) unless Dir.exist?(parent)
-          FileUtils.mv(child, dest)
-        end
+        moves << [child, dest]
       end
+      moves
     end
     def run
       puts "Before nest:"
-      puts "."
-      print_tree(@target_dir, "", [])
+      puts @target_dir == "." ? "." : "#{File.basename(@target_dir)}/"
+      print_tree(mk_dir_tree(@target_dir, 1, 999, dirs_only: true))
+
+      moves = nest_moves
+
+      puts "\nOperations:"
+      prefix = @options[:dryrun] ? "[Dry Run] " : ""
+      if moves.empty?
+        puts "#{prefix}nothing to nest"
+      else
+        moves.each do |child, dest|
+          puts "#{prefix}mv #{child} (to) #{dest}"
+        end
+      end
+
       puts "\nAfter nest:"
-      print_nested_tree
-      puts "\nNest moves:"
-      nest_moves
+      puts "."
+      print_tree(build_virtual_tree)
+
+      unless @options[:dryrun]
+        moves.each do |child, dest|
+          FileUtils.mv(child, dest)
+        end
+        puts "\nExecution completed."
+      end
     end
   end
 end
