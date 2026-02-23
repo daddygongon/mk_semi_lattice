@@ -18,8 +18,12 @@
   ssh=secure shell=安全なremote shell接続:
 #path=path=パス，小径:
   full_path=full path=フルパス:
-  abs_oath=abosolute path=絶対(absolute)パス:
+  abs_path=abosolute path=絶対(absolute)パス:
   rel_path=relative path=相対パス:
+# etc:
+  fish=friendly interactive shell:
+  apt=advanced package tool:
+  sudo=super user do:
 #c-keys=controll-keys=fishコマンド編集keyバインド:
   c-a/ahead=行頭へ移動:
   c-e/end=行末へ移動:

@@ -27,15 +27,12 @@ module StackOperations
       @args = argv
     end
   end
-
   class MkStack
-
     def initialize(options, args)
       @options = options
       @root_name = args[0]
       @date = args[1] || Date.today.strftime('%y%m%d')
     end
-
     def ordinal(n)
       abs_n = n.to_i.abs
       if (11..13).include?(abs_n % 100)
@@ -49,7 +46,6 @@ module StackOperations
         end
       end
     end
-
     def pull_root_name(dir_name)
       if dir_name =~ /^_stack_(.+)_(\d{6})$/
         $1
@@ -57,7 +53,6 @@ module StackOperations
         dir_name
       end
     end
-
     def next_available_dir(root_name, date)
       n = 1
       if root_name =~ /^(\d+)(st|nd|rd|th)$/
@@ -84,7 +79,6 @@ module StackOperations
       dir = "_stack_#{base_name}_#{date}"
       [base_name, dir]
     end
-
     def find_max_ordinal
       candidates = Dir.glob("_stack_*_*").select { |d| d =~ /^_stack_(\d+)(st|nd|rd|th)_(\d{6})$/ }
       ordinals = candidates.map do |d|
@@ -96,14 +90,12 @@ module StackOperations
       end.compact
       ordinals.any? ? ordinals.max : 0
     end
-
     def ensure_root_name
       if @root_name.nil? || @root_name.strip.empty?
         max_num = find_max_ordinal
         @root_name = max_num > 0 ? ordinal(max_num) : "1st"
       end
     end
-
     def create_dir(dir)
       if @options[:dryrun]
         puts "[Dry Run] mkdir #{dir}"
@@ -112,7 +104,6 @@ module StackOperations
         puts "Created directory: #{dir}"
       end
     end
-
     def move_entries(dir)
       exclude = ['.', '..', dir, '.vscode', 'project.code-workspace']
       entries = Dir.glob('*', File::FNM_DOTMATCH) - exclude
@@ -133,8 +124,6 @@ module StackOperations
         puts "Moved #{entries.empty? ? 'nothing' : entries.join(', ')} to #{dir}"
       end
     end
-
-    # tree構造を表示（ディレクトリのみ）
     def print_tree(dir, prefix = "", is_last_arr = [])
       puts "#{prefix}#{File.basename(dir)}"
       if File.directory?(dir)
@@ -153,7 +142,6 @@ module StackOperations
         end
       end
     end
-
     def print_virtual_tree(root_dir, moved_entries, exclude)
       # .直下の構造を仮想的に表示
       all_entries = Dir.glob('*', File::FNM_DOTMATCH).reject { |e| ['.', '..'].include?(e) }
@@ -187,7 +175,6 @@ module StackOperations
         end
       end
     end
-
     def print_top_level(dir)
       puts dir == "." ? "." : File.basename(dir)
       entries = Dir.children(dir).sort.reject { |e| ['.', '..'].include?(e) }
@@ -199,27 +186,28 @@ module StackOperations
         puts "#{prefix}#{name}"
       end
     end
-
     def run
       puts "Before stack:"
-      print_top_level(".") # ← .直下のみ表示
+      print_top_level(".")
       ensure_root_name
       @root_name, dir = next_available_dir(@root_name, @date)
       create_dir(dir)
-      move_entries(dir)
-      puts "\nAfter stack:"
-      print_virtual_tree(dir, @moved_entries, ['.vscode', 'project.code-workspace'])
+      if @options[:empty]
+        puts "\nAfter stack:"
+        print_top_level(".") # 新ディレクトリだけ増えた状態を表示
+      else
+        move_entries(dir)
+        puts "\nAfter stack:"
+        print_virtual_tree(dir, @moved_entries, ['.vscode', 'project.code-workspace'])
+      end
     end
   end
-
   class MkFlatten
     def initialize(options, args)
       @options = options
       @target_dir = args[0] || "."
       @target_dir = @target_dir.chomp("/")
     end
-
-    # 指定ディレクトリ以下のtree構造を表示（ディレクトリのみ）
     def print_tree(dir, prefix = "", is_last_arr = [])
       puts "#{prefix}#{File.basename(dir)}/"
       if File.directory?(dir)
@@ -235,8 +223,6 @@ module StackOperations
         end
       end
     end
-
-    # flatten後のtree構造を表示（@target_dir直下に全ての_stack_*_*ディレクトリを並べる）
     def print_flattened_tree
       stacks = []
       search_dirs = Dir.glob(File.join(@target_dir, "**/_stack_*_*")).select { |d| File.directory?(d) }
@@ -247,20 +233,16 @@ module StackOperations
         puts "└── #{d}/"  # ← 末尾に / を追加
       end
     end
-
-    # flattenで移動するディレクトリのmvコマンドをdryrun表示
     def print_flatten_moves
       flatten_moves.each do |src, dest|
         puts "[Dry Run] mv '#{src}' '#{dest}'"
       end
     end
-
     def flatten_moves
       stacks = Dir.glob(File.join(@target_dir, "**/_stack_*_*")).select { |d| File.directory?(d) }
       stacks.sort_by! { |d| -d.count(File::SEPARATOR) }
       stacks.map { |src| [src, File.join(".", File.basename(src))] }
     end
-
     def execute_flatten_moves
       flatten_moves.each do |src, dest|
         # mv元とmv先が同じ場合はスキップ
@@ -272,7 +254,6 @@ module StackOperations
         FileUtils.mv(src, dest)
       end
     end
-
     def run
       puts "Before flatten:"
       puts "."
@@ -288,14 +269,11 @@ module StackOperations
       end
     end
   end
-
   class MkNest
     def initialize(options, args)
       @options = options
       @target_dir = args[0] || "."
     end
-
-    # yymmdd順に並べ替え（reverseオプションで順序切替）
     def sorted_stacks
       stacks = Dir.glob(File.join(@target_dir, "_stack_*_*"))
          .select { |d| File.directory?(d) && d =~ /_stack_.+_\d{6}$/ }
@@ -304,8 +282,6 @@ module StackOperations
         #.sort_by { |d| d[/^_stack_(\d+)(st|nd|rd|th)_/, 1].to_i }
       @options[:reverse] ? stacks : stacks.reverse
     end
-
-    # ディレクトリのみtree表示
     def print_tree(dir, prefix = "", is_last_arr = [])
       puts "#{prefix}#{File.basename(dir)}/"
       if File.directory?(dir)
@@ -321,8 +297,6 @@ module StackOperations
         end
       end
     end
-
-    # nest後のtree構造を表示
     def print_nested_tree
       stacks = sorted_stacks
       return if stacks.empty?
@@ -332,8 +306,6 @@ module StackOperations
         puts "#{indent}#{File.basename(dir)}/"  # 末尾に /
       end
     end
-
-    # nestのmvコマンド生成＆実行/表示
     def nest_moves
       stacks = sorted_stacks
       # 子から親へ（パスが変わらないように逆順でmv）
@@ -349,7 +321,6 @@ module StackOperations
         end
       end
     end
-
     def run
       puts "Before nest:"
       puts "."

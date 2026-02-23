@@ -12,5 +12,6 @@ IP=internet protocol:
 OS=operating system:
 pdf=portable document format:
 tar=tape archive:
+wsl=windows subsystem fro linux:
 
 
