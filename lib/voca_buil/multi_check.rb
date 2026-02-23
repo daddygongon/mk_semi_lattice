@@ -218,10 +218,15 @@ module VocaBuil
       lines = File.readlines(filepath)
       words = lines[1..-1].each_with_object([]) do |line, arr|
         # エスケープされた'#'は一時的に置換
-        line = line.gsub('\\#', '__ESCAPED_HASH__')
-        line = line.split('#', 2)[0]
-        next if line.strip == ''
-        line = line.gsub('__ESCAPED_HASH__', '#')
+        if line.include?("\\#")
+          line = line.gsub("\\#", "__ESCAPED_HASH__")
+          line = line.split('#', 2)[0]
+          next if line.strip == ''
+          line = line.gsub('__ESCAPED_HASH__', '#')
+        else
+          line = line.split('#', 2)[0]
+          next if line.strip == ''
+        end
         line_strip = if line.strip[0] == ':'
                        line.strip[1..-2]
                      else

@@ -3,16 +3,18 @@
   ~=tilde:
   `=back quote:
   '\#'=sharp:
+  \=back slash:
+  /=slash:
   $=dollar:
   %=percent:
   ^=hat:
-  &=ampasand:
+  &=ampersand:
   *=asterisk:
   -=hyphen:
   ()=round bracket=丸括弧:
   []=square bracket=鉤括弧:
   {}=curly bracket=波括弧:
-  :=colon:
-  ;=semi colon:
+  ':'=colon:
+  ;=semicolon:
   '=single quote:
   "=double quote:
