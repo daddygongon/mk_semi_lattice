@@ -1,0 +1,18 @@
+---
+#key name:
+  ~=tilde:
+  `=back quote:
+  '\#'=sharp:
+  $=dollar:
+  %=percent:
+  ^=hat:
+  &=ampasand:
+  *=asterisk:
+  -=hyphen:
+  ()=round bracket=丸括弧:
+  []=square bracket=鉤括弧:
+  {}=curly bracket=波括弧:
+  :=colon:
+  ;=semi colon:
+  '=single quote:
+  "=double quote:

@@ -217,8 +217,11 @@ module VocaBuil
     def parse_word_file(filepath)
       lines = File.readlines(filepath)
       words = lines[1..-1].each_with_object([]) do |line, arr|
+        # エスケープされた'#'は一時的に置換
+        line = line.gsub('\\#', '__ESCAPED_HASH__')
         line = line.split('#', 2)[0]
         next if line.strip == ''
+        line = line.gsub('__ESCAPED_HASH__', '#')
         line_strip = if line.strip[0] == ':'
                        line.strip[1..-2]
                      else
@@ -227,7 +230,7 @@ module VocaBuil
         tmp = line_strip.split("=")
         arr << (@options[:reverse] ? tmp.reverse : tmp)
       end
-      words # ← ここを元に戻す
+      words
     end
 
     def shuffle_words(words, w_num)

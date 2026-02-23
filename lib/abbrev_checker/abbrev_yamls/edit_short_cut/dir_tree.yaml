@@ -1,0 +1,13 @@
+---
+#c-keys=controll-keys=fishコマンド編集keyバインド:
+  c-a/ahead=行頭へ移動:
+  c-e/end=行末へ移動:
+  c-p/previous=前行へ移動:
+  c-n/next=次行へ移動:
+  c-f/forward=一字進む:
+  c-b/backward=一字戻る:
+  c-d/delete=一字削除:
+  c-k/kill line=一行削除:
+
+
+
