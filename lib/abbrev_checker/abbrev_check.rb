@@ -84,9 +84,9 @@ module AbbrevCheck
   end
 
   class InstallCheckSample < VocaBuil::InstallCheckSample
-    def initialize(tgz_file = 'abbrev_sample.tgz')
-      # abbrev_checker ディレクトリを基準にパスを解決
-      @tgz_file = File.join(File.dirname(__FILE__), tgz_file)
+    def initialize(tgz_file = nil)
+      tgz_file ||= File.join(File.dirname(__FILE__), 'abbrev_sample.tgz')
+      super(tgz_file)
     end
   end
 end

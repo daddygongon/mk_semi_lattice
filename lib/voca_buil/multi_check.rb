@@ -345,20 +345,18 @@ module VocaBuil
   end
 
   class InstallCheckSample
-    def initialize(tgz_files = '*.tgz')
-      @tgz_files = File.join(__dir__, 'tgz_dir', tgz_files)
+    def initialize(tgz_file = nil)
+      @tgz_file = tgz_file || File.join(__dir__, 'etymological_builder_check_sample.tgz')
     end
 
     def run
-      if Dir.glob(@tgz_files).size == 0
-        puts "#{@tgz_files} not found.".red
+      unless File.exist?(@tgz_file)
+        puts "#{@tgz_file} not found.".red
         return
       end
-      Dir.glob(@tgz_files).each do |file|
-        puts "Extracting #{file} to current directory...".green
-        system("tar", "xf", file)
-        puts "Extraction complete.".green
-      end
+      puts "Extracting #{@tgz_file} to current directory...".green
+      system("tar", "xzf", @tgz_file)
+      puts "Extraction complete.".green
     end
   end
 end
