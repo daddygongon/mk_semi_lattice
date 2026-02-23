@@ -137,7 +137,7 @@ module StackOperations
       current_tree = mk_dir_tree(".", 1, 1)
 
       # 2. 移動対象の決定
-      exclude = ['.', '..', dir, '.vscode', 'project.code-workspace']
+      exclude = ['.', '..', dir, '.vscode', 'project.code-workspace', '.git']
       all_entries = Dir.glob('*', File::FNM_DOTMATCH) - exclude
       moved_entries = []
       
