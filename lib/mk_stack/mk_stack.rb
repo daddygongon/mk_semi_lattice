@@ -12,18 +12,23 @@ module StackOperations
     def initialize(argv)
       @options = { flatten: false, nest: false, dryrun: true, reverse: false, empty: false, no_dir_move: false }
       @args = []
-      OptionParser.new do |opts|
-        opts.banner = "Usage: hc stack [options]"
-        opts.on('-o ORDINAL', '--ordinal=ORDINAL', 'Add ordinal number') { |ord| @options[:ordinal] = ord }
-        opts.on('-d', '--dryrun', 'Dry run (do not move or create anything)') { @options[:dryrun] = true }
-        opts.on('-D', 'Do not move directories (only move files)') { @options[:no_dir_move] = true }
-        opts.on('-A', 'Do not move hidden files and directories') { @options[:no_hidden] = true }
-        opts.on('-c', '--create', 'Create (empty) stack only') { @options[:empty] = true }
-        opts.on('-e', '--exec', 'Execute stack making') { @options[:dryrun] = false }
-        opts.on('-f', '--flatten', 'Flatten stacks') { @options[:flatten] = true }
-        opts.on('-n', '--nest', 'Nest stacks by _yymmdd') { @options[:nest] = true }
-        opts.on('-r', '--reverse', 'Reverse _yymmdd order for nest') { @options[:reverse] = true }
-      end.parse!(argv)
+      begin
+        OptionParser.new do |opts|
+          opts.banner = "Usage: hc stack [options]"
+          opts.on('-o ORDINAL', '--ordinal=ORDINAL', 'Add ordinal number') { |ord| @options[:ordinal] = ord }
+          opts.on('-d', '--dryrun', 'Dry run (do not move or create anything)') { @options[:dryrun] = true }
+          opts.on('-D', 'Do not move directories (only move files)') { @options[:no_dir_move] = true }
+          opts.on('-A', 'Do not move hidden files and directories') { @options[:no_hidden] = true }
+          opts.on('-c', '--create', 'Create (empty) stack only') { @options[:empty] = true }
+          opts.on('-e', '--exec', 'Execute stack making') { @options[:dryrun] = false }
+          opts.on('-f', '--flatten', 'Flatten stacks') { @options[:flatten] = true }
+          opts.on('-n', '--nest', 'Nest stacks by _yymmdd') { @options[:nest] = true }
+          opts.on('-r', '--reverse', 'Reverse _yymmdd order for nest') { @options[:reverse] = true }
+        end.parse!(argv)
+      rescue OptionParser::InvalidOption => e
+        puts "Error: #{e.message}"
+        exit 1
+      end
       @args = argv
     end
   end
