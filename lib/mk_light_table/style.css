@@ -1,0 +1,199 @@
+/* 全体レイアウト */
+body {
+    font-family: 'Lato', 'Arial', sans-serif;
+    background: #fff;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.main-layout {
+    display: flex;
+    min-height: 100vh;
+    gap: 0.0em; /* tocとcontentsの間の空白を狭める */
+}
+
+/* 左ペイン（Table of Contents） */
+#table-of-contents {
+    background: #2d2d2d;
+    color: #fff;
+    width: 30vw; /* ← ここを25vwから30vwに */
+    min-width: 100px;
+    max-width: 320px; /* ← ここを240pxから320pxに */
+    padding: 0;
+    box-sizing: border-box;
+    border-right: 1px solid #ddd;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+}
+
+#table-of-contents ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#table-of-contents li {
+    margin: 0;
+    padding: 0.3em 1.2em; /* 行間を詰めるためpaddingを小さく */
+    font-size: 1.1em;
+    border-bottom: 1px solid #222;
+    line-height: 1.2;     /* 行間をさらに詰める */
+}
+
+#table-of-contents li:last-child {
+    border-bottom: none;
+}
+
+#table-of-contents a {
+    font-size: 0.8rem;
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    transition: background 0.2s, color 0.2s;
+}
+
+#table-of-contents a:hover {
+    background: #4285f4;
+    color: #fff;
+}
+
+#table-of-contents::before {
+    content: "Table of Contents";
+    display: block;
+    background: #4285f4;
+    color: #fff;
+    font-size: 0.8em;
+    font-weight: bold;
+    text-align: center;
+    padding: 1em 0;
+    margin-bottom: 0.5em;
+}
+
+/* 右側コンテンツ */
+.content {
+    flex: 1;
+    padding: 0.5em 0.5em;
+    background: #fff;
+}
+
+/* タイトル */
+h1 {
+    font-size: 1.5em;      /* タイトルのフォントを小さく */
+    font-weight: bold;
+    margin-top: 0.5em;     /* 上の余白を狭く */
+    margin-bottom: 0.7em;  /* 下の余白も狭く */
+    letter-spacing: 1px;
+    margin-left: 1em;      /* 左余白を追加 */
+}
+
+h2 {
+    font-size: 0.9em;      /* セクションタイトルも小さく */
+    font-weight: bold;
+    margin-top: 0.7em;     /* 余白を狭く */
+    margin-bottom: 0.7em;
+    letter-spacing: 0.5px;
+}
+
+h3 {
+    font-size: 0.7em;      /* h3も小さく */
+    font-weight: bold;
+    margin-top: 1em;
+    margin-bottom: 0.7em;
+}
+
+ul {
+    margin: 1em 0 2em 2em;
+    padding: 0;
+}
+
+li {
+    font-size: 0.8em;
+    line-height: 1.7;
+    margin-bottom: 0.5em;
+    color: #333;
+    background: none;
+    border-radius: 0;
+    padding: 0;
+    transition: none;
+}
+
+li a {
+    color: #7b3fe4;
+    text-decoration: none;
+}
+
+li a:hover {
+    text-decoration: underline;
+    color: #4285f4;
+}
+
+/* 画像グリッド */
+.images {
+    margin-bottom: 2em;
+}
+
+.image-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0.5em 0.5em;
+    table-layout: fixed;
+}
+
+.image-table td {
+    vertical-align: top;
+    padding: 0;
+    background: none;
+    border: none;
+    width: 33.33%; /* 画像を3等分配置 */
+}
+
+figure {
+    margin: 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+figure img,
+.item-img {
+    max-width: 95%;   /* 余白を持たせつつ幅いっぱいに */
+    width: 100%;
+    padding: 2px;
+    vertical-align: middle;
+    display: block;
+}
+
+figcaption {
+    font-size: 0.8em;
+    color: #666;
+    margin-top: 0.5em;
+    word-break: break-all;
+    text-align: center; /* キャプション中央揃え */
+}
+
+/* メディアクエリ: 幅が狭い場合は左ペイン非表示 */
+@media (max-width: 800px) {
+    #table-of-contents {
+        display: none;
+    }
+    .content {
+        padding: 1em;
+    }
+    h1 {
+        font-size: 2em;
+    }
+    h2 {
+        font-size: 1.3em;
+    }
+    .image-table td {
+        width: 100%; /* スマホ等では1列表示 */
+        display: block;
+    }
+    figure img,
+    .item-img {
+        max-width: 100%;
+    }
+}

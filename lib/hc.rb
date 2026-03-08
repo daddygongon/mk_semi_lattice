@@ -3,6 +3,7 @@ require_relative "mk_semi_lattice/version"
 require_relative "mk_stack/mk_stack"
 require_relative "voca_buil/multi_check"
 require_relative "split_pdf/split_pdf"
+require_relative "mk_light_table/mk_light_table"
 require_relative "abbrev_checker/abbrev_check"
 require_relative "plot/plot" # 追加
 
@@ -32,6 +33,11 @@ class CLI < Thor
   desc 'split_pdf', 'split PDF files'
   def split_pdf(*argv)
     SplitPDF.new(argv).run
+  end
+
+  desc 'mk_light_table', 'mk light table for view figs'
+  def mk_light_table(*argv)
+    MkLightTable.new(ARGV).run
   end
 
   desc 'check', 'check word for vocabulary builder'
