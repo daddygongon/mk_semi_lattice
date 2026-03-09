@@ -30,9 +30,11 @@ class MkLightTable
       puts_sample_yaml
     when :generate_html
       generate_html(@options[:yaml_file])
-    when :dir 
-      mk_yaml
-      generate_html
+    when :dir
+      dir_name = File.basename(@options[:dir])
+      yaml_file = "#{dir_name}.yaml"
+      mk_yaml(@options[:dir], yaml_file)
+      generate_html(yaml_file)
     else
       puts @opts
     end
@@ -40,7 +42,8 @@ class MkLightTable
 
   def generate_html(yaml_file = nil)
     output_dir = '.' # or some other configurable directory
-    html_path = File.join(output_dir, 'light_table.html')
+    base_name = File.basename(yaml_file || @options[:yaml_file] || 'light_table.yaml', '.yaml')
+    html_path = File.join(output_dir, "#{base_name}.html")
     css_path = File.join(output_dir, 'style.css')
     source_css_path = File.join(__dir__, 'style.css')
 
@@ -66,7 +69,9 @@ class MkLightTable
           <<-CELL
           <td>
             <figure>
-              <img src="#{file}" alt="#{File.basename(file)}" class="item-img" loading="lazy">
+              <a href="#{file}" target="_blank" rel="noopener noreferrer">
+                <img src="#{file}" alt="#{File.basename(file)}" class="item-img" loading="lazy">
+              </a>
               <figcaption>#{File.basename(file)}</figcaption>
             </figure>
           </td>
