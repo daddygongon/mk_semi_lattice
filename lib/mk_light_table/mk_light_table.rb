@@ -9,7 +9,7 @@ class MkLightTable
     @options = {}
     @opts = OptionParser.new do |opts|
       opts.banner = "Usage: #{File.basename($0)} [options]"
-      opts.on('-d DIR', '--dir=DIR', 'Target directory for mk_yaml (default: .) and generate HTML') do |dir|
+      opts.on('-d [DIR]', '--dir [DIR]', 'Target directory for mk_yaml (default: .) and generate HTML') do |dir|
         @options[:dir] = dir || '.'
         @options[:action] = :dir
       end
@@ -31,8 +31,17 @@ class MkLightTable
     when :generate_html
       generate_html(@options[:yaml_file])
     when :dir
-      dir_name = File.basename(@options[:dir])
+      actual_dir = File.expand_path(@options[:dir])
+      dir_name = File.basename(actual_dir)
       yaml_file = "#{dir_name}.yaml"
+      html_file = "#{dir_name}.html"
+
+      if File.exist?(yaml_file) || File.exist?(html_file)
+        puts "Warning: Target files ('#{yaml_file}' or '#{html_file}') already exist."
+        puts "Please delete them first before running this command."
+        return
+      end
+
       mk_yaml(@options[:dir], yaml_file)
       generate_html(yaml_file)
     else
@@ -107,9 +116,13 @@ class MkLightTable
     t_dir = '.' if t_dir.nil? || t_dir.empty?
     puts t_dir
     toc = [{head: File.basename(t_dir), files: []}]
+    
+    valid_exts = %w[.png .jpg .jpeg .gif .svg .webp .mp4 .mov .webm .avi]
     Dir.glob(File.join(t_dir, '*')).each do |file_path|
+      next unless valid_exts.include?(File.extname(file_path).downcase)
       toc[0][:files] << file_path
     end
+    
     File.write(out_file, YAML.dump(toc))
     puts "YAML written to #{out_file}"
   end
