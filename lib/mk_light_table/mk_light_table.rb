@@ -41,6 +41,12 @@ class MkLightTable
       dir_name = File.basename(actual_dir)
       yaml_file = "#{dir_name}.yaml"
 
+      if File.exist?(yaml_file)
+        puts "Warning: Target file ('#{yaml_file}') already exists."
+        puts "Please delete it first before running this command."
+        return
+      end
+
       mk_yaml(@options[:dir], yaml_file)
       puts "Note: To generate an HTML file from this YAML, please run the command with the -g option:"
       puts "      #{File.basename($0)} -g #{yaml_file}"
@@ -139,6 +145,13 @@ class MkLightTable
 
     File.write(org_path, org_content.join("\n"))
     puts "Org written to #{org_path}"
+
+    css_path = 'style.css'
+    source_css_path = File.join(__dir__, 'style.css')
+    if !File.exist?(css_path) && File.exist?(source_css_path)
+      FileUtils.cp(source_css_path, css_path)
+      puts "Copied style.css to ."
+    end
   end
 
   # ディレクトリからyamlを作成
