@@ -9,12 +9,16 @@ class MkLightTable
     @options = {}
     @opts = OptionParser.new do |opts|
       opts.banner = "Usage: #{File.basename($0)} [options]"
-      opts.on('-d [DIR]', '--dir [DIR]', 'Target directory for mk_yaml (default: .) and generate HTML') do |dir|
+      opts.on('-d [DIR]', '--dir [DIR]', 'Target directory for mk_yaml (default: .)') do |dir|
         @options[:dir] = dir || '.'
         @options[:action] = :dir
       end
       opts.on('-y', '--yaml', 'Output sample YAML') do
         @options[:action] = :sample
+      end
+      opts.on('-o FILE', '--generate-org=FILE', 'Generate Org file') do |file|
+        @options[:yaml_file] = file
+        @options[:action] = :generate_org
       end
       opts.on('-g FILE', '--generate-html=FILE', 'Generate HTML') do |file|
         @options[:yaml_file] = file
@@ -28,22 +32,24 @@ class MkLightTable
     case @options[:action]
     when :sample
       puts_sample_yaml
+    when :generate_org
+      generate_org(@options[:yaml_file])
     when :generate_html
       generate_html(@options[:yaml_file])
     when :dir
       actual_dir = File.expand_path(@options[:dir])
       dir_name = File.basename(actual_dir)
       yaml_file = "#{dir_name}.yaml"
-      html_file = "#{dir_name}.html"
 
-      if File.exist?(yaml_file) || File.exist?(html_file)
-        puts "Warning: Target files ('#{yaml_file}' or '#{html_file}') already exist."
-        puts "Please delete them first before running this command."
+      if File.exist?(yaml_file)
+        puts "Warning: Target file ('#{yaml_file}') already exists."
+        puts "Please delete it first before running this command."
         return
       end
 
       mk_yaml(@options[:dir], yaml_file)
-      generate_html(yaml_file)
+      puts "Note: To generate an HTML file from this YAML, please run the command with the -g option:"
+      puts "      #{File.basename($0)} -g #{yaml_file}"
     else
       puts @opts
     end
@@ -61,42 +67,33 @@ class MkLightTable
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
   <title>Light Table</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="main-layout">
-    <div id="table-of-contents">
-      <ul>
-        #{toc.map.with_index { |section, i| "<li><a href=\"#section-#{i}\">#{section[:head]}</a></li>" }.join}
-      </ul>
-    </div>
-    <div class="content">
-      <h1>Light Table</h1>
-      #{toc.map.with_index do |section, i|
-        image_cells = section[:files].map do |file|
-          <<-CELL
-          <td>
-            <figure>
-              <a href="#{file}" target="_blank" rel="noopener noreferrer">
-                <img src="#{file}" alt="#{File.basename(file)}" class="item-img" loading="lazy">
-              </a>
-              <figcaption>#{File.basename(file)}</figcaption>
-            </figure>
-          </td>
-          CELL
-        end.each_slice(3).map { |row_cells| "<tr>#{row_cells.join}</tr>" }.join
+  <div id="table-of-contents">
+    <h2>Table of Contents</h2>
+    <ul>
+      #{toc.map.with_index { |section, i| "<li><a href=\"#section-#{i}\">#{section[:head]}</a></li>" }.join("\n      ")}
+    </ul>
+  </div>
+  <div id="content">
+    <h1 class="title">Light Table</h1>
+    #{toc.map.with_index do |section, i|
+      images = section[:files].map do |file|
+        "<img src=\"#{file}\" alt=\"#{File.basename(file)}\" loading=\"lazy\">"
+      end.join("\n        ")
 
-        <<-SECTION
-        <div class="images">
-          <h2 id="section-#{i}">#{section[:head]}</h2>
-          <table class="image-table">
-            #{image_cells}
-          </table>
-        </div>
-        SECTION
-      end.join}
-    </div>
+      <<-SECTION
+      <h2 id="section-#{i}">#{section[:head]}</h2>
+      <div class="outline-text-2">
+        <p>
+          #{images}
+        </p>
+      </div>
+      SECTION
+    end.join("\n")}
   </div>
 </body>
 </html>
@@ -108,6 +105,40 @@ class MkLightTable
       FileUtils.cp(source_css_path, css_path)
       puts "Copied style.css to #{output_dir}"
     end
+  end
+
+  def generate_org(yaml_file = nil)
+    base_name = File.basename(yaml_file || @options[:yaml_file] || 'light_table.yaml', '.yaml')
+    org_path = "#{base_name}.org"
+    
+    if File.exist?(org_path)
+      puts "Error: Target file ('#{org_path}') already exists."
+      puts "Please delete it first before running this command."
+      return
+    end
+
+    toc = YAML.load_file(yaml_file || @options[:yaml_file] || 'light_table.yaml')
+
+    org_content = []
+    
+    if File.exist?('template.org')
+      org_content << File.read('template.org')
+      org_content << ""
+    else
+      org_content << "#+TITLE: Light Table"
+      org_content << ""
+    end
+
+    toc.each do |section|
+      org_content << "* #{section[:head]}"
+      section[:files].each do |file|
+        org_content << "  [[file:#{file}]]"
+      end
+      org_content << ""
+    end
+
+    File.write(org_path, org_content.join("\n"))
+    puts "Org written to #{org_path}"
   end
 
   # ディレクトリからyamlを作成

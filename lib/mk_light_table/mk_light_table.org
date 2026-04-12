@@ -1,0 +1,28 @@
+#+OPTIONS: ^:{}
+#+STARTUP: indent nolineimages overview num
+#+TITLE: template for hyper card stack
+#+AUTHOR: Shigeto R. Nishitani
+#+EMAIL:     (concat "shigeto_nishitani@mac.com")
+#+LANGUAGE:  jp
+#+OPTIONS:   H:4 toc:t num:2
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="style.css" />
+
+[[http://ist.ksc.ac.jp/index.html][prev_button]]
+[[http://ist.ksc.ac.jp/index.html][up_button]]
+[[http://ist.ksc.ac.jp/index.html][next_button]]
+
+* head1
+** head2
+- list
+
+#+begin_src ruby
+name = ARGV[0] || 'Rudy'
+puts "Hello #{name}."
+#+end_src
+
+
+
+
+
+* .
+|  [[file:./math_ex_ala_26s.005.png]] |  [[file:./math_ex_ala_26s.006.png]] |  [[file:./math_ex_ala_26s.007.png]]
