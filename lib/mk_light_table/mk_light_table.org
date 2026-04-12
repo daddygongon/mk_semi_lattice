@@ -6,10 +6,13 @@
 #+LANGUAGE:  jp
 #+OPTIONS:   H:4 toc:t num:2
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="style.css" />
+#+MACRO: dummy_link @@html:<a href="#">$1</a>@@
 
-[[http://ist.ksc.ac.jp/index.html][prev_button]]
-[[http://ist.ksc.ac.jp/index.html][up_button]]
-[[http://ist.ksc.ac.jp/index.html][next_button]]
+# for style.css, never move from here
+{{{dummy_link(prev_button)}}} 
+{{{dummy_link(up_button)}}}
+{{{dummy_link(next_button)}}} 
+# for a real link rewrite usual [[\url][]]
 
 * head1
 ** head2
