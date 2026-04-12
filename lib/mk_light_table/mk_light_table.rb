@@ -41,12 +41,6 @@ class MkLightTable
       dir_name = File.basename(actual_dir)
       yaml_file = "#{dir_name}.yaml"
 
-      if File.exist?(yaml_file)
-        puts "Warning: Target file ('#{yaml_file}') already exists."
-        puts "Please delete it first before running this command."
-        return
-      end
-
       mk_yaml(@options[:dir], yaml_file)
       puts "Note: To generate an HTML file from this YAML, please run the command with the -g option:"
       puts "      #{File.basename($0)} -g #{yaml_file}"
@@ -121,8 +115,14 @@ class MkLightTable
 
     org_content = []
     
-    if File.exist?('template.org')
-      org_content << File.read('template.org')
+    local_template = 'template.org'
+    source_template = File.join(__dir__, 'template.org')
+
+    if File.exist?(local_template)
+      org_content << File.read(local_template)
+      org_content << ""
+    elsif File.exist?(source_template)
+      org_content << File.read(source_template)
       org_content << ""
     else
       org_content << "#+TITLE: Light Table"
