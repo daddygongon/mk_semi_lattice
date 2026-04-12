@@ -136,22 +136,79 @@ h3 {
 /* ナビゲーションボタン (up, prev, next) */
 #content > p > a {
     display: inline-block;
-    padding: 0.5em 1.2em;
+    padding: 5px 15px;
     margin-right: 0.5em;
     margin-bottom: 1em;
-    background-color: #4285f4;
-    color: #fff;
+    background-color: #FFFFFF;
+    color: #000000;
     text-decoration: none;
-    border-radius: 4px;
-    font-size: 0.9em;
-    font-weight: bold;
-    transition: background-color 0.2s, box-shadow 0.2s;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: 2px solid #000000;
+    border-radius: 8px; /* 丸みを帯びた長方形ボタン */
+    font-size: 14px;
+    font-family: 'Chicago', 'Geneva', sans-serif; /* クラシックMac風フォント */
+    box-shadow: 1px 1px 0px #000000;
+    cursor: pointer;
 }
 
-#content > p > a:hover {
-    background-color: #3367d6;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+#content > p > a:active {
+    background-color: #000000;
+    color: #FFFFFF;
+    box-shadow: 0px 0px 0px #000000;
+    transform: translate(1px, 1px);
+}
+
+/* 本文内の最初の段落にあるリンクの「順番（1番目、2番目、3番目）」で判別する */
+#content > p:first-of-type > a {
+    font-size: 0; /* 元の「prev_button」などのテキストを隠す */
+}
+
+/* 1番目: Prev (◀ prev) */
+#content > p:first-of-type > a:nth-child(1)::before {
+    content: "◀ prev";
+    font-size: 14px; /* フォントサイズを戻す */
+}
+
+/* 2番目: Up (▲ up) */
+#content > p:first-of-type > a:nth-child(2)::before {
+    content: "▲ up";
+    font-size: 14px;
+}
+
+/* 3番目: Next (next ▶) */
+#content > p:first-of-type > a:nth-child(3)::before {
+    content: "next ▶";
+    font-size: 14px;
+}
+
+/* リンク先URLやアクセスキーに基づいて元テキストを非表示にし、アイコン＋テキストを再定義 */
+/* 不要な誤爆を防ぐため index の条件を外し、_button や正確なファイル名で判定します */
+#content > p > a[accesskey], 
+#content > p > a[href*="prev"], 
+#content > p > a[href*="up"], 
+#content > p > a[href*="next"] {
+    font-size: 0; 
+}
+
+/* Prev (◀ prev) */
+#content > p > a[accesskey="p"]::before,
+#content > p > a[href*="prev"]::before {
+    content: "◀ prev";
+    font-size: 14px; /* ここでフォントサイズを戻す */
+}
+
+/* Up (▲ up) */
+#content > p > a[accesskey="u"]::before,
+#content > p > a[href*="up_button"]::before,
+#content > p > a[href*="up.html"]::before {
+    content: "▲ up";
+    font-size: 14px;
+}
+
+/* Next (next ▶) */
+#content > p > a[accesskey="n"]::before,
+#content > p > a[href*="next"]::before {
+    content: "next ▶";
+    font-size: 14px;
 }
 
 /* スマホ対応（幅が狭い場合） */
