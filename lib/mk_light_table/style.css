@@ -124,8 +124,7 @@ h3 {
 }
 
 /* 画像ギャラリー風の表示（テーブル内の画像にも適用） */
-.outline-text-2 img, .outline-text-3 img {
-    width: 100%; /* セルの幅いっぱいに広がる */
+#content img, .outline-text-2 img, .outline-text-3 img {
     max-width: 100%;
     height: auto;
     display: block;

@@ -16,7 +16,7 @@ class MkLightTable
       opts.on('-y', '--yaml', 'Output sample YAML') do
         @options[:action] = :sample
       end
-      opts.on('-o FILE', '--generate-org=FILE', 'Generate Org file') do |file|
+      opts.on('-o[FILE]', '--generate-org=[FILE]', 'Generate Org file') do |file|
         @options[:yaml_file] = file
         @options[:action] = :generate_org
       end
@@ -49,7 +49,7 @@ class MkLightTable
 
       mk_yaml(@options[:dir], yaml_file)
       puts "Note: To generate an HTML file from this YAML, please run the command with the -g option:"
-      puts "      #{File.basename($0)} -g #{yaml_file}"
+      puts "      hc mk_light_table -g #{yaml_file}"
     else
       puts @opts
     end
@@ -57,16 +57,26 @@ class MkLightTable
 
   def generate_html(yaml_file = nil)
     output_dir = '.' # or some other configurable directory
-    base_name = File.basename(yaml_file || @options[:yaml_file] || 'light_table.yaml', '.yaml')
+    target_yaml = yaml_file || @options[:yaml_file] || "#{File.basename(Dir.pwd)}.yaml"
+    base_name = File.basename(target_yaml, '.yaml')
     html_path = File.join(output_dir, "#{base_name}.html")
+
+    if File.exist?(html_path)
+      puts "Error: Target file ('#{html_path}') already exists."
+      puts "Please delete it first before running this command."
+      return
+    end
+
     css_path = File.join(output_dir, 'style.css')
     source_css_path = File.join(__dir__, 'style.css')
 
-    toc = YAML.load_file(yaml_file || @options[:yaml_file] || 'light_table.yaml')
+    actual_yaml = File.exist?(target_yaml) ? target_yaml : 'light_table.yaml'
+    toc = YAML.load_file(actual_yaml)
     html = <<-HTML
 <!DOCTYPE html>
 <html>
-<head>
+<head>ls
+
   <meta charset="utf-8">
   <title>Light Table</title>
   <link rel="stylesheet" href="style.css">
@@ -81,16 +91,27 @@ class MkLightTable
   <div id="content">
     <h1 class="title">Light Table</h1>
     #{toc.map.with_index do |section, i|
-      images = section[:files].map do |file|
-        "<img src=\"#{file}\" alt=\"#{File.basename(file)}\" loading=\"lazy\">"
-      end.join("\n        ")
+      images_table = "<table class=\"light-table\" style=\"width: 100%; border-collapse: collapse;\">\n"
+      section[:files].each_slice(3) do |row|
+        images_table << "          <tr>\n"
+        row.each do |file|
+          images_table << "            <td style=\"padding: 5px; vertical-align: top; width: 33.33%;\">\n"
+          images_table << "              <a href=\"#{file}\" target=\"_blank\">\n"
+          images_table << "                <img src=\"#{file}\" alt=\"#{File.basename(file)}\" loading=\"lazy\" style=\"width: 100%; height: auto; display: block;\">\n"
+          images_table << "              </a>\n"
+          images_table << "            </td>\n"
+        end
+        (3 - row.size).times do
+          images_table << "            <td style=\"padding: 5px; width: 33.33%;\"></td>\n"
+        end
+        images_table << "          </tr>\n"
+      end
+      images_table << "        </table>"
 
       <<-SECTION
       <h2 id="section-#{i}">#{section[:head]}</h2>
       <div class="outline-text-2">
-        <p>
-          #{images}
-        </p>
+        #{images_table}
       </div>
       SECTION
     end.join("\n")}
@@ -108,21 +129,48 @@ class MkLightTable
   end
 
   def generate_org(yaml_file = nil)
-    base_name = File.basename(yaml_file || @options[:yaml_file] || 'light_table.yaml', '.yaml')
+    # 引数がない場合はカレントディレクトリ名を使用
+    target_yaml = yaml_file || @options[:yaml_file] || "#{File.basename(Dir.pwd)}.yaml"
+    base_name = File.basename(target_yaml, '.yaml')
     org_path = "#{base_name}.org"
     
     if File.exist?(org_path)
-      puts "Error: Target file ('#{org_path}') already exists."
-      puts "Please delete it first before running this command."
+      org_path = "readme.org"
+      if File.exist?(org_path)
+        puts "Error: Target files ('#{base_name}.org' and 'readme.org') already exist."
+        puts "Please delete it first before running this command."
+        return
+      end
+    end
+
+    local_template = 'template.org'
+    source_template = File.join(__dir__, 'template.org')
+
+    actual_yaml = File.exist?(target_yaml) ? target_yaml : 'light_table.yaml'
+    
+    # YAMLファイルが存在しない場合はテンプレートのコピーのみ行う
+    unless File.exist?(actual_yaml)
+      if File.exist?(local_template)
+        FileUtils.cp(local_template, org_path)
+      elsif File.exist?(source_template)
+        FileUtils.cp(source_template, org_path)
+      else
+        File.write(org_path, "#+TITLE: #{base_name}\n\n")
+      end
+      puts "Copied template to #{org_path} (YAML not found)"
+      
+      css_path = 'style.css'
+      source_css_path = File.join(__dir__, 'style.css')
+      if !File.exist?(css_path) && File.exist?(source_css_path)
+        FileUtils.cp(source_css_path, css_path)
+        puts "Copied style.css to ."
+      end
+      
       return
     end
 
-    toc = YAML.load_file(yaml_file || @options[:yaml_file] || 'light_table.yaml')
-
+    toc = YAML.load_file(actual_yaml)
     org_content = []
-    
-    local_template = 'template.org'
-    source_template = File.join(__dir__, 'template.org')
 
     if File.exist?(local_template)
       org_content << File.read(local_template)
