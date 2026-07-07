@@ -50,7 +50,7 @@ module SLComponents
       icon_path = @icon_path && File.exist?(@icon_path) ? @icon_path : './icons/file.png'
       @image = Image.new(
         icon_path,
-        x: @x-42, y: @y-27, width: 84, height: 54, z: @z
+        x: @x-50.4, y: @y-32.4, width: 100.8, height: 64.8, z: @z
       )
     end
 
@@ -59,11 +59,11 @@ module SLComponents
     end
 
     def x=(x)
-      @image.x = x - 42
+      @image.x = x - 50.4
     end
 
     def y=(y)
-      @image.y = y - 27
+      @image.y = y - 32.4
     end
   end
 
@@ -71,7 +71,7 @@ module SLComponents
     def setup_shape
       @image = Image.new(
         './.semi_lattice/icons/folder.png',
-        x: @x-28, y: @y-20, width: 56, height: 36, z: @z
+        x: @x-56, y: @y-36, width: 112, height: 72, z: @z
       )
     end
 
@@ -80,11 +80,11 @@ module SLComponents
     end
 
     def x=(x)
-      @image.x = x - 28
+      @image.x = x - 56
     end
 
     def y=(y)
-      @image.y = y - 20
+      @image.y = y - 36
     end
   end
 
@@ -212,9 +212,9 @@ module SLComponents
 
       # テキスト生成（共通化）
       if font_path && File.exist?(font_path)
-        @text = Text.new(label, x: x-28, y: y-10, size: 18, color: 'black', font: font_path, z: 11)
+        @text = Text.new(label, x: x-28, y: y+35, size: 14, color: 'black', font: font_path, z: 11)
       else
-        @text = Text.new(label, x: x-28, y: y-10, size: 18, color: 'black', z: 11)
+        @text = Text.new(label, x: x-28, y: y+35, size: 14, color: 'black', z: 11)
       end
 
       # アイコン生成
@@ -222,7 +222,7 @@ module SLComponents
         when 'dir_icon'
           FolderIcon.new(x: x, y: y, color: NODE_COLOR, z: 10)
         when 'dir'
-          Folder.new(x: x, y: y, color: NODE_COLOR, z: 10)
+          FolderIcon.new(x: x, y: y, color: NODE_COLOR, z: 10)
         when 'document'
           Document.new(x: x, y: y, color: NODE_COLOR, z: 10)
         when 'icon'
@@ -249,8 +249,8 @@ module SLComponents
       @circle.color = c # これ以降でcomponentをupdate
       @circle.x = @x
       @circle.y = @y
-      @text.x = @x - 28
-      @text.y = @y
+      @text.x = @x - @text.width / 2
+      @text.y = @y + 35
     end
   end
 
