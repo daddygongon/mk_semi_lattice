@@ -99,6 +99,30 @@ module ManageYaml
       end
       InitEnv::Log.event("exited", parent_dir: parent_dir)
     end
+
+    def to_semi_lattice
+      semi_lattice = SemiLattice.new
+      node_map = {}
+
+      @data['nodes'].each do |node_data|
+        id = node_data['id']
+        name = node_data['name']
+        type = node_data['type']
+        file_path = node_data['file_path']
+        icon_path = node_data['src'] # :srcを:icon_pathに渡す
+
+        node = semi_lattice.add_node(name, type, file_path, icon_path)
+        node_map[id] = node
+      end
+
+      @data['edges'].each do |edge_data|
+        from_id = edge_data['from']
+        to_id = edge_data['to']
+        edge = semi_lattice.add_edge(node_map[from_id], node_map[to_id])
+      end
+
+      semi_lattice
+    end
   end
  
   class MkDirYaml

@@ -1,0 +1,53 @@
+<canvas id="myCanvas" width="600" height="200" style="border:1px solid #ccc; cursor:pointer;"></canvas>
+
+<script>
+const canvas = document.getElementById('myCanvas');
+const ctx = canvas.getContext('2d');
+
+// 1. ボタン情報の定義（画像パス、座標、サイズ、リンク先）
+const buttons = [
+  {
+    src: 'button1.png', // 画像のパス
+    x: 50, y: 50,        // 配置するX, Y座標
+    width: 100, height: 100, // 画像のサイズ
+    link: 'https://example.com' // リンク先URL
+  },
+  {
+    src: 'button2.png',
+    x: 200, y: 50,
+    width: 100, height: 100,
+    link: 'https://example.com'
+  }
+];
+
+// 2. 画像を描画する関数
+buttons.forEach(btn => {
+  const img = new Image();
+  img.src = btn.src;
+  img.onload = () => {
+    ctx.drawImage(img, btn.x, btn.y, btn.width, btn.height);
+  };
+});
+
+// 3. クリックイベントの設定
+canvas.addEventListener('click', (event) => {
+  // Canvas上の正確なクリック座標を取得
+  const rect = canvas.getBoundingClientRect();
+  const clickX = event.clientX - rect.left;
+  const clickY = event.clientY - rect.top;
+
+  // 4. 当たり判定と画面遷移
+  buttons.forEach(btn => {
+    if (
+      clickX >= btn.x &&
+      clickX <= btn.x + btn.width &&
+      clickY >= btn.y &&
+      clickY <= btn.y + btn.height
+    ) {
+      // 範囲内をクリックした場合、指定URLへジャンプ
+      window.location.href = btn.link;
+    }
+  });
+});
+</script>
+

@@ -50,7 +50,7 @@ module SLComponents
       icon_path = @icon_path && File.exist?(@icon_path) ? @icon_path : './icons/file.png'
       @image = Image.new(
         icon_path,
-        x: @x-28, y: @y-20, width: 56, height: 36, z: @z
+        x: @x-42, y: @y-27, width: 84, height: 54, z: @z
       )
     end
 
@@ -59,11 +59,11 @@ module SLComponents
     end
 
     def x=(x)
-      @image.x = x - 28
+      @image.x = x - 42
     end
 
     def y=(y)
-      @image.y = y - 20
+      @image.y = y - 27
     end
   end
 
