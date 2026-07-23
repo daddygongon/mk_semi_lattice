@@ -50,7 +50,7 @@ module SLComponents
       p ["setup @icon_path", @icon_path]
       default_icon_path = '.semi_lattice/icons/file.png'
       icon_path = @icon_path && File.exist?(@icon_path) ? @icon_path : default_icon_path
-      p ["icon_path", File.extension(icon_path)]
+      p ["icon_path", File.extend(icon_path)]
       @image = Image.new(
         icon_path,
         x: @x-60.48, y: @y-38.88, width: 120.96, height: 77.76, z: @z
