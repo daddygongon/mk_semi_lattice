@@ -6,6 +6,7 @@ EDGE_COLOR = 'black'  # 標準色に戻す
 
 module SLComponents
   # 日本語対応フォントの優先順位で選択 for win11, なければ省略
+  PROJECT_ROOT = File.expand_path('../..', __dir__)
 
   class NodeShape
     attr_accessor :x, :y, :name, :label, :fixed, :linked, :dx, :dy, :type, :file_path
@@ -47,10 +48,11 @@ module SLComponents
   class Icon < NodeShape
     def setup_shape
       p ["setup @icon_path", @icon_path]
-      icon_path = @icon_path && File.exist?(@icon_path) ? @icon_path : './icons/file.png'
+      default_icon_path = '.semi_lattice/icons/file.png'
+      icon_path = @icon_path && File.exist?(@icon_path) ? @icon_path : default_icon_path
       @image = Image.new(
         icon_path,
-        x: @x-50.4, y: @y-32.4, width: 100.8, height: 64.8, z: @z
+        x: @x-60.48, y: @y-38.88, width: 120.96, height: 77.76, z: @z
       )
     end
 
@@ -59,19 +61,19 @@ module SLComponents
     end
 
     def x=(x)
-      @image.x = x - 50.4
+      @image.x = x - 60.48
     end
 
     def y=(y)
-      @image.y = y - 32.4
+      @image.y = y - 38.88
     end
   end
 
   class FolderIcon < NodeShape
     def setup_shape
       @image = Image.new(
-        './.semi_lattice/icons/folder.png',
-        x: @x-56, y: @y-36, width: 112, height: 72, z: @z
+        '.semi_lattice/icons/folder.png',
+        x: @x-67.2, y: @y-43.2, width: 134.4, height: 86.4, z: @z
       )
     end
 
@@ -80,19 +82,19 @@ module SLComponents
     end
 
     def x=(x)
-      @image.x = x - 56
+      @image.x = x - 67.2
     end
 
     def y=(y)
-      @image.y = y - 36
+      @image.y = y - 43.2
     end
   end
 
   class Document < NodeShape
     def setup_shape
       @image = Image.new(
-        './.semi_lattice/icons/document.png',
-        x: @x-28, y: @y-20, width: 38, height: 56, z: @z
+        '.semi_lattice/icons/document.png',
+        x: @x-33.6, y: @y-24, width: 45.6, height: 67.2, z: @z
       )
     end
 
@@ -101,11 +103,11 @@ module SLComponents
     end
 
     def x=(x)
-      @image.x = x - 28
+      @image.x = x - 33.6
     end
 
     def y=(y)
-      @image.y = y - 20
+      @image.y = y - 24
     end
   end
 
