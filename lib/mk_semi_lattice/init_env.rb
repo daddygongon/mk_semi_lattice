@@ -23,7 +23,7 @@ module InitEnv
 
     def self.copy_default_icons(icons_dir)
       icons_src_dir = File.expand_path(File.join(__dir__, "..", "..", "app", "assets", "icons"))
-      ["folder.png", "document.png"
+      ["folder.png", "document.png", "file.png",
       ].each do |icon_name|
         src_path = File.join(icons_src_dir, icon_name)
         dest_path = File.join(icons_dir, icon_name)
