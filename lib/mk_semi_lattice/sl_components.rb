@@ -155,6 +155,10 @@ module SLComponents
       @created = false
     end
 
+    def contains?(px, py)
+      Math.hypot(px - @x, py - @y) <= 60
+    end
+
     def update
       unless fixed
         @x += [@dx, -5, 5].sort[1]
@@ -181,7 +185,7 @@ module SLComponents
         if lensq == 0
           ddx += rand(-1.0..1.0)
           ddy += rand(-1.0..1.0)
-        elsif lensq < 100 * 100
+        elsif lensq < 200 * 200
           ddx += vx / lensq
           ddy += vy / lensq
         end

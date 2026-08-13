@@ -1,10 +1,15 @@
 ---
 mk_semi_lattice/:
   option_manager.rb:
+  docs/:
+    readme.html:
+    mk_semi_lattice/:
+    readme.org:
+    mk_semi_lattice.key:
   ruby2d_action.rb:
   version.rb:
   init_env.rb:
   sl_components.rb:
   manage_yaml/:
-    mk_semi_lattice.rb:
-    mk_node_edge.rb:
+    mk_semi_lattice_yaml.rb:
+    mk_node_edge_yaml.rb:

@@ -1,0 +1,10 @@
+---
+:year: 2026
+:lecture: mk_semi_lattice
+:source_html: readme.html
+:glob_extensions: c*/*.html
+:server_info:
+  :local_sites: ""
+  :ruby_code_dir: c0_mk_stack_dir/bin
+  :server_ssh_path: nishitani@ist.ksc.kwansei.ac.jp:~/public_html
+  :server_url: https://ist.ksc.kwansei.ac.jp/~nishitani/Lectures

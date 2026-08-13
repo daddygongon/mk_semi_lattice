@@ -5,8 +5,8 @@
 #+EMAIL:     (concat "shigeto_nishitani@mac.com")
 #+LANGUAGE:  jp
 #+OPTIONS:   H:4 toc:t num:2
-#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
-
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href=".style.css" />
+#+MACRO: dummy_link @@html:<a href="#">$1</a>@@
 
 * Name
 Making semi-lattice graph from directory or other yaml files.
@@ -39,12 +39,12 @@ Default PATH = '.'
 
 * Usage
 ** simple (with option Layer 3)
-| [[./images/mk_semi_lattice.001.png]]
+| [[./mk_semi_lattice/mk_semi_lattice.001.png]] 
 
 ** use option from tree
-| [[./images/mk_semi_lattice.002.png]]
+| [[./mk_semi_lattice/mk_semi_lattice.002.png]]
 
 ** use option for dirs only
-| [[./images/mk_semi_lattice.003.png]]
+| [[./mk_semi_lattice/mk_semi_lattice.003.png]]
 
 
