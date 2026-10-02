@@ -70,10 +70,11 @@ class SplitPDF
     data = YAML.load(File.read(yaml_file))
     source_file = data[:source_file]
     target_dir = data[:target_dir]
+    page_add = data.fetch(:page_add, 0)
     FileUtils.mkdir_p target_dir unless Dir.exist? target_dir
     data[:toc].each do |v|
-      init = v[:init]
-      fin = v[:fin]
+      init = v[:init] + page_add
+      fin = v[:fin] && v[:fin] + page_add
       pages = if fin.nil?
                 fin = init
                 "#{init}"
@@ -101,6 +102,7 @@ class SplitPDF
     hc_array = {
       source_file: './linux_basic.pdf',
       target_dir: './linux_basic',
+      page_add: 0,
       toc: [
         { no: nil, init: 1, fin: nil, head: 'title' },
         { no: 's1', init: 2, fin: nil, head: 'command' },
