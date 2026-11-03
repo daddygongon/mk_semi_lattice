@@ -2,7 +2,7 @@
 :nodes:
 - :id: 1
   :name: mk_semi_lattice/
-  :type: dir
+  :type: stack
   :file_path: "."
   :icon_path:
   :x: 364
@@ -14,8 +14,8 @@
   :type: file
   :file_path: "./option_manager.rb"
   :icon_path:
-  :x: 279.6474903714255
-  :y: 148.5284154926869
+  :x: 279.6388455891038
+  :y: 148.5982904045194
   :color: orange
   :fixed: false
 - :id: 3
@@ -68,8 +68,8 @@
   :type: file
   :file_path: "./ruby2d_action.rb"
   :icon_path:
-  :x: 349.0687381707526
-  :y: 75.32170287775058
+  :x: 349.00292013975417
+  :y: 75.33347397812327
   :color: orange
   :fixed: false
 - :id: 9
@@ -77,8 +77,8 @@
   :type: file
   :file_path: "./version.rb"
   :icon_path:
-  :x: 378.02450042386243
-  :y: 242.81030801381812
+  :x: 377.6997939884295
+  :y: 242.84459479231992
   :color: orange
   :fixed: false
 - :id: 10
@@ -86,8 +86,8 @@
   :type: file
   :file_path: "./init_env.rb"
   :icon_path:
-  :x: 439.32670076203
-  :y: 119.61868311573846
+  :x: 439.29750733496553
+  :y: 119.56289395299659
   :color: orange
   :fixed: false
 - :id: 11
