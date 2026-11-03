@@ -112,6 +112,27 @@ module SLComponents
     end
   end
 
+  class StackIcon < NodeShape
+    def setup_shape
+      @image = Image.new(
+        '.semi_lattice/icons/stack.png',
+        x: @x-40, y: @y-40, width: 80, height: 80, z: @z
+      )
+    end
+
+    def color=(c)
+      # 画像には直接色をつけられません
+    end
+
+    def x=(x)
+      @image.x = x - 40
+    end
+
+    def y=(y)
+      @image.y = y - 40
+    end
+  end
+
   class Folder < NodeShape
     def setup_shape
       @folder1 = Rectangle.new(x: @x-28, y: @y-10, width: 56, height: 32, color: @color, z: @z)
@@ -232,6 +253,8 @@ module SLComponents
           FolderIcon.new(x: x, y: y, color: NODE_COLOR, z: 10)
         when 'document'
           Document.new(x: x, y: y, color: NODE_COLOR, z: 10)
+        when 'stack'
+          StackIcon.new(x: x, y: y, color: NODE_COLOR, z: 10)
         when 'icon'
           p @type
           Icon.new(x: x, y: y, color: NODE_COLOR, z: 10, icon_path: @icon_path)
